@@ -1,0 +1,673 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RxSwift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="又有一个月没有写过博客了，真是罪过，深深的内疚的感觉。之前写完了 Alamofire 源码学习 然后让另一个做iOS的同学看，他说看不懂，写的乱。
+其实我看了下貌似是挺乱的，但是 Alamofire 的模式很简单，明白了就没什么东西了。大神的代码写的很简洁、简单，思路很清晰，结构很明朗。我觉得这样的代码就是最好的，特别是在公司里面，大家合作的时候，代码越简单、简洁，思路越清晰越好，这样才能降低维护">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小记 - RxSwift">
+<meta property="og:url" content="http://lynchwong.com/2016/04/23/小记 - RxSwift/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="又有一个月没有写过博客了，真是罪过，深深的内疚的感觉。之前写完了 Alamofire 源码学习 然后让另一个做iOS的同学看，他说看不懂，写的乱。
+其实我看了下貌似是挺乱的，但是 Alamofire 的模式很简单，明白了就没什么东西了。大神的代码写的很简洁、简单，思路很清晰，结构很明朗。我觉得这样的代码就是最好的，特别是在公司里面，大家合作的时候，代码越简单、简洁，思路越清晰越好，这样才能降低维护">
+<meta property="og:updated_time" content="2016-06-01T12:52:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小记 - RxSwift">
+<meta name="twitter:description" content="又有一个月没有写过博客了，真是罪过，深深的内疚的感觉。之前写完了 Alamofire 源码学习 然后让另一个做iOS的同学看，他说看不懂，写的乱。
+其实我看了下貌似是挺乱的，但是 Alamofire 的模式很简单，明白了就没什么东西了。大神的代码写的很简洁、简单，思路很清晰，结构很明朗。我觉得这样的代码就是最好的，特别是在公司里面，大家合作的时候，代码越简单、简洁，思路越清晰越好，这样才能降低维护">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 小记 - RxSwift | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                小记 - RxSwift
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-04-23T09:30:49+08:00" content="2016-04-23">
+              2016-04-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/记录/" itemprop="url" rel="index">
+                    <span itemprop="name">记录</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/23/小记 - RxSwift/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/23/小记 - RxSwift/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>又有一个月没有写过博客了，真是罪过，深深的内疚的感觉。之前写完了<a href="http://lynchwong.com/2016/03/19/Alamofire-源码学习-Request/"> Alamofire 源码学习 </a>然后让另一个做iOS的同学看，他说看不懂，写的乱。</p>
+<p>其实我看了下貌似是挺乱的，但是 Alamofire 的模式很简单，明白了就没什么东西了。大神的代码写的很简洁、简单，思路很清晰，结构很明朗。我觉得这样的代码就是最好的，特别是在公司里面，大家合作的时候，代码越简单、简洁，思路越清晰越好，这样才能降低维护的成本。</p>
+<p>这段时间除了忙公司项目外，还在搞RxSwift。学习了下RxSwift，做了些小Demo，感觉用起来很爽。跟之前使用RAC相比，我感觉RxSwift更容易上手。RAC和RxSwift的源码都看了下，看懂了一小部分，后面会接着看。这两个框架的对比，网上有很多，之前我也用过RAC，项目里面也用过。但是RxSwift给我的感觉就是更顺，所以现在我更倾向于RxSwift。</p>
+<p>这里贴一些RxSwift的学习资料，方便查阅：</p>
+<p>ReactiveX社区，不仅仅是RxSwift，几乎包含了所有的编程语言：</p>
+<ul>
+<li><a href="http://reactivex.io" target="_blank" rel="external"> ReactiveX </a></li>
+<li><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/" target="_blank" rel="external"> ReactiveX文档中文翻译 </a></li>
+<li><a href="http://rxmarbles.com" target="_blank" rel="external"> RxMarbles 图解运算符 </a></li>
+</ul>
+<p>讲解RxSwift的文章，以及一些Demo：</p>
+<ul>
+<li><a href="https://realm.io/cn/news/slug-max-alexander-functional-reactive-rxswift/?hmsr=toutiao.io" target="_blank" rel="external"> RxSwift 函数响应式编程 </a></li>
+<li><a href="http://blog.callmewhy.com/2015/11/01/moya-rxswift-argo-lets-go/" target="_blank" rel="external"> 通过 Moya+RxSwift+Argo 完成网络请求 </a></li>
+<li><a href="http://blog.callmewhy.com/2015/09/21/rxswift-getting-started-0/" target="_blank" rel="external"> RxSwift 入坑手册 Part0 - 基础概念 </a></li>
+<li><a href="http://blog.callmewhy.com/2015/09/23/rxswift-getting-started-1/" target="_blank" rel="external"> RxSwift 入坑手册 Part1 - 示例实战 </a></li>
+<li><a href="http://geek.csdn.net/news/detail/59759" target="_blank" rel="external"> RxSwift的第一印象 </a></li>
+<li><a href="http://t.swift.gg/d/2-rxswift" target="_blank" rel="external"> RxSwift 学习指导索引 </a>(列出的参考资源很好，很丰富)</li>
+</ul>
+<p>RAC和RxSwift的对比：</p>
+<ul>
+<li><a href="http://www.cnblogs.com/andy-zhou/p/5321798.html" target="_blank" rel="external"> iOS响应式编程：ReactiveCocoa vs RxSwift 选谁好 </a></li>
+</ul>
+<p>RAC也好、RxSwift也好，都跟FRP有关，理解FRP的思想：</p>
+<ul>
+<li><a href="http://www.infoq.com/cn/articles/functional-reactive-programming" target="_blank" rel="external"> 函数式反应型编程(FRP) —— 实时互动应用开发的新思路 </a></li>
+</ul>
+<p>隆重推荐最后这篇，超级棒。很多人学习了RxSwift，但是可能不知道在项目里怎么用，那么读了这篇你就明白了。讲解了如何以响应式编程的方式来思考：一切皆是流。</p>
+<ul>
+<li><a href="https://github.com/hehonghui/android-tech-frontier/tree/master/androidweekly/那些年我们错过的响应式编程" target="_blank" rel="external"> 那些年我们错过的响应式编程 </a></li>
+</ul>
+<p>当然看源码也是很好的，项目中的 Rx.playground 也是学习理解的好地方。</p>
+<p>以上。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxSwift/" rel="tag">#RxSwift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/19/Alamofire-源码学习-Download/" rel="next" title="Alamofire 源码学习 - Download">
+                <i class="fa fa-chevron-left"></i> Alamofire 源码学习 - Download
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/06/最近小结/" rel="prev" title="最近小结">
+                最近小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/23/小记 - RxSwift/"
+           data-title="小记 - RxSwift" data-url="http://lynchwong.com/2016/04/23/小记 - RxSwift/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,980 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Go语言编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="interfaceGo语言里面设计最精妙的应该算interface，它让面向对象，内容组织实现非常的方便，当你看完这一章，你就会被interface的巧妙设计所折服。
+看完之后还是不得不说和OBJC的协议有相似的地方。
+什么是interface简单的说，interface是一组method的组合，我们通过interface来定义对象的一组行为。
+我们前面一章最后一个例子中Student和Emplo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go的interface">
+<meta property="og:url" content="http://lynchwong.com/2015/06/30/Go的interface/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="interfaceGo语言里面设计最精妙的应该算interface，它让面向对象，内容组织实现非常的方便，当你看完这一章，你就会被interface的巧妙设计所折服。
+看完之后还是不得不说和OBJC的协议有相似的地方。
+什么是interface简单的说，interface是一组method的组合，我们通过interface来定义对象的一组行为。
+我们前面一章最后一个例子中Student和Emplo">
+<meta property="og:updated_time" content="2016-06-01T13:07:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go的interface">
+<meta name="twitter:description" content="interfaceGo语言里面设计最精妙的应该算interface，它让面向对象，内容组织实现非常的方便，当你看完这一章，你就会被interface的巧妙设计所折服。
+看完之后还是不得不说和OBJC的协议有相似的地方。
+什么是interface简单的说，interface是一组method的组合，我们通过interface来定义对象的一组行为。
+我们前面一章最后一个例子中Student和Emplo">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Go的interface | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Go的interface
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-30T12:33:11+08:00" content="2015-06-30">
+              2015-06-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index">
+                    <span itemprop="name">Go</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/30/Go的interface/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/30/Go的interface/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="interface"><a href="#interface" class="headerlink" title="interface"></a>interface</h1><p>Go语言里面设计最精妙的应该算interface，它让面向对象，内容组织实现非常的方便，当你看完这一章，你就会被interface的巧妙设计所折服。</p>
+<p>看完之后还是不得不说和OBJC的协议有相似的地方。</p>
+<h2 id="什么是interface"><a href="#什么是interface" class="headerlink" title="什么是interface"></a>什么是interface</h2><p>简单的说，interface是一组method的组合，我们通过interface来定义对象的一组行为。</p>
+<p>我们前面一章最后一个例子中Student和Employee都能SayHi，虽然他们的内部实现不一样，但是那不重要，重要的是他们都能<code>say hi</code></p>
+<p>让我们来继续做更多的扩展，Student和Employee实现另一个方法<code>Sing</code>，然后Student实现方法BorrowMoney而Employee实现SpendSalary。</p>
+<p>这样Student实现了三个方法：SayHi、Sing、BorrowMoney；而Employee实现了SayHi、Sing、SpendSalary。</p>
+<p>上面这些方法的组合称为interface(被对象Student和Employee实现)。例如Student和Employee都实现了interface：SayHi和Sing，也就是这两个对象是该interface类型。而Employee没有实现这个interface：SayHi、Sing和BorrowMoney，因为Employee没有实现BorrowMoney这个方法。</p>
+<h2 id="interface类型"><a href="#interface类型" class="headerlink" title="interface类型"></a>interface类型</h2><p>interface类型定义了一组方法，如果某个对象实现了某个接口的所有方法，则此对象就实现了此接口。详细的语法参考下面这个例子</p>
+<pre><code>type Human struct {
+    name string
+    age int
+    phone string
+}
+
+type Student struct {
+    Human //匿名字段Human
+    school string
+    loan float32
+}
+
+type Employee struct {
+    Human //匿名字段Human
+    company string
+    money float32
+}
+
+//Human对象实现Sayhi方法
+func (h *Human) SayHi() {
+    fmt.Printf(&quot;Hi, I am %s you can call me on %s\n&quot;, h.name, h.phone)
+}
+
+// Human对象实现Sing方法
+func (h *Human) Sing(lyrics string) {
+    fmt.Println(&quot;La la, la la la, la la la la la...&quot;, lyrics)
+}
+
+//Human对象实现Guzzle方法
+func (h *Human) Guzzle(beerStein string) {
+    fmt.Println(&quot;Guzzle Guzzle Guzzle...&quot;, beerStein)
+}
+
+// Employee重载Human的Sayhi方法
+func (e *Employee) SayHi() {
+    fmt.Printf(&quot;Hi, I am %s, I work at %s. Call me on %s\n&quot;, e.name,
+        e.company, e.phone) //此句可以分成多行
+}
+
+//Student实现BorrowMoney方法
+func (s *Student) BorrowMoney(amount float32) {
+    s.loan += amount // (again and again and...)
+}
+
+//Employee实现SpendSalary方法
+func (e *Employee) SpendSalary(amount float32) {
+    e.money -= amount // More vodka please!!! Get me through the day!
+}
+
+// 定义interface
+type Men interface {
+    SayHi()
+    Sing(lyrics string)
+    Guzzle(beerStein string)
+}
+
+type YoungChap interface {
+    SayHi()
+    Sing(song string)
+    BorrowMoney(amount float32)
+}
+
+type ElderlyGent interface {
+    SayHi()
+    Sing(song string)
+    SpendSalary(amount float32)
+}
+</code></pre><p>通过上面的代码我们可以知道，interface可以被任意的对象实现。我们看到上面的Men interface被Human、Student和Employee实现。同理，一个对象可以实现任意多个interface，例如上面的Student实现了Men和YoungChap两个interface。</p>
+<p>最后，任意的类型都实现了空interface(我们这样定义：interface{})，也就是包含0个method的interface。</p>
+<h2 id="interface值"><a href="#interface值" class="headerlink" title="interface值"></a>interface值</h2><p>那么interface里面到底能存什么值呢？如果我们定义了一个interface的变量，那么这个变量里面可以存实现这个interface的任意类型的对象。例如上面例子中，我们定义了一个Men interface类型的变量m，那么m里面可以存Human、Student或者Employee值。</p>
+<p>因为m能够持有这三种类型的对象，所以我们可以定义一个包含Men类型元素的slice，这个slice可以被赋予实现了Men接口的任意结构的对象，这个和我们传统意义上面的slice有所不同。</p>
+<p>让我们来看一下下面这个例子：</p>
+<pre><code>package main
+import &quot;fmt&quot;
+
+type Human struct {
+    name string
+    age int
+    phone string
+}
+
+type Student struct {
+    Human //匿名字段
+    school string
+    loan float32
+}
+
+type Employee struct {
+    Human //匿名字段
+    company string
+    money float32
+}
+
+//Human实现SayHi方法
+func (h Human) SayHi() {
+    fmt.Printf(&quot;Hi, I am %s you can call me on %s\n&quot;, h.name, h.phone)
+}
+
+//Human实现Sing方法
+func (h Human) Sing(lyrics string) {
+    fmt.Println(&quot;La la la la...&quot;, lyrics)
+}
+
+//Employee重载Human的SayHi方法
+func (e Employee) SayHi() {
+    fmt.Printf(&quot;Hi, I am %s, I work at %s. Call me on %s\n&quot;, e.name,
+        e.company, e.phone)
+    }
+
+// Interface Men被Human,Student和Employee实现
+// 因为这三个类型都实现了这两个方法
+type Men interface {
+    SayHi()
+    Sing(lyrics string)
+}
+
+func main() {
+    mike := Student{Human{&quot;Mike&quot;, 25, &quot;222-222-XXX&quot;}, &quot;MIT&quot;, 0.00}
+    paul := Student{Human{&quot;Paul&quot;, 26, &quot;111-222-XXX&quot;}, &quot;Harvard&quot;, 100}
+    sam := Employee{Human{&quot;Sam&quot;, 36, &quot;444-222-XXX&quot;}, &quot;Golang Inc.&quot;, 1000}
+    Tom := Employee{Human{&quot;Tom&quot;, 37, &quot;222-444-XXX&quot;}, &quot;Things Ltd.&quot;, 5000}
+
+    //定义Men类型的变量i
+    var i Men
+
+    //i能存储Student
+    i = mike
+    fmt.Println(&quot;This is Mike, a Student:&quot;)
+    i.SayHi()
+    i.Sing(&quot;November rain&quot;)
+
+    //i也能存储Employee
+    i = Tom
+    fmt.Println(&quot;This is Tom, an Employee:&quot;)
+    i.SayHi()
+    i.Sing(&quot;Born to be wild&quot;)
+
+    //定义了slice Men
+    fmt.Println(&quot;Let&apos;s use a slice of Men and see what happens&quot;)
+    x := make([]Men, 3)
+    //这三个都是不同类型的元素，但是他们实现了interface同一个接口
+    x[0], x[1], x[2] = paul, sam, mike
+
+    for _, value := range x{
+        value.SayHi()
+    }
+}
+</code></pre><p>通过上面的代码，你会发现interface就是一组抽象方法的集合，它必须由其他非interface类型实现，而不能自我实现， Go通过interface实现了duck-typing：即”当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子”。</p>
+<h2 id="空interface"><a href="#空interface" class="headerlink" title="空interface"></a>空interface</h2><p>空interface(interface{})不包含任何的method，正因为如此，所有的类型都实现了空interface。空interface对于描述起不到任何的作用(因为它不包含任何的method），但是空interface在我们需要存储任意类型的数值的时候相当有用，因为它可以存储任意类型的数值。它有点类似于C语言的void*类型。</p>
+<pre><code>// 定义a为空接口
+var a interface{}
+var i int = 5
+s := &quot;Hello world&quot;
+// a可以存储任意类型的数值
+a = i
+a = s
+</code></pre><p>一个函数把interface{}作为参数，那么他可以接受任意类型的值作为参数，如果一个函数返回interface{}，那么也就可以返回任意类型的值。是不是很有用啊！</p>
+<h2 id="interface函数参数"><a href="#interface函数参数" class="headerlink" title="interface函数参数"></a>interface函数参数</h2><p>interface的变量可以持有任意实现该interface类型的对象，这给我们编写函数(包括method)提供了一些额外的思考，我们是不是可以通过定义interface参数，让函数接受各种类型的参数。</p>
+<p>举个例子：fmt.Println是我们常用的一个函数，但是你是否注意到它可以接受任意类型的数据。打开fmt的源码文件，你会看到这样一个定义：</p>
+<pre><code>type Stringer interface {
+     String() string
+}
+</code></pre><p>也就是说，任何实现了String方法的类型都能作为参数被fmt.Println调用，让我们来试一试：</p>
+<pre><code>package main
+import (
+    &quot;fmt&quot;
+    &quot;strconv&quot;
+)
+
+type Human struct {
+    name string
+    age int
+    phone string
+}
+
+// 通过这个方法 Human 实现了 fmt.Stringer
+func (h Human) String() string {
+    return &quot;❰&quot;+h.name+&quot; - &quot;+strconv.Itoa(h.age)+&quot; years -  ✆ &quot; +h.phone+&quot;❱&quot;
+}
+
+func main() {
+    Bob := Human{&quot;Bob&quot;, 39, &quot;000-7777-XXX&quot;}
+    fmt.Println(&quot;This Human is : &quot;, Bob)
+}
+</code></pre><p>现在我们再回顾一下前面的Box示例，你会发现Color结构也定义了一个method：String。其实这也是实现了fmt.Stringer这个interface，即如果需要某个类型能被fmt包以特殊的格式输出，你就必须实现Stringer这个接口。如果没有实现这个接口，fmt将以默认的方式输出。</p>
+<pre><code>//实现同样的功能
+fmt.Println(&quot;The biggest one is&quot;, boxes.BiggestsColor().String())
+fmt.Println(&quot;The biggest one is&quot;, boxes.BiggestsColor())
+</code></pre><p>注：实现了error接口的对象（即实现了Error() string的对象），使用fmt输出时，会调用Error()方法，因此不必再定义String()方法了。</p>
+<h2 id="interface变量存储的类型"><a href="#interface变量存储的类型" class="headerlink" title="interface变量存储的类型"></a>interface变量存储的类型</h2><p>我们知道interface的变量里面可以存储任意类型的数值(该类型实现了interface)。那么我们怎么反向知道这个变量里面实际保存了的是哪个类型的对象呢？目前常用的有两种方法：</p>
+<ul>
+<li>Comma-ok断言</li>
+</ul>
+<p>Go语言里面有一个语法，可以直接判断是否是该类型的变量： value, ok = element.(T)，这里value就是变量的值，ok是一个bool类型，element是interface变量，T是断言的类型。</p>
+<p>如果element里面确实存储了T类型的数值，那么ok返回true，否则返回false。</p>
+<p>让我们通过一个例子来更加深入的理解：</p>
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;strconv&quot;
+)
+
+type Element interface{}
+type List [] Element
+
+type Person struct {
+    name string
+    age int
+}
+
+//定义了String方法，实现了fmt.Stringer
+func (p Person) String() string {
+    return &quot;(name: &quot; + p.name + &quot; - age: &quot;+strconv.Itoa(p.age)+ &quot; years)&quot;
+}
+
+func main() {
+    list := make(List, 3)
+    list[0] = 1 // an int
+    list[1] = &quot;Hello&quot; // a string
+    list[2] = Person{&quot;Dennis&quot;, 70}
+
+    for index, element := range list {
+        if value, ok := element.(int); ok {
+            fmt.Printf(&quot;list[%d] is an int and its value is %d\n&quot;, index, value)
+        } else if value, ok := element.(string); ok {
+            fmt.Printf(&quot;list[%d] is a string and its value is %s\n&quot;, index, value)
+        } else if value, ok := element.(Person); ok {
+            fmt.Printf(&quot;list[%d] is a Person and its value is %s\n&quot;, index, value)
+        } else {
+            fmt.Println(&quot;list[%d] is of a different type&quot;, index)
+        }
+    }
+}
+</code></pre><p>是不是很简单啊，同时你是否注意到了多个if里面，还记得我前面介绍流程时讲过，if里面允许初始化变量。</p>
+<p>也许你注意到了，我们断言的类型越多，那么if else也就越多，所以才引出了下面要介绍的switch。</p>
+<ul>
+<li>switch测试</li>
+</ul>
+<p>最好的讲解就是代码例子，现在让我们重写上面的这个实现：</p>
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;strconv&quot;
+)
+
+type Element interface{}
+type List [] Element
+
+type Person struct {
+    name string
+    age int
+}
+
+//打印
+func (p Person) String() string {
+    return &quot;(name: &quot; + p.name + &quot; - age: &quot;+strconv.Itoa(p.age)+ &quot; years)&quot;
+}
+
+func main() {
+    list := make(List, 3)
+    list[0] = 1 //an int
+    list[1] = &quot;Hello&quot; //a string
+    list[2] = Person{&quot;Dennis&quot;, 70}
+
+    for index, element := range list{
+        switch value := element.(type) {
+            case int:
+                fmt.Printf(&quot;list[%d] is an int and its value is %d\n&quot;, index, value)
+            case string:
+                fmt.Printf(&quot;list[%d] is a string and its value is %s\n&quot;, index, value)
+            case Person:
+                fmt.Printf(&quot;list[%d] is a Person and its value is %s\n&quot;, index, value)
+            default:
+                fmt.Println(&quot;list[%d] is of a different type&quot;, index)
+        }
+    }
+}
+</code></pre><p>这里有一点需要强调的是：<code>element.(type)</code>语法不能在switch外的任何逻辑里面使用，如果你要在switch外面判断一个类型就使用<code>comma-ok</code>。</p>
+<h2 id="嵌入interface"><a href="#嵌入interface" class="headerlink" title="嵌入interface"></a>嵌入interface</h2><p>Go里面真正吸引人的是它内置的逻辑语法，就像我们在学习Struct时学习的匿名字段，多么的优雅啊，那么相同的逻辑引入到interface里面，那不是更加完美了。如果一个interface1作为interface2的一个嵌入字段，那么interface2隐式的包含了interface1里面的method。</p>
+<p>我们可以看到源码包container/heap里面有这样的一个定义：</p>
+<pre><code>type Interface interface {
+    sort.Interface //嵌入字段sort.Interface
+    Push(x interface{}) //a Push method to push elements into the heap
+    Pop() interface{} //a Pop elements that pops elements from the heap
+}
+</code></pre><p>我们看到sort.Interface其实就是嵌入字段，把sort.Interface的所有method给隐式的包含进来了。也就是下面三个方法：</p>
+<pre><code>type Interface interface {
+    // Len is the number of elements in the collection.
+    Len() int
+    // Less returns whether the element with index i should sort
+    // before the element with index j.
+    Less(i, j int) bool
+    // Swap swaps the elements with indexes i and j.
+    Swap(i, j int)
+}
+</code></pre><p>另一个例子就是io包下面的 io.ReadWriter ，它包含了io包下面的Reader和Writer两个interface：</p>
+<pre><code>// io.ReadWriter
+type ReadWriter interface {
+    Reader
+    Writer
+}
+</code></pre><h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>Go语言实现了反射，所谓反射就是能检查程序在运行时的状态。我们一般用到的包是reflect包。如何运用reflect包，官方的这篇文章详细的讲解了reflect包的实现原理，<a href="http://golang.org/doc/articles/laws_of_reflection.html" target="_blank" rel="external">laws of reflection</a></p>
+<p>使用reflect一般分成三步，下面简要的讲解一下：要去反射是一个类型的值(这些值都实现了空interface)，首先需要把它转化成reflect对象(reflect.Type或者reflect.Value，根据不同的情况调用不同的函数)。这两种获取方式如下：</p>
+<pre><code>t := reflect.TypeOf(i)    //得到类型的元数据,通过t我们能获取类型定义里面的所有元素
+v := reflect.ValueOf(i)   //得到实际的值，通过v我们获取存储在里面的值，还可以去改变值
+</code></pre><p>转化为reflect对象之后我们就可以进行一些操作了，也就是将reflect对象转化成相应的值，例如</p>
+<pre><code>tag := t.Elem().Field(0).Tag  //获取定义在struct里面的标签
+name := v.Elem().Field(0).String()  //获取存储在第一个字段里面的值
+</code></pre><p>获取反射值能返回相应的类型和数值</p>
+<pre><code>var x float64 = 3.4
+v := reflect.ValueOf(x)
+fmt.Println(&quot;type:&quot;, v.Type())
+fmt.Println(&quot;kind is float64:&quot;, v.Kind() == reflect.Float64)
+fmt.Println(&quot;value:&quot;, v.Float())
+</code></pre><p>最后，反射的话，那么反射的字段必须是可修改的，我们前面学习过传值和传引用，这个里面也是一样的道理。反射的字段必须是可读写的意思是，如果下面这样写，那么会发生错误</p>
+<pre><code>var x float64 = 3.4
+v := reflect.ValueOf(x)
+v.SetFloat(7.1)
+</code></pre><p>如果要修改相应的值，必须这样写</p>
+<pre><code>var x float64 = 3.4
+p := reflect.ValueOf(&amp;x)
+v := p.Elem()
+v.SetFloat(7.1)
+</code></pre><p>上面只是对反射的简单介绍，更深入的理解还需要自己在编程中不断的实践。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go语言编程/" rel="tag">#Go语言编程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/30/Go面向对象/" rel="next" title="Go面向对象">
+                <i class="fa fa-chevron-left"></i> Go面向对象
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/30/Go并发/" rel="prev" title="Go并发">
+                Go并发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/30/Go的interface/"
+           data-title="Go的interface" data-url="http://lynchwong.com/2015/06/30/Go的interface/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#interface"><span class="nav-number">1.</span> <span class="nav-text">interface</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是interface"><span class="nav-number">1.1.</span> <span class="nav-text">什么是interface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interface类型"><span class="nav-number">1.2.</span> <span class="nav-text">interface类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interface值"><span class="nav-number">1.3.</span> <span class="nav-text">interface值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空interface"><span class="nav-number">1.4.</span> <span class="nav-text">空interface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interface函数参数"><span class="nav-number">1.5.</span> <span class="nav-text">interface函数参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interface变量存储的类型"><span class="nav-number">1.6.</span> <span class="nav-text">interface变量存储的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌入interface"><span class="nav-number">1.7.</span> <span class="nav-text">嵌入interface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射"><span class="nav-number">1.8.</span> <span class="nav-text">反射</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

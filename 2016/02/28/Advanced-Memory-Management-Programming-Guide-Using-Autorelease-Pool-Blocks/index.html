@@ -1,0 +1,710 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="内存管理," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="官方文档
+Using Autorelease Pool Blocks(使用Autorelease池)
+Autorelease池为你提供了延迟释放对象所有权的机制，避免了对象立即被dealloc(比如方法中返回的对象)。通常，你不需要创建你自己的Autorelease池，但个别情况下你必须或者最好这么做。
+About Autorelease Pool Blocks(关于Autorelease池)
+A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Advanced Memory Management Programming Guide - Using Autorelease Pool Blocks">
+<meta property="og:url" content="http://lynchwong.com/2016/02/28/Advanced-Memory-Management-Programming-Guide-Using-Autorelease-Pool-Blocks/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="官方文档
+Using Autorelease Pool Blocks(使用Autorelease池)
+Autorelease池为你提供了延迟释放对象所有权的机制，避免了对象立即被dealloc(比如方法中返回的对象)。通常，你不需要创建你自己的Autorelease池，但个别情况下你必须或者最好这么做。
+About Autorelease Pool Blocks(关于Autorelease池)
+A">
+<meta property="og:updated_time" content="2016-06-01T11:37:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Advanced Memory Management Programming Guide - Using Autorelease Pool Blocks">
+<meta name="twitter:description" content="官方文档
+Using Autorelease Pool Blocks(使用Autorelease池)
+Autorelease池为你提供了延迟释放对象所有权的机制，避免了对象立即被dealloc(比如方法中返回的对象)。通常，你不需要创建你自己的Autorelease池，但个别情况下你必须或者最好这么做。
+About Autorelease Pool Blocks(关于Autorelease池)
+A">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Advanced Memory Management Programming Guide - Using Autorelease Pool Blocks | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Advanced Memory Management Programming Guide - Using Autorelease Pool Blocks
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-02-28T15:03:32+08:00" content="2016-02-28">
+              2016-02-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程指南/" itemprop="url" rel="index">
+                    <span itemprop="name">编程指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/02/28/Advanced-Memory-Management-Programming-Guide-Using-Autorelease-Pool-Blocks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/28/Advanced-Memory-Management-Programming-Guide-Using-Autorelease-Pool-Blocks/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Using-Autorelease-Pool-Blocks"><a href="#Using-Autorelease-Pool-Blocks" class="headerlink" title="Using Autorelease Pool Blocks"></a>Using Autorelease Pool Blocks</h1><p>(使用Autorelease池)</p>
+<p>Autorelease池为你提供了延迟释放对象所有权的机制，避免了对象立即被dealloc(比如方法中返回的对象)。通常，你不需要创建你自己的Autorelease池，但个别情况下你必须或者最好这么做。</p>
+<h2 id="About-Autorelease-Pool-Blocks"><a href="#About-Autorelease-Pool-Blocks" class="headerlink" title="About Autorelease Pool Blocks"></a>About Autorelease Pool Blocks</h2><p>(关于Autorelease池)</p>
+<p>Autorelease池的代码块用@autoreleasepool标识，如下所示：</p>
+<pre><code>@autoreleasepool {
+    // Code that creates autoreleased objects.
+}
+</code></pre><p>在Autorelease池代码块的最后，对象会接收autorelease消息。</p>
+<p>和其他代码块类似，Autorelease池代码块也可以被嵌套：</p>
+<pre><code>@autoreleasepool {
+    // . . .
+    @autoreleasepool {
+        // . . .
+    }
+    . . .
+}
+</code></pre><p>(正常情况下你不会看见如上所示的代码，通常一个资源文件中的Autorelease池代码块中的代码会调用其他资源文件中的代码，这些代码可能包含了其他的Autorelease池代码块。)当发送autorelease消息时，发送autorelease消息的对应的Autorelease池的代码块会发送release消息。</p>
+<p>Cocoa总是期望代码在Autorelease池代码块中执行，否则autorelease的对象不会被release导致你应用程序内存泄漏。(如果你在Autorelease池代码块之外发送autorelease消息，Cocoa会打印一个适当的错误消息。)AppKit和UIKit框架自动在每个消息循环的开始都创建一个池(比如鼠标按下事件、触摸事件)并在结尾处销毁这个池。正因为如此，你实际上不需要创建Autorelease池，甚至不需要知道创建Autorelease池的代码如何写。下面三种情形，你应该使用自己的Autorelease池：</p>
+<ol>
+<li>如果你写的程序，不是基于UI framework，比如命令行程序。</li>
+<li>如果你写循环的时候创建了大量的临时对象。你可以在循环体内使用Autorelease池在下一次循环开始前销毁这些对象。这样可以减少你的应用程序对内存的占用峰值。</li>
+<li>如果你发送了一个secondary线程(main线程之外的线程)。你必须在线程的最初执行代码中创建Autorelease池；否则你的应用程序就内存泄漏了。</li>
+</ol>
+<h2 id="Use-Local-Autorelease-Pool-Blocks-to-Reduce-Peak-Memory-Footprint"><a href="#Use-Local-Autorelease-Pool-Blocks-to-Reduce-Peak-Memory-Footprint" class="headerlink" title="Use Local Autorelease Pool Blocks to Reduce Peak Memory Footprint"></a>Use Local Autorelease Pool Blocks to Reduce Peak Memory Footprint</h2><p>(使用本地Autorelease池减少内存占用峰值)</p>
+<p>许多程序使用的临时对象都是autorelease的，这些对象是会占用内存的。要想减少对内存的占用峰值，就应该使用本地的Autorelease池。当池被销毁时，那些对象被release，进而系统占用内存情况得以改善。</p>
+<p>下面的例子，在for循环中使用了本地Autorelease池：</p>
+<pre><code>NSArray *urls = &lt;# An array of file URLs #&gt;;
+for (NSURL *url in urls) {
+
+    @autoreleasepool {
+        NSError *error;
+        NSString *fileContents = [NSString stringWithContentsOfURL:url
+                                                          encoding:NSUTF8StringEncoding error:&amp;error];
+        /* Process the string, creating and autoreleasing more objects. */
+    }
+}
+</code></pre><p>for循环每次处理一个文件。任何对象(比如fileContents)在Autorelease池中都会发送一个autorelease消息，存放于池中。当池在单次循环结束时，进行销毁，这些对象也就release了。</p>
+<p>在Autorelease池之后，那些曾经收到autorelease消息的对象，只能视为失效，而不要再给他们发消息，或者把他们作为返回值进行返回。如果你必须在Autorelease池代码块之后使用某个对象，你可以先发送一个retain消息，然后在Autorelease池代码块之后发送autorelease消息，如下所示：</p>
+<pre><code>– (id)findMatchingObject:(id)anObject {
+
+    id match;
+    while (match == nil) {
+        @autoreleasepool {
+
+            /* Do a search that creates a lot of temporary objects. */
+            match = [self expensiveSearchForObject:anObject];
+
+            if (match != nil) {
+                [match retain]; /* Keep match around. */
+            }
+        }
+    }
+
+    return [match autorelease];   /* Let match go and return it. */
+}
+</code></pre><p>在Autorelease池代码块中给match发送retain，然后在Autorelease池代码块之后发送autorelease，这样延长了match的生命周期。允许match在循环之外接收消息，并且返回给findMatchingObject:方法的调用者。</p>
+<h2 id="Autorelease-Pool-Blocks-and-Threads"><a href="#Autorelease-Pool-Blocks-and-Threads" class="headerlink" title="Autorelease Pool Blocks and Threads"></a>Autorelease Pool Blocks and Threads</h2><p>(Autorelease池和线程)</p>
+<p>Cocoa应用程序里的每一个线程都维护的自己的Autorelease池的栈。如果你写的程序仅仅是一个基于Foundation的程序，或者你要detach一个线程，你需要创建你自己的Autorelease池。</p>
+<p>如果你的程序或者线程是长期运行，可能会产生大量的临时对象，你应该使用Autorelease池(就像AppKit和UIKit在主线程上做的那样)；否则autorelease对象就会积累并消耗掉大量内存。如果你detach线程不调用Cocoa，你就不必使用Autorelease池。</p>
+<p><strong>注意：</strong>如果你使用POSIX线程API创建secondary线程，而不是NSThread，你不能使用Cocoa，除非Cocoa处于多线程模式。Cocoa只有在detach它的第一个NSThread对象之后，才能进入多线程模式。为了在secondary POSIX线程上使用Cocoa，你的应用程序首先要做的是detach至少一个NSThread对象，然后立刻结束这个线程。你可以使用NSThread的类方法isMultiThreaded来检测Cocoa是否处于多线程模式。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/内存管理/" rel="tag">#内存管理</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/28/Advanced-Memory-Management-Programming-Guide-Practical-Memory-Management/" rel="next" title="Advanced Memory Management Programming Guide - Practical Memory Management">
+                <i class="fa fa-chevron-left"></i> Advanced Memory Management Programming Guide - Practical Memory Management
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/03/关于使用Dispatch-Sources的一个BUG/" rel="prev" title="关于使用Dispatch Sources的一个BUG">
+                关于使用Dispatch Sources的一个BUG <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/02/28/Advanced-Memory-Management-Programming-Guide-Using-Autorelease-Pool-Blocks/"
+           data-title="Advanced Memory Management Programming Guide - Using Autorelease Pool Blocks" data-url="http://lynchwong.com/2016/02/28/Advanced-Memory-Management-Programming-Guide-Using-Autorelease-Pool-Blocks/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Using-Autorelease-Pool-Blocks"><span class="nav-number">1.</span> <span class="nav-text">Using Autorelease Pool Blocks</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#About-Autorelease-Pool-Blocks"><span class="nav-number">1.1.</span> <span class="nav-text">About Autorelease Pool Blocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Use-Local-Autorelease-Pool-Blocks-to-Reduce-Peak-Memory-Footprint"><span class="nav-number">1.2.</span> <span class="nav-text">Use Local Autorelease Pool Blocks to Reduce Peak Memory Footprint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autorelease-Pool-Blocks-and-Threads"><span class="nav-number">1.3.</span> <span class="nav-text">Autorelease Pool Blocks and Threads</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

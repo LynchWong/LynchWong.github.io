@@ -1,0 +1,821 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CoreData," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在开发中使用过几次CoreData，还算是比较熟悉了，觉得有必要整理下。CoreData是非常重要的一个框架，功能丰富，想要完全的掌握还需要花时间。
+该系列主要参考《Core Data by Tutorials: iOS 8 and Swift Edition》，推荐购买正版看英文原版。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreData: 第一个CoreData应用">
+<meta property="og:url" content="http://lynchwong.com/2015/07/21/CoreData-第一个CoreData应用/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="在开发中使用过几次CoreData，还算是比较熟悉了，觉得有必要整理下。CoreData是非常重要的一个框架，功能丰富，想要完全的掌握还需要花时间。
+该系列主要参考《Core Data by Tutorials: iOS 8 and Swift Edition》，推荐购买正版看英文原版。">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/2.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/3.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/4.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/5.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/6.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/7.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/8.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/9.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/10.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFirstApp/11.png">
+<meta property="og:updated_time" content="2016-06-01T11:39:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreData: 第一个CoreData应用">
+<meta name="twitter:description" content="在开发中使用过几次CoreData，还算是比较熟悉了，觉得有必要整理下。CoreData是非常重要的一个框架，功能丰富，想要完全的掌握还需要花时间。
+该系列主要参考《Core Data by Tutorials: iOS 8 and Swift Edition》，推荐购买正版看英文原版。">
+<meta name="twitter:image" content="http://lynchwong.com/img/CoreDataFirstApp/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> CoreData: 第一个CoreData应用 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CoreData: 第一个CoreData应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-21T09:14:43+08:00" content="2015-07-21">
+              2015-07-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/21/CoreData-第一个CoreData应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/21/CoreData-第一个CoreData应用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在开发中使用过几次CoreData，还算是比较熟悉了，觉得有必要整理下。CoreData是非常重要的一个框架，功能丰富，想要完全的掌握还需要花时间。</p>
+<p>该系列主要参考<a href="http://www.raywenderlich.com/store/core-data-by-tutorials?source=matthewmorey" target="_blank" rel="external">《Core Data by Tutorials: iOS 8 and Swift Edition》</a>，推荐购买正版看英文原版。</p>
+<a id="more"></a>
+<p>CoreData是什么就不讲解了，最开始接触CoreData的时候感觉像个ORM框架，但是并没有这么简单。搜索自行了解CoreData是什么东西，下面我们就直接开始了。</p>
+<h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>首先我们先做个一个App，这个App很简单，用来显示我们的仓库的列表，我们可以添加仓库。</p>
+<p>我们新建一个项目，如下所示，记得勾选<strong>Use Core Data</strong>，如下所示：</p>
+<p><img src="/img/CoreDataFirstApp/1.png" alt="alt text"></p>
+<p>新建完成后你可以看见比我们平时不使用Core Data的项目要多了一些东西，而且<strong>AppDelegate.swift</strong>里面也多了不少的代码。这些东西都是Xcode的模板为我们自动生成了，这些配置对于大多数的App都够用了，后面我们会自己创建Core Data Stack，不使用Xcode为我们创建的。</p>
+<p>先不讲解CoreData的这些东西，我们先完成这个简单的App。</p>
+<p>将<strong>View Controller</strong>包含在<strong>Navigation Controller</strong>里面，如下所示：</p>
+<p><img src="/img/CoreDataFirstApp/2.png" alt="alt text"></p>
+<p>给<strong>View Controller</strong>添加如下所示的内容：</p>
+<p><img src="/img/CoreDataFirstApp/3.png" alt="alt text"></p>
+<p>请自行给Tableview设置约束。然后设置Tableview的dataSource，如下所示：</p>
+<p><img src="/img/CoreDataFirstApp/4.png" alt="alt text"></p>
+<p>这里只需要设置dataSource即可，然后给Tableview设置@IBOutlet，以及设置Bar Button Item的selector，如下所示</p>
+<p><img src="/img/CoreDataFirstApp/5.png" alt="alt text"></p>
+<p><img src="/img/CoreDataFirstApp/6.png" alt="alt text"></p>
+<p><strong>View Controller</strong>的代码如下：</p>
+<pre><code>import UIKit
+
+class ViewController: UIViewController, UITableViewDataSource {
+
+    @IBOutlet weak var tableView: UITableView!
+
+    var warehouses = [String]()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        title = &quot;仓库管理&quot;
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: &quot;Cell&quot;)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    @IBAction func add(sender: AnyObject) {
+        var alert = UIAlertController(title: &quot;添加仓库&quot;, message: &quot;输入仓库名&quot;, preferredStyle: .Alert)
+        let saveAction = UIAlertAction(title: &quot;保存&quot;, style: .Default) { (action: UIAlertAction!) -&gt; Void in
+            let textField = alert.textFields![0] as! UITextField
+            self.warehouses.append(textField.text)
+            self.tableView.reloadData()
+        }
+        let cancelAction = UIAlertAction(title: &quot;取消&quot;, style: .Default) {
+                (action: UIAlertAction!) -&gt; Void in
+        }
+
+        alert.addTextFieldWithConfigurationHandler {
+                (textField: UITextField!) -&gt; Void in
+        }
+
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    // MARK: UITableViewDataSource
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+        return warehouses.count
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(&quot;Cell&quot;) as! UITableViewCell
+        cell.textLabel!.text = warehouses[indexPath.row]
+        return cell
+    }
+
+}
+</code></pre><p>代码很简单，就不一一讲解了。</p>
+<p>运行后模拟器截图如下：</p>
+<p><img src="/img/CoreDataFirstApp/7.png" alt="alt text"></p>
+<p>点击添加可以添加新的仓库，但是这些数据并没有被保存起来，在程序运行期间存在于内存中。当我们重启设备或者退出(注意这里的退出不是指点击home键退出到主屏幕，而是从后台中清除)，这些数据就不会存在了。所以我们就需要CoreData来持久化数据，当然你也可以用其他的的持久化手段，比如使用SQLite或者读写文件等等。接下来我们就使用CoreData来持久化这些数据。</p>
+<h1 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h1><p>以前做Web开发的时候，使用过ORM映射框架，比如<strong>NHibernate</strong>，第一步就是映射模型。</p>
+<h2 id="模型化数据"><a href="#模型化数据" class="headerlink" title="模型化数据"></a>模型化数据</h2><p>所以我们先要创建<strong>managed object model</strong>，Xcode自动为我们生成了数据模型文件，叫做<strong>WarehouseList.xcdatamodeld</strong>。</p>
+<p><img src="/img/CoreDataFirstApp/8.png" alt="alt text"></p>
+<p>点击<strong>Add Entity</strong>，命名为<strong>Warehouse</strong>，如上所示。</p>
+<ul>
+<li>一个<strong>entity</strong>就是就是CoreData里面定义的类。典型的例子就是员工和公司。在关系型数据库中，一个<strong>entity</strong>就对应一张表。</li>
+<li>一个<strong>attribute</strong>是与entity相关的部分信息。比如，员工entity就可能有员工名字，位置，薪水等attribute。在数据库中，一个attribute就对应表中的列。</li>
+<li><strong>relationship</strong>是多个entity之间的联系。在CoreData中，两个entity之间可以有<strong>to-one relationships</strong>和<strong>to-many relationships</strong>关系</li>
+</ul>
+<p>现在我们给<strong>Warehouse</strong>添加一个叫做<strong>name</strong>的<strong>Attributes</strong>，选择String类型，如下所示。</p>
+<p><img src="/img/CoreDataFirstApp/9.png" alt="alt text"></p>
+<h2 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h2><p>使用CoreData需要引入CoreData框架，在<strong>ViewController.swift</strong>中添加如下代码：</p>
+<pre><code>import CoreData
+</code></pre><p>修改如下代码：</p>
+<pre><code>var warehouses = [NSManagedObject]()
+</code></pre><p>我们需要存储Warehouse的实体，所以我们需要修改为如上所示的代码。然后修改<strong>UITableViewDataSource</strong>相关的方法，如下所示：</p>
+<pre><code>// MARK: UITableViewDataSource
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+        return warehouses.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(&quot;Cell&quot;) as! UITableViewCell
+        let warehouse = warehouses[indexPath.row]
+        cell.textLabel!.text = warehouse.valueForKey(&quot;name&quot;) as? String
+        return cell
+    }
+</code></pre><p>接下来我们就要修改添加仓库的方法，让CoreData将添加的数据持久化。修改<strong>add</strong>方法中的<strong>saveAction</strong>，如下所示：</p>
+<pre><code>let saveAction = UIAlertAction(title: &quot;保存&quot;, style: .Default) {
+    (action: UIAlertAction!) -&gt; Void in
+    let textField = alert.textFields![0] as! UITextField
+    self.saveName(textField.text)
+    self.tableView.reloadData()
+}
+</code></pre><p><strong>saveName</strong>为保存操作，我们将单独提出来：</p>
+<pre><code>func saveName(name: String) {
+    //1
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let managedContext = appDelegate.managedObjectContext!
+
+    //2
+    let entity = NSEntityDescription.entityForName(&quot;Warehouse&quot;, inManagedObjectContext: managedContext)
+    let warehouse = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+    //3
+    warehouse.setValue(name, forKey: &quot;name&quot;)
+    //4
+    var error: NSError?
+    managedContext.save(&amp;error)
+    if error != nil {
+        println(&quot;Could not save \(error), \(error!.userInfo)&quot;) }
+    //5
+    warehouses.append(warehouse)
+}
+</code></pre><ol>
+<li>在你能够从CoreData存储里面保存或者查询很合数据之前，你首先需要一个<strong>NSManagedObjectContext</strong>，你可以将managed object context想象成内存中的一个暂存器。保存一个新的managed object到CoreData中需要两步：第一，你将一个新的managed object插入到managed object context；然后，提交这些改变到managed object context保存到硬盘。因为我们使用了模板，所以我们使用app delegate里面的NSManagedObjectContext。</li>
+<li>我们创建了一个新的managed object然后插入到了managed object context中。你可能会奇怪<strong>NSEntityDescription</strong>是什么，<strong>NSManagedObject</strong>就像一个变形者，能够代表任何的entity。<strong>NSEntityDescription</strong>能够在运行时连接你定义在数据模型中实体的实例。</li>
+<li>然后我们设置实体的属性。</li>
+<li>最后调用managedContext的<strong>save</strong>方法来保存数据，如果有错误则打印出来。</li>
+<li>最后将新数据添加到数据源中。</li>
+</ol>
+<p>然后我们运行添加一个仓库，如下所示：</p>
+<p><img src="/img/CoreDataFirstApp/10.png" alt="alt text"></p>
+<p>但是当我们重启的时候会发现列表是空的，就不截图了，主要原因是因为我们并没有从CoreData中查询数据，所以，接下来我们就来查询数据。</p>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>我们在<strong>ViewController.swift</strong>中添加如下代码：</p>
+<pre><code>override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+
+    //1
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let managedContext = appDelegate.managedObjectContext!
+
+    //2
+    let fetchRequest = NSFetchRequest(entityName: &quot;Warehouse&quot;)
+
+    //3
+    var error: NSError?
+
+    let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &amp;error) as? [NSManagedObject]
+
+    if let results = fetchedResults {
+        warehouses = results
+    } else {
+        println(&quot;Could not fetch \(error), \(error!.userInfo)&quot;)
+    }
+}
+</code></pre><ol>
+<li>我们仍然需要<strong>managed object context</strong>，查询也不列外。</li>
+<li>顾名思义<strong>NSFetchRequest</strong>负责从CoreData中查询数据。功能强大且很灵活，你可以查询一些符合特定条件的数据集合(比如查询居住在威斯康辛州并且工龄至少3年的所有员工)等等。</li>
+<li>然后managed object context执行<strong>executeFetchRequest(_:error:)</strong>方法，返回了一个可选的数组。</li>
+</ol>
+<p><strong>注意：</strong>如果没有符合查询条件的数据，那么该方法就会返回一个没有数据的空的可选数组。如果发生了错误，这个方法就会返回nil。</p>
+<p>现在让我们运行，截图如下所示，列表中就有了我之前添加的数据了：</p>
+<p><img src="/img/CoreDataFirstApp/11.png" alt="alt text"></p>
+<p><a href="https://github.com/LynchWong/WarehouseList" target="_blank" rel="external"> 程序完整源码 </a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CoreData/" rel="tag">#CoreData</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/04/Go完结/" rel="next" title="Go完结">
+                <i class="fa fa-chevron-left"></i> Go完结
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/21/CoreData-子类化NSManagedObject/" rel="prev" title="CoreData: 子类化NSManagedObject">
+                CoreData: 子类化NSManagedObject <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/21/CoreData-第一个CoreData应用/"
+           data-title="CoreData: 第一个CoreData应用" data-url="http://lynchwong.com/2015/07/21/CoreData-第一个CoreData应用/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开始"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CoreData"><span class="nav-number">2.</span> <span class="nav-text">CoreData</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型化数据"><span class="nav-number">2.1.</span> <span class="nav-text">模型化数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存"><span class="nav-number">2.2.</span> <span class="nav-text">保存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">2.3.</span> <span class="nav-text">查询</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

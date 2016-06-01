@@ -1,0 +1,960 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Swift 语言提供 Arrays、Sets 和 Dictionaries 三种基本的集合类型用来存储集合数据。数组是有序数据的集。集合是无序无重复数据的集。字典是无序的键值对的集。
+Swift 语言中的 Arrays、Sets 和 Dictionaries 中存储的数据值类型必须明确。这意味着我们不能把不正确的数据类型插入其中。同时这也说明我们完全可以对取回值的类型非常自信。
+注意:Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift之集合类型">
+<meta property="og:url" content="http://lynchwong.com/2015/01/26/Swift之集合类型/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="Swift 语言提供 Arrays、Sets 和 Dictionaries 三种基本的集合类型用来存储集合数据。数组是有序数据的集。集合是无序无重复数据的集。字典是无序的键值对的集。
+Swift 语言中的 Arrays、Sets 和 Dictionaries 中存储的数据值类型必须明确。这意味着我们不能把不正确的数据类型插入其中。同时这也说明我们完全可以对取回值的类型非常自信。
+注意:Swift">
+<meta property="og:image" content="http://lynchwong.com/img/iOSCollectionTypes/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSCollectionTypes/2.png">
+<meta property="og:updated_time" content="2016-06-01T12:47:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift之集合类型">
+<meta name="twitter:description" content="Swift 语言提供 Arrays、Sets 和 Dictionaries 三种基本的集合类型用来存储集合数据。数组是有序数据的集。集合是无序无重复数据的集。字典是无序的键值对的集。
+Swift 语言中的 Arrays、Sets 和 Dictionaries 中存储的数据值类型必须明确。这意味着我们不能把不正确的数据类型插入其中。同时这也说明我们完全可以对取回值的类型非常自信。
+注意:Swift">
+<meta name="twitter:image" content="http://lynchwong.com/img/iOSCollectionTypes/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Swift之集合类型 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Swift之集合类型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-01-26T10:47:36+08:00" content="2015-01-26">
+              2015-01-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/01/26/Swift之集合类型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/26/Swift之集合类型/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Swift 语言提供 Arrays、Sets 和 Dictionaries 三种基本的集合类型用来存储集合数据。数组是有序数据的集。集合是无序无重复数据的集。字典是无序的键值对的集。</p>
+<p>Swift 语言中的 Arrays、Sets 和 Dictionaries 中存储的数据值类型必须明确。这意味着我们不能把不正确的数据类型插入其中。同时这也说明我们完全可以对取回值的类型非常自信。</p>
+<p>注意:Swift 的 Arrays、Sets 和 Dictionaries 类型被实现为泛型集合。更多关于泛型类型和集合,参见泛型章节。</p>
+<h2 id="集合的可变性"><a href="#集合的可变性" class="headerlink" title="集合的可变性"></a>集合的可变性</h2><p>如果创建一个 Arrays、Sets 或 Dictionaries 并且把它分配成一个变量,这个集合将会是可变的。这意味着我们可以在创建之后添加更多或移除已存在的数据项来改变这个集合的大小。如果我们把 Arrays、Sets 或 Dictionaries 分配成常量,那么它就是不可变的,它的大小不能被改变。</p>
+<p>注意:在我们不需要改变集合大小的时候创建不可变集合是很好的习惯。如此 Swift 编译器可以优化我们创建的集合。</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组的不同位置中。</p>
+<p>注意: Swift 的 Array 类型被桥接到 Foundation 中的 NSArray 类。 更多关于在 Foundation 和 Cocoa 中使 用 Array 的信息,参见 Using Swift with Cocoa and Obejective-C 一书。</p>
+<h3 id="数组的简单语法"><a href="#数组的简单语法" class="headerlink" title="数组的简单语法"></a>数组的简单语法</h3><p>写 Swift 数组应该遵循像 Array<element> 这样的形式,其中 Element 是这个数组中唯一允许存在的数据类型。我们也可以使用像 [Element] 这样的简单语法。尽管两种形式在功能上是一样的,但是推荐较短的那种,而 且在本文中都会使用这种形式来使用数组。</element></p>
+<h3 id="创建一个空数组"><a href="#创建一个空数组" class="headerlink" title="创建一个空数组"></a>创建一个空数组</h3><p>我们可以使用构造语法来创建一个由特定数据类型构成的空数组:</p>
+<pre><code>var someInts = [Int]()
+print(&quot;someInts is of type [Int] with \(someInts.count) items.&quot;)
+// 打印 &quot;someInts is of type [Int] with 0 items.&quot;
+</code></pre><p>注意,通过构造函数的类型, someInts 的值类型被推断为 [Int] 。</p>
+<p>或者,如果代码上下文中已经提供了类型信息,例如一个函数参数或者一个已经定义好类型的常量或者变量,我们可以使用空数组语句创建一个空数组,它的写法很简单: [] (一对空方括号):</p>
+<pre><code>someInts.append(3)
+// someInts 现在包含一个 Int 值
+someInts = []
+// someInts 现在是空数组,但是仍然是 [Int] 类型的。
+</code></pre><h3 id="创建一个带有默认值的数组"><a href="#创建一个带有默认值的数组" class="headerlink" title="创建一个带有默认值的数组"></a>创建一个带有默认值的数组</h3><p>Swift 中的 Array 类型还提供一个可以创建特定大小并且所有数据都被默认的构造方法。我们可以把准备加入新数组的数据项数量( count )和适当类型的初始值( repeatedValue )传入数组构造函数:</p>
+<pre><code>var threeDoubles = [Double](count: 3, repeatedValue:0.0)
+// threeDoubles 是一种 [Double] 数组,等价于 [0.0, 0.0, 0.0]
+</code></pre><h3 id="通过两个数组相加创建一个数组"><a href="#通过两个数组相加创建一个数组" class="headerlink" title="通过两个数组相加创建一个数组"></a>通过两个数组相加创建一个数组</h3><p>我们可以使用加法操作符( + )来组合两种已存在的相同类型数组。新数组的数据类型会被从两个数组的数据类型中推断出来:</p>
+<pre><code>var anotherThreeDoubles = Array(count: 3, repeatedValue: 2.5)
+// anotherThreeDoubles 被推断为 [Double],等价于 [2.5, 2.5, 2.5]
+
+var sixDoubles = threeDoubles + anotherThreeDoubles
+// sixDoubles 被推断为 [Double],等价于 [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
+</code></pre><h3 id="用字面量构造数组"><a href="#用字面量构造数组" class="headerlink" title="用字面量构造数组"></a>用字面量构造数组</h3><p>我们可以使用字面量来进行数组构造,这是一种用一个或者多个数值构造数组的简单方法。字面量是一系列由逗号分割并由方括号包含的数值:</p>
+<pre><code>[value 1, value 2, value 3]
+</code></pre><p>下面这个例子创建了一个叫做 shoppingList 并且存储 String 的数组:</p>
+<pre><code>var shoppingList: [String] = [&quot;Eggs&quot;, &quot;Milk&quot;]
+// shoppingList 已经被构造并且拥有两个初始项。
+</code></pre><p>shoppingList 变量被声明为“字符串值类型的数组“,记作 [String] 。 因为这个数组被规定只有 String 一种数据结构,所以只有 String 类型可以在其中被存取。在这里, shoppinglist 数组由两个 String 值( “Eggs” 和 “Milk” )构造,并且由字面量定义。</p>
+<p>注意:Shoppinglist 数组被声明为变量( var 关键字创建)而不是常量( let 创建)是因为以后可能会有更多的数据项被插入其中。</p>
+<p>在这个例子中,字面量仅仅包含两个 String 值。匹配了该数组的变量声明(只能包含 String 的数组),所以这个字面量的分配过程可以作为用两个初始项来构造 shoppinglist 的一种方式。</p>
+<p>由于 Swift 的类型推断机制,当我们用字面量构造只拥有相同类型值数组的时候,我们不必把数组的类型定义清楚。 shoppinglist 的构造也可以这样写:</p>
+<pre><code>var shoppingList = [&quot;Eggs&quot;, &quot;Milk&quot;]
+</code></pre><p>因为所有字面量中的值都是相同的类型,Swift 可以推断出 [String] 是 shoppinglist 中变量的正确类型。</p>
+<h3 id="访问和修改数组"><a href="#访问和修改数组" class="headerlink" title="访问和修改数组"></a>访问和修改数组</h3><p>我们可以通过数组的方法和属性来访问和修改数组,或者使用下标语法。</p>
+<p>可以使用数组的只读属性 count 来获取数组中的数据项数量:</p>
+<pre><code>print(&quot;The shopping list contains \(shoppingList.count) items.&quot;)
+// 输出 &quot;The shopping list contains 2 items.&quot;(这个数组有2个项)
+</code></pre><p>使用布尔值属性 isEmpty 作为检查 count 属性的值是否为 0 的捷径:</p>
+<pre><code>if shoppingList.isEmpty {
+    print(&quot;The shopping list is empty.&quot;)
+} else {
+    print(&quot;The shopping list is not empty.&quot;)
+}
+// 打印 &quot;The shopping list is not empty.&quot;(shoppinglist 不是空的)
+</code></pre><p>也可以使用 append(_:) 方法在数组后面添加新的数据项:</p>
+<pre><code>shoppingList.append(&quot;Flour&quot;)
+// shoppingList 现在有3个数据项,有人在摊煎饼
+</code></pre><p>除此之外,使用加法赋值运算符( += )也可以直接在数组后面添加一个或多个拥有相同类型的数据项:</p>
+<pre><code>shoppingList += [&quot;Baking Powder&quot;]
+// shoppingList 现在有四项了
+shoppingList += [&quot;Chocolate Spread&quot;, &quot;Cheese&quot;, &quot;Butter&quot;]
+// shoppingList 现在有七项了
+</code></pre><p>可以直接使用下标语法来获取数组中的数据项,把我们需要的数据项的索引值放在直接放在数组名称的方括号中:</p>
+<pre><code>var firstItem = shoppingList[0]
+// 第一项是 &quot;Eggs&quot;
+</code></pre><p>注意:第一项在数组中的索引值是 0 而不是 1 。 Swift 中的数组索引总是从零开始。</p>
+<p>我们也可以用下标来改变某个已有索引值对应的数据值:</p>
+<pre><code>shoppingList[0] = &quot;Six eggs&quot;
+// 其中的第一项现在是 &quot;Six eggs&quot; 而不是 &quot;Eggs&quot;
+</code></pre><p>还可以利用下标来一次改变一系列数据值,即使新数据和原有数据的数量是不一样的。下面的例子把 “Chocolate Spread” , “Cheese” ,和 “Butter” 替换为 “Bananas” 和 “Apples” :</p>
+<pre><code>shoppingList[4...6] = [&quot;Bananas&quot;, &quot;Apples&quot;]
+// shoppingList 现在有6项
+</code></pre><p>注意:不可以用下标访问的形式去在数组尾部添加新项。</p>
+<p>调用数组的 insert(_:atIndex:) 方法来在某个具体索引值之前添加数据项:</p>
+<pre><code>shoppingList.insert(&quot;Maple Syrup&quot;, atIndex: 0)
+// shoppingList 现在有7项
+// &quot;Maple Syrup&quot; 现在是这个列表中的第一项
+</code></pre><p>这次 insert(_:atIndex:) 方法调用把值为 “Maple Syrup” 的新数据项插入列表的最开始位置,并且使用 0 作为索引值。</p>
+<p>类似的我们可以使用 removeAtIndex(_:) 方法来移除数组中的某一项。这个方法把数组在特定索引值中存储的数据项移除并且返回这个被移除的数据项(我们不需要的时候就可以无视它):</p>
+<pre><code>let mapleSyrup = shoppingList.removeAtIndex(0)
+// 索引值为0的数据项被移除
+// shoppingList 现在只有6项,而且不包括 Maple Syrup
+// mapleSyrup 常量的值等于被移除数据项的值 &quot;Maple Syrup&quot;
+</code></pre><p>注意: 如果我们试着对索引越界的数据进行检索或者设置新值的操作,会引发一个运行期错误。我们可以使用索引值和数组的 count 属性进行比较来在使用某个索引之前先检验是否有效。除了当 count 等于 0 时(说明这是个空数组),最大索引值一直是 count - 1 ,因为数组都是零起索引。</p>
+<p>数据项被移除后数组中的空出项会被自动填补,所以现在索引值为 0 的数据项的值再次等于 “Six eggs” :</p>
+<pre><code>firstItem = shoppingList[0]
+// firstItem 现在等于 &quot;Six eggs&quot;
+</code></pre><p>如果我们只想把数组中的最后一项移除,可以使用 removeLast() 方法而不是 removeAtIndex(_:) 方法来避免我们需要获取数组的 count 属性。就像后者一样,前者也会返回被移除的数据项:</p>
+<pre><code>let apples = shoppingList.removeLast()
+// 数组的最后一项被移除了
+// shoppingList 现在只有5项,不包括 cheese
+// apples 常量的值现在等于 &quot;Apples&quot; 字符串
+</code></pre><h3 id="数组的遍历"><a href="#数组的遍历" class="headerlink" title="数组的遍历"></a>数组的遍历</h3><p>我们可以使用 for-in 循环来遍历所有数组中的数据项:</p>
+<pre><code>for item in shoppingList {
+    print(item)
+}
+// Six eggs
+// Milk
+// Flour
+// Baking Powder
+// Bananas
+</code></pre><p>如果我们同时需要每个数据项的值和索引值,可以使用 enumerate() 方法来进行数组遍历。enumerate() 返回一个由每一个数据项索引值和数据值组成的元组。我们可以把这个元组分解成临时常量或者变量来进行遍历:</p>
+<pre><code>for (index, value) in enumerate(shoppingList) {
+    println(&quot;Item \(index + 1): \(value)&quot;)
+}
+// Item 1: Six eggs
+// Item 2: Milk
+// Item 3: Flour
+// Item 4: Baking Powder
+// Item 5: Bananas
+</code></pre><p>更多关于 for-in 循环的介绍请参见 for 循环。</p>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>集合(Set)用来存储相同类型并且没有确定顺序的值。当集合元素顺序不重要时或者希望确保每个元素只出现一次时可以使用集合而不是数组。</p>
+<p>注意:Swift的 Set 类型被桥接到 Foundation 中的NSSet 类。关于使用 Foundation 和 Cocoa 中 Set 的知识,请看 Using Swift with Cocoa and Objective-C。</p>
+<h3 id="集合类型的哈希值"><a href="#集合类型的哈希值" class="headerlink" title="集合类型的哈希值"></a>集合类型的哈希值</h3><p>一个类型为了存储在集合中,该类型必须是可哈希化的–也就是说,该类型必须提供一个方法来计算它的哈希值。一个哈希值是 Int 类型的,相等的对象哈希值必须相同,比如 a== b,因此必须a.hashValue = b.hashValue。</p>
+<p>Swift 的所有基本类型(比如 String, Int, Double 和 Bool)默认都是可哈希化的,可以作为集合的值的类型或者字典的键的类型。没有关联值的枚举成员值(在枚举有讲述)默认也是可哈希化的。</p>
+<p>注意:你可以使用你自定义的类型作为集合的值的类型或者是字典的键的类型,但你需要使你的自定义类型符合 Swift 标准库中的 Hashable 协议。符合 Hashable 协议的类型需要提供一个类型为 Int 的可读属性 hashValue。由类型的 hashValue 属性返回的值不需要在同一程序的不同执行周期或者不同程序之间保持相同。</p>
+<p>因为 Hashable 协议符合 Equatable 协议，所以符合该协议的类型也必须提供一个“是否相等”运算符(==)的实现。这个 Equatable 协议要求任何符合 == 实现的实例间都是一种相等的关系。也就是说，对于a，b，c三个值来说，==的实现必须满足下面三种情况：</p>
+<ul>
+<li>a == a(自反性)</li>
+<li>a == b 意味着 b == a (对称性)</li>
+<li>a == b &amp;&amp; b ==c 意味着 a == c (传递性)</li>
+</ul>
+<p>关于符合协议的更多信息,请看协议。</p>
+<h3 id="集合类型语法"><a href="#集合类型语法" class="headerlink" title="集合类型语法"></a>集合类型语法</h3><p>Swift 中的 Set 类型被写为 Set<element> 这里的 Element 表示 Set 中允许存储的类型,和数组不同的是,集合没有等价的简化形式。</element></p>
+<h3 id="创建和构造一个空的集合"><a href="#创建和构造一个空的集合" class="headerlink" title="创建和构造一个空的集合"></a>创建和构造一个空的集合</h3><p>你可以通过构造器语法创建一个特定类型的空集合:</p>
+<pre><code>var letters = Set&lt;Character&gt;()
+print(&quot;letters is of type Set&lt;Character&gt; with \(letters.count) items.&quot;)
+// 打印 &quot;letters is of type Set&lt;Character&gt; with 0 items.&quot;
+</code></pre><p>注意:通过构造器,这里的 letters 变量的类型被推断为 Set<character> 。</character></p>
+<p>此外,如果上下文提供了类型信息,比如作为函数的参数或者已知类型的变量或常量,我们可以通过一个空的数组字面量创建一个空的 Set :</p>
+<pre><code>letters.insert(&quot;a&quot;)
+// letters 现在含有1个 Character 类型的值
+letters = []
+// letters 现在是一个空的 Set, 但是它依然是 Set&lt;Character&gt; 类型
+</code></pre><h3 id="用数组字面量创建集合"><a href="#用数组字面量创建集合" class="headerlink" title="用数组字面量创建集合"></a>用数组字面量创建集合</h3><p>你可以使用数组字面量来构造集合,并且可以使用简化形式写一个或者多个值作为集合元素。</p>
+<p>下面的例子创建一个称之为 favoriteGenres 的集合来存储 String 类型的值:</p>
+<pre><code>var favoriteGenres: Set&lt;String&gt; = [&quot;Rock&quot;, &quot;Classical&quot;, &quot;Hip hop&quot;]
+// favoriteGenres 被构造成含有三个初始值的集合
+</code></pre><p>这个 favoriteGenres 变量被声明为“一个 String 值的集合”,写为 Set<string> 。由于这个特定的集合含有指定 String 类型的值,所以它只允许存储 String 类型值。这里的 favoriteGenres 变量有三个 String 类型的初始值( “Rock” , “Classical” 和 “Hip hop” ),并以数组字面量的方式出现。</string></p>
+<p>注意:favoriteGenres 被声明为一个变量(拥有 var 标示符)而不是一个常量(拥有 let 标示符),因为它里面的元素将会在下面的例子中被增加或者移除。</p>
+<p>一个 Set 类型不能从数组字面量中被单独推断出来,因此 Set 类型必须显式声明。然而,由于 Swift 的类型推断功能,如果你想使用一个数组字面量构造一个 Set 并且该数组字面量中的所有元素类型相同,那么你无须写出 Set 的具体类型。 favoriteGenres 的构造形式可以采用简化的方式代替:</p>
+<pre><code>var favoriteGenres: Set = [&quot;Rock&quot;, &quot;Classical&quot;, &quot;Hip hop&quot;]
+</code></pre><p>由于数组字面量中的所有元素类型相同,Swift 可以推断出 Set<string> 作为 favoriteGenres 变量的正确类型。</string></p>
+<h3 id="访问和修改一个集合"><a href="#访问和修改一个集合" class="headerlink" title="访问和修改一个集合"></a>访问和修改一个集合</h3><p>你可以通过 Set 的属性和方法来访问和修改一个 Set 。</p>
+<p>为了找出一个 Set 中元素的数量,可以使用其只读属性 count :</p>
+<pre><code>print(&quot;I have \(favoriteGenres.count) favorite music genres.&quot;)
+// 打印 &quot;I have 3 favorite music genres.&quot;
+</code></pre><p>使用布尔属性 isEmpty 作为一个缩写形式去检查 count 属性是否为 0 :</p>
+<pre><code>if favoriteGenres.isEmpty {
+    print(&quot;As far as music goes, I&apos;m not picky.&quot;)
+} else {
+    print(&quot;I have particular music preferences.&quot;)
+}
+// 打印 &quot;I have particular music preferences.&quot;
+</code></pre><p>你可以通过调用 Set 的 insert(_:) 方法来添加一个新元素:</p>
+<pre><code>favoriteGenres.insert(&quot;Jazz&quot;)
+// favoriteGenres 现在包含4个元素
+</code></pre><p>你可以通过调用 Set 的 remove(_:) 方法去删除一个元素,如果该值是该 Set 的一个元素则删除该元素并且返回被删除的元素值,否则如果该 Set 不包含该值,则返回 nil 。另外, Set 中的所有元素可以通过它的 removeAll() 方法删除。</p>
+<pre><code>if let removedGenre = favoriteGenres.remove(&quot;Rock&quot;) {
+    print(&quot;\(removedGenre)? I&apos;m over it.&quot;)
+} else {
+    print(&quot;I never much cared for that.&quot;)
+}
+// 打印 &quot;Rock? I&apos;m over it.&quot;
+</code></pre><p>使用 contains(_:) 方法去检查 Set 中是否包含一个特定的值:</p>
+<pre><code>if favoriteGenres.contains(&quot;Funk&quot;) {
+    print(&quot;I get up on the good foot.&quot;)
+} else {
+    print(&quot;It&apos;s too funky in here.&quot;)
+}
+// 打印 &quot;It&apos;s too funky in here.&quot;
+</code></pre><h3 id="遍历一个集合"><a href="#遍历一个集合" class="headerlink" title="遍历一个集合"></a>遍历一个集合</h3><p>你可以在一个 for-in 循环中遍历一个 Set 中的所有值。</p>
+<pre><code>for genre in favoriteGenres {
+    print(&quot;\(genre)&quot;)
+}
+// Classical
+// Jazz
+// Hip hop
+</code></pre><p>更多关于 for-in 循环的信息,参见For 循环。</p>
+<p>Swift 的 Set 类型没有确定的顺序,为了按照特定顺序来遍历一个 Set 中的值可以使用 sort() 方法,它将根据提供的序列返回一个有序集合.</p>
+<pre><code>for genre in favoriteGenres.sort() {
+    print(&quot;\(genre)&quot;)
+}
+// prints &quot;Classical&quot;
+// prints &quot;Hip hop&quot;
+// prints &quot;Jazz
+</code></pre><h3 id="完成集合操作"><a href="#完成集合操作" class="headerlink" title="完成集合操作"></a>完成集合操作</h3><p>你可以高效地完成 Set 的一些基本操作,比如把两个集合组合到一起,判断两个集合共有元素,或者判断两个集合是否全包含,部分包含或者不相交。</p>
+<h4 id="基本集合操作"><a href="#基本集合操作" class="headerlink" title="基本集合操作"></a>基本集合操作</h4><p>下面的插图描述了两个集合- a 和 b -以及通过阴影部分的区域显示集合各种操作的结果。</p>
+<p><img src="/img/iOSCollectionTypes/1.png" alt="alt text"></p>
+<ul>
+<li>使用 intersect(_:) 方法根据两个集合中都包含的值创建的一个新的集合。</li>
+<li>使用 exclusiveOr(_:) 方法根据在一个集合中但不在两个集合中的值创建一个新的集合。</li>
+<li>使用 union(_:) 方法根据两个集合的值创建一个新的集合。</li>
+<li>使用 subtract(_:) 方法根据不在该集合中的值创建一个新的集合。</li>
+</ul>
+<pre><code>let oddDigits: Set = [1, 3, 5, 7, 9]
+let evenDigits: Set = [0, 2, 4, 6, 8]
+let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
+oddDigits.union(evenDigits).sort()
+// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+oddDigits.intersect(evenDigits).sort()
+// []
+oddDigits.subtract(singleDigitPrimeNumbers).sort()
+// [1, 9]
+oddDigits.exclusiveOr(singleDigitPrimeNumbers).sort()
+// [1, 2, 9]
+</code></pre><h4 id="集合成员关系和相等"><a href="#集合成员关系和相等" class="headerlink" title="集合成员关系和相等"></a>集合成员关系和相等</h4><p>下面的插图描述了三个集合- a , b 和 c ,以及通过重叠区域表述集合间共享的元素。集合 a 是集合 b 的父集合,因为 a 包含了 b 中所有的元素,相反的,集合 b 是集合 a 的子集合,因为属于 b 的元素也被 a 包含。集合 b 和集合 c 彼此不关联,因为它们之间没有共同的元素。</p>
+<p><img src="/img/iOSCollectionTypes/2.png" alt="alt text"></p>
+<ul>
+<li>使用“是否相等”运算符( == )来判断两个集合是否包含全部相同的值。</li>
+<li>使用 isSubsetOf(_:) 方法来判断一个集合中的值是否也被包含在另外一个集合中。</li>
+<li>使用 isSupersetOf(_:) 方法来判断一个集合中包含另一个集合中所有的值。</li>
+<li>使用 isStrictSubsetOf(<em>:) 或者 isStrictSupersetOf(</em>:) 方法来判断一个集合是否是另外一个集合的子集合或 者父集合并且两个集合并不相等。</li>
+<li><p>使用 isDisjointWith(_:) 方法来判断两个集合是否不含有相同的值。</p>
+<pre><code>let houseAnimals: Set = [&quot;?&quot;, &quot;?&quot;]
+let farmAnimals: Set = [&quot;?&quot;, &quot;?&quot;, &quot;?&quot;, &quot;?&quot;, &quot;?&quot;]
+let cityAnimals: Set = [&quot;?&quot;, &quot;?&quot;]
+
+houseAnimals.isSubsetOf(farmAnimals)
+// true
+farmAnimals.isSupersetOf(houseAnimals)
+// true
+farmAnimals.isDisjointWith(cityAnimals)
+// true
+</code></pre></li>
+</ul>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>字典是一种存储多个相同类型的值的容器。每个值(value)都关联唯一的键(key),键作为字典中的这个值数据的标识符。和数组中的数据项不同,字典中的数据项并没有具体顺序。我们在需要通过标识符(键)访问数据的时候使用字典,这种方法很大程度上和我们在现实世界中使用字典查字义的方法一样。</p>
+<p>注意:Swift 的 Dictionary 类型被桥接到 Foundation 的 NSDictionary 类。更多关于在 Foundation 和 Cocoa 中使用 Dictionary 类型的信息,参见 Using Swift with Cocoa and Obej ective-C 一书。</p>
+<h3 id="字典类型快捷语法"><a href="#字典类型快捷语法" class="headerlink" title="字典类型快捷语法"></a>字典类型快捷语法</h3><p>Swift 的字典使用 Dictionary<key, value=""> 定义,其中 Key 是字典中键的数据类型, Value 是字典中对应于这些键所存储值的数据类型。</key,></p>
+<p>注意:一个字典的 Key 类型必须遵循 Hashable 协议,就像 Set 的值类型。</p>
+<p>我们也可以用 [Key: Value] 这样快捷的形式去创建一个字典类型。虽然这两种形式功能上相同,但是后者是首选,并且这本指导书涉及到字典类型时通篇采用后者。</p>
+<h3 id="创建一个空字典"><a href="#创建一个空字典" class="headerlink" title="创建一个空字典"></a>创建一个空字典</h3><p>我们可以像数组一样使用构造语法创建一个拥有确定类型的空字典:</p>
+<pre><code>var namesOfIntegers = [Int: String]()
+// namesOfIntegers 是一个空的 [Int: String] 字典
+</code></pre><p>这个例子创建了一个 [Int: String] 类型的空字典来储存整数的英语命名。它的键是 Int 型,值是 String 型。</p>
+<p>如果上下文已经提供了类型信息,我们可以使用空字典字面量来创建一个空字典,记作 [:] (中括号中放一个冒号):</p>
+<pre><code>namesOfIntegers[16] = &quot;sixteen&quot;
+// namesOfIntegers现在包含一个键值对
+namesOfIntegers = [:]
+// namesOfIntegers 又成为了一个 [Int: String] 类型的空字典
+</code></pre><h3 id="用字典字面量创建字典"><a href="#用字典字面量创建字典" class="headerlink" title="用字典字面量创建字典"></a>用字典字面量创建字典</h3><p>我们可以使用字典字面量来构造字典,这和我们刚才介绍过的数组字面量拥有相似语法。字典字面量是一种将一个或多个键值对写作 Dictionary 集合的快捷途径。</p>
+<p>一个键值对是一个 key 和一个 value 的结合体。在字典字面量中,每一个键值对的键和值都由冒号分割。这些键值对构成一个列表,其中这些键值对由方括号包含、由逗号分割:</p>
+<pre><code>[key 1: value 1, key 2: value 2, key 3: value 3]
+</code></pre><p>下面的例子创建了一个存储国际机场名称的字典。在这个字典中键是三个字母的国际航空运输相关代码,值是机场名称:</p>
+<pre><code>var airports: [String: String] = [&quot;YYZ&quot;: &quot;Toronto Pearson&quot;, &quot;DUB&quot;: &quot;Dublin&quot;]
+</code></pre><p>airports 字典被声明为一种 [String: String] 类型,这意味着这个字典的键和值都是 String 类型。</p>
+<p>注意:airports 字典被声明为变量(用 var 关键字)而不是常量( let 关键字)因为后来更多的机场信息会被添加到这个示例字典中。</p>
+<p>airports 字典使用字典字面量初始化,包含两个键值对。第一对的键是 YYZ ,值是 Toronto Pearson 。第二对的键是 DUB ,值是 Dublin 。</p>
+<p>这个字典语句包含了两个 String: String 类型的键值对。它们对应 airports 变量声明的类型(一个只有 String 键和 String 值的字典)所以这个字典字面量的任务是构造拥有两个初始数据项的 airport 字典。</p>
+<p>和数组一样,我们在用字典字面量构造字典时,如果它的键和值都有各自一致的类型,那么就不必写出字典的类型。 airports 字典也可以用这种简短方式定义:</p>
+<pre><code>var airports = [&quot;YYZ&quot;: &quot;Toronto Pearson&quot;, &quot;DUB&quot;: &quot;Dublin&quot;]
+</code></pre><p>因为这个语句中所有的键和值都各自拥有相同的数据类型,Swift 可以推断出 Dictionary<string, string=""> 是 airports 字典的正确类型。</string,></p>
+<h3 id="访问和修改字典"><a href="#访问和修改字典" class="headerlink" title="访问和修改字典"></a>访问和修改字典</h3><p>我们可以通过字典的方法和属性来访问和修改字典,或者通过使用下标语法。</p>
+<p>和数组一样,我们可以通过字典的只读属性 count 来获取某个字典的数据项数量:</p>
+<pre><code>print(&quot;The dictionary of airports contains \(airports.count) items.&quot;)
+// 打印 &quot;The dictionary of airports contains 2 items.&quot;(这个字典有两个数据项)
+</code></pre><p>使用布尔属性 isEmpty 来快捷地检查字典的 count 属性是否等于0:</p>
+<pre><code>if airports.isEmpty {
+    print(&quot;The airports dictionary is empty.&quot;)
+} else {
+    print(&quot;The airports dictionary is not empty.&quot;)
+}
+// 打印 &quot;The airports dictionary is not empty.&quot;
+</code></pre><p>我们也可以在字典中使用下标语法来添加新的数据项。可以使用一个恰当类型的键作为下标索引,并且分配恰当类型的新值:</p>
+<pre><code>airports[&quot;LHR&quot;] = &quot;London&quot;
+// airports 字典现在有三个数据项
+</code></pre><p>我们也可以使用下标语法来改变特定键对应的值:</p>
+<pre><code>airports[&quot;LHR&quot;] = &quot;London Heathrow&quot;
+// &quot;LHR&quot;对应的值 被改为 &quot;London Heathrow
+</code></pre><p>作为另一种下标方法,字典的 updateValue(<em>:forKey:) 方法可以设置或者更新特定键对应的值。就像上面所示的下标示例, updateValue(</em>:forKey:) 方法在这个键不存在对应值的时候会设置新值或者在存在时更新已存在的值。和上面的下标方法不同的, updateValue(_:forKey:) 这个方法返回更新值之前的原值。这样使得我们可以检查更新是否成功。</p>
+<p>updateValue(_:forKey:) 方法会返回对应值的类型的可选值。举例来说:对于存储 String 值的字典,这个函数会返回一个 String? 或者“可选 String ”类型的值。</p>
+<p>如果有值存在于更新前,则这个可选值包含了旧值,否则它将会是 nil 。</p>
+<pre><code>if let oldValue = airports.updateValue(&quot;Dublin Airport&quot;, forKey: &quot;DUB&quot;) {
+    print(&quot;The old value for DUB was \(oldValue).&quot;)
+}
+// 输出 &quot;The old value for DUB was Dublin.&quot;
+</code></pre><p>我们也可以使用下标语法来在字典中检索特定键对应的值。因为有可能请求的键没有对应的值存在,字典的下标访问会返回对应值的类型的可选值。如果这个字典包含请求键所对应的值,下标会返回一个包含这个存在值的可选值,否则将返回 nil :</p>
+<pre><code>if let airportName = airports[&quot;DUB&quot;] {
+    print(&quot;The name of the airport is \(airportName).&quot;)
+} else {
+    print(&quot;That airport is not in the airports dictionary.&quot;)
+}
+// 打印 &quot;The name of the airport is Dublin Airport.&quot;
+</code></pre><p>我们还可以使用下标语法来通过给某个键的对应值赋值为 nil 来从字典里移除一个键值对:</p>
+<pre><code>airports[&quot;APL&quot;] = &quot;Apple Internation&quot;
+// &quot;Apple Internation&quot; 不是真的 APL 机场, 删除它
+airports[&quot;APL&quot;] = nil
+// APL 现在被移除了
+</code></pre><p>此外, removeValueForKey(_:) 方法也可以用来在字典中移除键值对。这个方法在键值对存在的情况下会移除该键值对并且返回被移除的值或者在没有值的情况下返回 nil :</p>
+<pre><code>if let removedValue = airports.removeValueForKey(&quot;DUB&quot;) {
+    print(&quot;The removed airport&apos;s name is \(removedValue).&quot;)
+} else {
+    print(&quot;The airports dictionary does not contain a value for DUB.&quot;)
+}
+// prints &quot;The removed airport&apos;s name is Dublin Airport.&quot;
+</code></pre><h3 id="字典遍历"><a href="#字典遍历" class="headerlink" title="字典遍历"></a>字典遍历</h3><p>我们可以使用 for-in 循环来遍历某个字典中的键值对。每一个字典中的数据项都以 (key, value) 元组形式返回,并且我们可以使用临时常量或者变量来分解这些元组:</p>
+<pre><code>for (airportCode, airportName) in airports {
+    print(&quot;\(airportCode): \(airportName)&quot;)
+}
+// YYZ: Toronto Pearson
+// LHR: London Heathrow
+</code></pre><p>更多关于 for-in 循环的信息,参见For 循环。</p>
+<p>通过访问 keys 或者 values 属性,我们也可以遍历字典的键或者值:</p>
+<pre><code>for airportCode in airports.keys {
+    print(&quot;Airport code: \(airportCode)&quot;)
+}
+// Airport code: YYZ // Airport code: LHR
+
+for airportName in airports.values {
+    print(&quot;Airport name: \(airportName)&quot;)
+}
+// Airport name: Toronto Pearson
+// Airport name: London Heathrow
+</code></pre><p>如果我们只是需要使用某个字典的键集合或者值集合来作为某个接受 Array 实例的 API 的参数,可以直接使用 keys 或者 values 属性构造一个新数组:</p>
+<pre><code>let airportCodes = [String](airports.keys)
+// airportCodes 是 [&quot;YYZ&quot;, &quot;LHR&quot;]
+let airportNames = [String](airports.values)
+// airportNames 是 [&quot;Toronto Pearson&quot;, &quot;London Heathrow&quot;]
+</code></pre><p>Swift 的字典类型是无序集合类型。为了以特定的顺序遍历字典的键或值,可以对字典的 keys 或 values 属性使用 sort() 方法。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/25/Swift之字符串和字符/" rel="next" title="Swift之字符串和字符">
+                <i class="fa fa-chevron-left"></i> Swift之字符串和字符
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/01/27/Swift之控制流/" rel="prev" title="Swift之控制流">
+                Swift之控制流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/01/26/Swift之集合类型/"
+           data-title="Swift之集合类型" data-url="http://lynchwong.com/2015/01/26/Swift之集合类型/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集合的可变性"><span class="nav-number">1.</span> <span class="nav-text">集合的可变性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">2.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组的简单语法"><span class="nav-number">2.1.</span> <span class="nav-text">数组的简单语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个空数组"><span class="nav-number">2.2.</span> <span class="nav-text">创建一个空数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个带有默认值的数组"><span class="nav-number">2.3.</span> <span class="nav-text">创建一个带有默认值的数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过两个数组相加创建一个数组"><span class="nav-number">2.4.</span> <span class="nav-text">通过两个数组相加创建一个数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用字面量构造数组"><span class="nav-number">2.5.</span> <span class="nav-text">用字面量构造数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问和修改数组"><span class="nav-number">2.6.</span> <span class="nav-text">访问和修改数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组的遍历"><span class="nav-number">2.7.</span> <span class="nav-text">数组的遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合"><span class="nav-number">3.</span> <span class="nav-text">集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型的哈希值"><span class="nav-number">3.1.</span> <span class="nav-text">集合类型的哈希值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型语法"><span class="nav-number">3.2.</span> <span class="nav-text">集合类型语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建和构造一个空的集合"><span class="nav-number">3.3.</span> <span class="nav-text">创建和构造一个空的集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用数组字面量创建集合"><span class="nav-number">3.4.</span> <span class="nav-text">用数组字面量创建集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问和修改一个集合"><span class="nav-number">3.5.</span> <span class="nav-text">访问和修改一个集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历一个集合"><span class="nav-number">3.6.</span> <span class="nav-text">遍历一个集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成集合操作"><span class="nav-number">3.7.</span> <span class="nav-text">完成集合操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本集合操作"><span class="nav-number">3.7.1.</span> <span class="nav-text">基本集合操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集合成员关系和相等"><span class="nav-number">3.7.2.</span> <span class="nav-text">集合成员关系和相等</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典"><span class="nav-number">4.</span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字典类型快捷语法"><span class="nav-number">4.1.</span> <span class="nav-text">字典类型快捷语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个空字典"><span class="nav-number">4.2.</span> <span class="nav-text">创建一个空字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用字典字面量创建字典"><span class="nav-number">4.3.</span> <span class="nav-text">用字典字面量创建字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问和修改字典"><span class="nav-number">4.4.</span> <span class="nav-text">访问和修改字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字典遍历"><span class="nav-number">4.5.</span> <span class="nav-text">字典遍历</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

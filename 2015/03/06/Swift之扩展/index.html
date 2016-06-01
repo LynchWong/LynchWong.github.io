@@ -1,0 +1,824 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="扩展就是向一个已有的类、结构体、枚举类型或者协议类型添加新功能(functionality)。这包括在没有权限获取原始源代码的情况下扩展类型的能力(即逆向建模)。扩展和 Objective-C 中的分类(categories)类似。(不过与 Objective-C 不同的是,Swift 的扩展没有名字。)
+Swift 中的扩展可以:
+
+添加计算型属性和计算静态属性 
+定义实例方法和类型方法
+提供新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift之扩展">
+<meta property="og:url" content="http://lynchwong.com/2015/03/06/Swift之扩展/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="扩展就是向一个已有的类、结构体、枚举类型或者协议类型添加新功能(functionality)。这包括在没有权限获取原始源代码的情况下扩展类型的能力(即逆向建模)。扩展和 Objective-C 中的分类(categories)类似。(不过与 Objective-C 不同的是,Swift 的扩展没有名字。)
+Swift 中的扩展可以:
+
+添加计算型属性和计算静态属性 
+定义实例方法和类型方法
+提供新">
+<meta property="og:updated_time" content="2016-06-01T12:43:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift之扩展">
+<meta name="twitter:description" content="扩展就是向一个已有的类、结构体、枚举类型或者协议类型添加新功能(functionality)。这包括在没有权限获取原始源代码的情况下扩展类型的能力(即逆向建模)。扩展和 Objective-C 中的分类(categories)类似。(不过与 Objective-C 不同的是,Swift 的扩展没有名字。)
+Swift 中的扩展可以:
+
+添加计算型属性和计算静态属性 
+定义实例方法和类型方法
+提供新">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Swift之扩展 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Swift之扩展
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-03-06T11:43:37+08:00" content="2015-03-06">
+              2015-03-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/06/Swift之扩展/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/06/Swift之扩展/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>扩展就是向一个已有的类、结构体、枚举类型或者协议类型添加新功能(functionality)。这包括在没有权限获取原始源代码的情况下扩展类型的能力(即逆向建模)。扩展和 Objective-C 中的分类(categories)类似。(不过与 Objective-C 不同的是,Swift 的扩展没有名字。)</p>
+<p>Swift 中的扩展可以:</p>
+<ol>
+<li>添加计算型属性和计算静态属性 </li>
+<li>定义实例方法和类型方法</li>
+<li>提供新的构造器</li>
+<li>定义下标</li>
+<li>定义和使用新的嵌套类型</li>
+<li>使一个已有类型符合某个协议</li>
+</ol>
+<p>在 Swift 中,你甚至可以对一个协议(Procotol)进行扩展,提供协议需要的实现,或者添加额外的功能能够对合适的类型带来额外的好处。你可以从协议扩展获取更多的细节。</p>
+<h2 id="扩展语法-Extension-Syntax"><a href="#扩展语法-Extension-Syntax" class="headerlink" title="扩展语法(Extension Syntax)"></a>扩展语法(Extension Syntax)</h2><p>声明一个扩展使用关键字 extension :</p>
+<pre><code>extension SomeType {
+    // new functionality to add to SomeType goes here
+}
+</code></pre><p>一个扩展可以扩展一个已有类型,使其能够适配一个或多个协议(protocol)。当这种情况发生时,协议的名字应该完全按照类或结构体的名字的方式进行书写:</p>
+<pre><code>extension SomeType: SomeProtocol, AnotherProtocol {
+    // implementation of protocol requirements goes here
+}
+</code></pre><p>按照这种方式添加的协议遵循者(protocol conformance)被称之为在扩展中添加协议遵循者。</p>
+<p>注意:如果你定义了一个扩展向一个已有类型添加新功能,那么这个新功能对该类型的所有已有实例中都是可用的,即使它们是在你的这个扩展的前面定义的。</p>
+<h2 id="计算型属性-Computed-Properties"><a href="#计算型属性-Computed-Properties" class="headerlink" title="计算型属性(Computed Properties)"></a>计算型属性(Computed Properties)</h2><p>扩展可以向已有类型添加计算型实例属性和计算型类型属性。下面的例子向 Swift 的内建 Double 类型添加了5个计算型实例属性,从而提供与距离单位协作的基本支持:</p>
+<pre><code>extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m: Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+let oneInch = 25.4.mm
+println(&quot;One inch is \(oneInch) meters&quot;)
+// prints &quot;One inch is 0.0254 meters&quot;
+let threeFeet = 3.ft
+println(&quot;Three feet is \(threeFeet) meters&quot;)
+// prints &quot;Three feet is 0.914399970739201 meters&quot;
+</code></pre><p>这些计算属性表达的含义是把一个   型的值看作是某单位下的长度值。即使它们被实现为计算型属性,但这些属性仍可以接一个带有dot语法的浮点型字面值,而这恰恰是使用这些浮点型字面量实现距离转换的方式。</p>
+<p>在上述例子中,一个 Double 型的值 1.0 被用来表示“1 米”。这就是为什么 m 计算型属性返 回 self——表达式 1.m 被认为是计算 1.0 的 Double 值。</p>
+<p>其它单位则需要一些转换来表示在米下测量的值。1 千米等于 1,000 米,所以 km 计算型属 性要把值乘以 1_000.00 来转化成单位米下的数值。类似地,1 米有 3.28024 英尺,所以 ft计算型属性要把对应的 Double 值除以 3.28024 来实现英尺到米的单位换算。</p>
+<p>这些属性是只读的计算型属性,所有从简考虑它们不用 get 关键字表示。它们的返回值是 Double 型,而且可以用于所有接受 Double 的数学计算中:</p>
+<pre><code>let aMarathon = 42.km + 195.m
+println(&quot;A marathon is \(aMarathon) meters long&quot;)
+// prints &quot;A marathon is 42195.0 meters long&quot;
+</code></pre><p>注意:扩展可以添加新的计算属性,但是不可以添加存储属性,也不可以向已有属性添加属 性观测器(property observers)。</p>
+<h2 id="构造器-Initializers"><a href="#构造器-Initializers" class="headerlink" title="构造器(Initializers)"></a>构造器(Initializers)</h2><p>扩展可以向已有类型添加新的构造器。这可以让你扩展其它类型,将你自己的定制类型作为构造器参数,或者提供该类型的原始实现中没有包含的额外初始化选项。</p>
+<p>扩展能向类中添加新的便利构造器,但是它们不能向类中添加新的指定构造器或析构器。指定构造器和析构器必须总是由原始的类实现来提供。</p>
+<p>注意: 如果你使用扩展向一个值类型添加一个构造器,在该值类型已经向所有的存储属性提供默认值,而且没有定义任何定制构造器(custom initializers)时,你可以在值类型的扩展构造器中调用默认构造器(default initializers)和逐一成员构造器(memberwise initializers)。</p>
+<p>正如在值类型的构造器代理中描述的,如果你已经把构造器写成值类型原始实现的一部分,上述规则不再适用。</p>
+<p>下面的例子定义了一个用于描述几何矩形的定制结构体 Rect 。这个例子同时定义了两个辅助结构体 Size 和 nt ,它们都把 0.0 作为所有属性的默认值:</p>
+<pre><code>struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+}
+</code></pre><p>因为结构体 Rect 提供了其所有属性的默认值,所以正如默认构造器中描述的,它可以自动接受一个默认构造器和一个逐一成员构造器。这些构造器可以用于构造新的 Rect 实例:</p>
+<pre><code>let defaultRect = Rect()
+let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0),
+    size: Size(width: 5.0, height: 5.0))
+</code></pre><p>你可以提供一个额外的使用特殊中心点和大小的构造器来扩展 Rect 结构体:</p>
+<pre><code>extension Rect {
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+</code></pre><p>这个新的构造器首先根据提供的 center 和 size 值计算一个合适的原点。然后调用该结构体自动的逐一成员构造 器 init(origin:size:) ,该构造器将新的原点和大小存到了合适的属性中:</p>
+<pre><code>let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+    size: Size(width: 3.0, height: 3.0))
+// centerRect&apos;s origin is (2.5, 2.5) and its size is (3.0, 3.0)
+</code></pre><p>注意:如果你使用扩展提供了一个新的构造器,你依旧有责任保证构造过程能够让所有实例完全初始化。</p>
+<h2 id="方法-Methods"><a href="#方法-Methods" class="headerlink" title="方法(Methods)"></a>方法(Methods)</h2><p>扩展可以向已有类型添加新的实例方法和类型方法。下面的例子向 Int 类型添加一个名为 repetitions 的新实例方法:</p>
+<pre><code>extension Int {
+    func repetitions(task: () -&gt; ()) {
+        for _ in 0..&lt;self {
+            task()
+        }
+    }
+}
+</code></pre><p>这个 repetitions 方法使用了一个 () -&gt; () 类型的单参数(single argument),表明函数没有参数而且没有返回值。</p>
+<p>定义该扩展之后,你就可以对任意整数调用 repetitions 方法,实现的功能则是多次执行某任务:</p>
+<pre><code>3.repetitions({
+    println(&quot;Hello!&quot;)
+})
+// Hello!
+// Hello!
+// Hello!
+</code></pre><p>可以使用 trailing 闭包使调用更加简洁:</p>
+<pre><code>3.repetitions {
+    println(&quot;Goodbye!&quot;)
+}
+// Goodbye!
+// Goodbye!
+// Goodbye!
+</code></pre><h3 id="修改实例方法-Mutating-Instance-Methods"><a href="#修改实例方法-Mutating-Instance-Methods" class="headerlink" title="修改实例方法(Mutating Instance Methods)"></a>修改实例方法(Mutating Instance Methods)</h3><p>通过扩展添加的实例方法也可以修改该实例本身。结构体和枚举类型中修改 self 或其属性的方法必须将该实例方法标注为 mutating ,正如来自原始实现的修改方法一样。</p>
+<p>下面的例子向Swift的 Int 类型添加了一个新的名为 square 的修改方法,来实现一个原始值的平方计算:</p>
+<pre><code>extension Int {
+    mutating func square() {
+        self = self * self
+    }
+}
+var someInt = 3
+someInt.square()
+// someInt is now 9
+</code></pre><h2 id="下标-Subscripts"><a href="#下标-Subscripts" class="headerlink" title="下标(Subscripts)"></a>下标(Subscripts)</h2><p>扩展可以向一个已有类型添加新下标。这个例子向Swift内建类型 Int 添加了一个整型下标。该下标 [n] 返回十进 制数字从右向左数的第n个数字。</p>
+<ul>
+<li>123456789[0] returns 9</li>
+<li>123456789[1] returns 8</li>
+</ul>
+<p>…等等</p>
+<pre><code>extension Int {
+    subscript(var digitIndex: Int) -&gt; Int {
+        var decimalBase = 1
+        while digitIndex &gt; 0 {
+            decimalBase *= 10
+            --digitIndex
+        }
+        return (self / decimalBase) % 10
+    }
+}
+746381295[0]
+// returns 5
+746381295[1]
+// returns 9
+746381295[2]
+// returns 2
+746381295[8]
+// returns 7
+</code></pre><p>如果该 Int 值没有足够的位数,即下标越界,那么上述实现的下标会返回0,因为它会在数字左边自动补0:</p>
+<pre><code>746381295[9]
+// returns 0, as if you had requested:
+0746381295[9]
+</code></pre><h2 id="嵌套类型-Nested-Types"><a href="#嵌套类型-Nested-Types" class="headerlink" title="嵌套类型(Nested Types)"></a>嵌套类型(Nested Types)</h2><p>扩展可以向已有的类、结构体和枚举添加新的嵌套类型:</p>
+<pre><code>extension Int {
+    enum Kind {
+        case Negative, Zero, Positive
+    }
+    var kind: Kind {
+        switch self {
+        case 0:
+            return .Zero
+        case let x where x &gt; 0:
+            return .Positive
+        default:
+            return .Negative
+        }
+    }
+}
+</code></pre><p>该例子向 Int 添加了新的嵌套枚举。这个名为 Kind 的枚举表示特定整数的类型。具体来说,就是表示整数是正数,零或者负数。</p>
+<p>这个类子还向 Character 添加了一个新的计算实例属性,即 kind,用来返回合适的 Kind 枚 举成员。</p>
+<p>现在,这个嵌套枚举可以和一个 Character 值联合使用了:</p>
+<pre><code>func printIntegerKinds(numbers: [Int]) {
+    for number in numbers {
+        switch number.kind {
+        case .Negative:
+            print(&quot;-&quot;, appendNewline: false)
+        case .Zero:
+            print(&quot;0&quot;, appendNewline: false)
+        case .Positive:
+            print(&quot;+&quot;, appendNewline: false)
+        }
+    }
+    print(&quot;\n&quot;)
+}
+printIntegerKinds([3, 19, -27, 0, -6, 0, 7])
+// prints &quot;+ + - 0 - 0 +&quot;
+</code></pre><p>函数 printIntegerKinds 的输入是一个 Int 数组值并对其字符进行迭代。在每次迭代过程中,考虑当前字符的 kind 计算属性,并打印出合适的类别描述。</p>
+<p>注意: 由于已知 number.kind 是 Int.Kind 型,所以 Int.Kind 中的所有成员值都可以使用 switch 语句里的形式简写,比如使用 . Negative 代替 Int.Kind.Negative 。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/06/Swift之嵌套类型/" rel="next" title="Swift之嵌套类型">
+                <i class="fa fa-chevron-left"></i> Swift之嵌套类型
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/06/Swift之协议/" rel="prev" title="Swift之协议">
+                Swift之协议 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/03/06/Swift之扩展/"
+           data-title="Swift之扩展" data-url="http://lynchwong.com/2015/03/06/Swift之扩展/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展语法-Extension-Syntax"><span class="nav-number">1.</span> <span class="nav-text">扩展语法(Extension Syntax)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算型属性-Computed-Properties"><span class="nav-number">2.</span> <span class="nav-text">计算型属性(Computed Properties)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造器-Initializers"><span class="nav-number">3.</span> <span class="nav-text">构造器(Initializers)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法-Methods"><span class="nav-number">4.</span> <span class="nav-text">方法(Methods)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改实例方法-Mutating-Instance-Methods"><span class="nav-number">4.1.</span> <span class="nav-text">修改实例方法(Mutating Instance Methods)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下标-Subscripts"><span class="nav-number">5.</span> <span class="nav-text">下标(Subscripts)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套类型-Nested-Types"><span class="nav-number">6.</span> <span class="nav-text">嵌套类型(Nested Types)</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

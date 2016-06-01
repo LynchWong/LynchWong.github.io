@@ -1,0 +1,782 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Go语言编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在开始之前还是讲下Go编程环境以及开发工具的配置和使用。
+安装Go操作系统是Yosemite 10.10.3。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go完整示例">
+<meta property="og:url" content="http://lynchwong.com/2015/06/27/Go完整示例/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="在开始之前还是讲下Go编程环境以及开发工具的配置和使用。
+安装Go操作系统是Yosemite 10.10.3。">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/2.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/3.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/4.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/5.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/6.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/7.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/8.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/9.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/10.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/11.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/12.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/13.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/14.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/15.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/16.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/17.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/18.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/19.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/20.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/21.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/22.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/23.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/24.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/25.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/26.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/27.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/28.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/29.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/30.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/31.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoFullDemo/32.png">
+<meta property="og:updated_time" content="2016-06-01T11:47:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go完整示例">
+<meta name="twitter:description" content="在开始之前还是讲下Go编程环境以及开发工具的配置和使用。
+安装Go操作系统是Yosemite 10.10.3。">
+<meta name="twitter:image" content="http://lynchwong.com/img/GoFullDemo/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Go完整示例 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Go完整示例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-27T11:17:45+08:00" content="2015-06-27">
+              2015-06-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index">
+                    <span itemprop="name">Go</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/27/Go完整示例/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/27/Go完整示例/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在开始之前还是讲下Go编程环境以及开发工具的配置和使用。</p>
+<h1 id="安装Go"><a href="#安装Go" class="headerlink" title="安装Go"></a>安装Go</h1><p>操作系统是Yosemite 10.10.3。</p>
+<a id="more"></a>
+<p>安装方式有很多，博主是直接使用的一键安装包。安装包这里就不提供了，大家网上自行搜索下载，安装包截图如下：</p>
+<p><img src="/img/GoFullDemo/1.png" alt="alt text"></p>
+<p>安装成功之后在终端中输入<strong>go</strong>命令能看到Usage信息，截图如下：</p>
+<p><img src="/img/GoFullDemo/2.png" alt="alt text"></p>
+<h1 id="配置开发环境"><a href="#配置开发环境" class="headerlink" title="配置开发环境"></a>配置开发环境</h1><p>IDE博主使用的是IntelliJ IDEA 14 CE，截图如下，即下载的是右边的这个免费的社区版。</p>
+<p><img src="/img/GoFullDemo/3.png" alt="alt text"></p>
+<p>安装完成之后这个IDE还并不能创建Go的Project，还需要插件的支持。</p>
+<p>打开IDE后<strong>⌘,</strong>打开偏好设置，如下图所示：</p>
+<p><img src="/img/GoFullDemo/4.png" alt="alt text"></p>
+<p>大家看我已经装好了。点击图中高亮的那个按钮<strong>Browse Repositories</strong>，弹出如下界面：</p>
+<p><img src="/img/GoFullDemo/5.png" alt="alt text"></p>
+<p>如果大家直接搜索<em>Go</em>是搜索不到，点击图中高亮的按钮<strong>Manage Repositories</strong>，界面如下：</p>
+<p><img src="/img/GoFullDemo/6.png" alt="alt text"></p>
+<p>点击<strong>+</strong>号添加这个地址<strong><a href="https://plugins.jetbrains.com/plugins/alpha/5047" target="_blank" rel="external">https://plugins.jetbrains.com/plugins/alpha/5047</a></strong>：</p>
+<p><img src="/img/GoFullDemo/7.png" alt="alt text"></p>
+<p>点击OK，然后就能找到插件了，点击安装，安装完成后会要求重启：</p>
+<p><img src="/img/GoFullDemo/8.png" alt="alt text"></p>
+<p>重启完成后我们创建新项目，发现就有了<strong>Go</strong>的选项：</p>
+<p><img src="/img/GoFullDemo/9.png" alt="alt text"></p>
+<h2 id="设置GOPATH"><a href="#设置GOPATH" class="headerlink" title="设置GOPATH"></a>设置GOPATH</h2><p>如果你这时候新建项目，如下所示IDE会提醒你没有设置<strong>GOPATH</strong>。</p>
+<p><img src="/img/GoFullDemo/10.png" alt="alt text"></p>
+<p><strong>GOPATH</strong>其实就是一个目录而已，按照约定该目录下默认有三个文件夹：</p>
+<ul>
+<li>src存放源代码</li>
+<li>pkg编译后生成的文件</li>
+<li>bin编译后生成的可执行文件</li>
+</ul>
+<p>博主使用IntelliJ IDEA 14 CE的工作空间<strong>IdeaProjects</strong>当做GOPATH：</p>
+<p><img src="/img/GoFullDemo/11.png" alt="alt text"></p>
+<p>同时创建了三个子文件夹(MyGo.iml请忽略)：</p>
+<p><img src="/img/GoFullDemo/12.png" alt="alt text"></p>
+<p>所以博主的GOPATH就是<strong>/Users/Lynch/IdeaProjects</strong>，如下终端所示：</p>
+<p><img src="/img/GoFullDemo/13.png" alt="alt text"></p>
+<p>现在我们就开始设置GOPATH，把<strong>export GOPATH=/Users/Lynch/IdeaProjects</strong>这一行加到.bash_profile或者.zshrc中，加到哪一个里面取决于你使用的是什么Shell。OS X默认使用的是bash，而你没有修改过，那就加到.bash_profile中。博主使用的是zsh，所以加入到了.zshrc。输入<strong>vim .zshrc</strong>命令进行编辑：</p>
+<p><img src="/img/GoFullDemo/14.png" alt="alt text"></p>
+<p>如图所示，设置好后保存退出，ESC然后输入“:wq”。然后输入<strong>go env</strong>命令查看：</p>
+<p><img src="/img/GoFullDemo/15.png" alt="alt text"></p>
+<p>如图所示GOPATH已经设置好了。</p>
+<p>推荐大家使用zsh，你可以使用<strong>cat /etc/shells</strong>来查看系统支持的Shell。OS X默认是支持zsh的，如下所示：</p>
+<p><img src="/img/GoFullDemo/16.png" alt="alt text"></p>
+<p>使用<strong>chsh -s /bin/zsh</strong>命令切换到想要使用的Shell，这里我们切换到zsh。然后安装<strong>oh my zsh</strong>，之后进行配置。</p>
+<p>你可以安装很多插件，比如<strong>autojump</strong>这个插件，太强悍了，对于像博主这样的手残党来说真是太方便。简单来说就是在目录之间进行快速跳转，比如我经常到Hexo目录下，那么我只需要输入<strong>j h</strong>就能跳转到这个目录，如下所示：</p>
+<p><img src="/img/GoFullDemo/17.png" alt="alt text"></p>
+<p>以及提示，自动补全，git支持等，这里值简单提一下，安装使用，大家自行了解。</p>
+<p>现在我们来创建一个新项目，Project name叫做“MyGo”，Project location是我们之前设置好的GOPATH，如下所示：</p>
+<p><img src="/img/GoFullDemo/18.png" alt="alt text"></p>
+<p>最后的效果图如下：</p>
+<p><img src="/img/GoFullDemo/19.png" alt="alt text"></p>
+<h1 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a>完整示例</h1><p>现在我们就来做一个简单的示例程序。根据之前设置GOPATH时的叙述，源代码应该都放在src文件夹中。所以我们在src中新建一个文件夹，如下所示：</p>
+<p><img src="/img/GoFullDemo/20.png" alt="alt text"></p>
+<p>然后在新建的文件夹中新建一个Go的源文件：</p>
+<p><img src="/img/GoFullDemo/21.png" alt="alt text"></p>
+<p>代码很简单，之前就讲解过，如果有没有使用的包，编译器会报错。右键<strong>main.go</strong>：</p>
+<p><img src="/img/GoFullDemo/22.png" alt="alt text"></p>
+<p>这是可以看到IDE输出了“Hello world”：</p>
+<p><img src="/img/GoFullDemo/23.png" alt="alt text"></p>
+<p>你也可以使用go命令来执行这些操作，输入<strong>go build sampledemo</strong>命令会在当前目录生成一个可执行文件，如下所示：</p>
+<p><img src="/img/GoFullDemo/24.png" alt="alt text"></p>
+<p><img src="/img/GoFullDemo/25.png" alt="alt text"></p>
+<p>双击执行：</p>
+<p><img src="/img/GoFullDemo/26.png" alt="alt text"></p>
+<p>你可以在任意的目录执行<strong>go build sampledemo</strong>；也可以进入应用包目录，执行<strong>go build</strong>。</p>
+<p>因为这里是main包所以生成了可执行文件。如果是其他的包，不会生成任何东西。所以对于普通包，你需要在pkg下生成相应的文件，就得执行<strong>go install</strong>文件。对于main包，你需要在bin下生成相应的文件你需要执行<strong>go install</strong>。</p>
+<p>然后我们在sampledemo下创建新的文件夹<strong>utils</strong>，然后创建plus.go源文件，如下所示：</p>
+<p><img src="/img/GoFullDemo/27.png" alt="alt text"></p>
+<p>这里需要注意的就是函数名要大写，因为我们要在包外调用这个函数。这个函数简单实现了加法运算。</p>
+<p>我们现在先来编译utils包，直接两条命令，貌似<strong>go install sampledemo/utils</strong>就够了：</p>
+<p><img src="/img/GoFullDemo/28.png" alt="alt text"></p>
+<p>编译完成之后你能看见pkg下生成了utils.a的函数包：</p>
+<p><img src="/img/GoFullDemo/29.png" alt="alt text"></p>
+<p>如图所示，修改main.go文件：</p>
+<p><img src="/img/GoFullDemo/30.png" alt="alt text"></p>
+<p><strong>go build sampledemo</strong>重新编译，双击执行：</p>
+<p><img src="/img/GoFullDemo/31.png" alt="alt text"></p>
+<h1 id="main函数和init函数"><a href="#main函数和init函数" class="headerlink" title="main函数和init函数"></a>main函数和init函数</h1><p>Go里面有两个保留的函数：init函数（能够应用于所有的package）和main函数（只能应用于package main）。这两个函数在定义时不能有任何的参数和返回值。虽然一个package里面可以写任意多个init函数，但这无论是对于可读性还是以后的可维护性来说，我们都强烈建议用户在一个package中每个文件只写一个init函数。</p>
+<p>Go程序会自动调用init()和main()，所以你不需要在任何地方调用这两个函数。每个package中的init函数都是可选的，但package main就必须包含一个main函数。</p>
+<p>程序的初始化和执行都起始于main包。如果main包还导入了其它的包，那么就会在编译时将它们依次导入。有时一个包会被多个包同时导入，那么它只会被导入一次（例如很多包可能都会用到fmt包，但它只会被导入一次，因为没有必要导入多次）。当一个包被导入时，如果该包还导入了其它的包，那么会先将其它包导入进来，然后再对这些包中的包级常量和变量进行初始化，接着执行init函数（如果有的话），依次类推。等所有被导入的包都加载完毕了，就会开始对main包中的包级常量和变量进行初始化，然后执行main包中的init函数 (如果存在的话) ，最后执行main函数。<br>下图详细地解释了整个执行过程：</p>
+<p><img src="/img/GoFullDemo/32.png" alt="alt text"></p>
+<h1 id="import"><a href="#import" class="headerlink" title="import"></a>import</h1><p>我们在写Go代码的时候经常用到import这个命令来导入包文件，而我们经常看到的方式参考如下：</p>
+<pre><code>import(
+    &quot;fmt&quot;
+)
+</code></pre><p>然后我们代码里可以通过如下的方式调用</p>
+<pre><code>fmt.Println(&quot;hello world&quot;)
+</code></pre><p>上面这个fmt是Go语言的标准库，其实是去GOROOT环境变量指定目录下去加载该模块，当然Go的import还支持如下两种方式来加载自己写的模块：</p>
+<h2 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h2><pre><code>import &quot;./model&quot;
+</code></pre><p>当前文件同一目录的model目录，但是不建议这种方式来import。</p>
+<h2 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h2><pre><code>import &quot;shorturl/model&quot;
+</code></pre><p>加载GOPATH/src/shorurl/model模块。</p>
+<p>上面展示了一些import常用的几种方式，但是还有一些特殊的import，让很多新手很费解，下面我们来–讲解。</p>
+<h2 id="点操作"><a href="#点操作" class="headerlink" title="点操作"></a>点操作</h2><p>我们有时候会看到如下的方式导入包：</p>
+<pre><code>import(
+    .&quot;fmt&quot;
+)
+</code></pre><p>这个点操作的含义就是这个包导入之后在你调用这个包的函数时，你可以省略前缀的包名，也就是前面你调用的fmt.Println(“hello world”)可以省略的写成Println(“hello world”)。</p>
+<h2 id="别名操作"><a href="#别名操作" class="headerlink" title="别名操作"></a>别名操作</h2><p>别名操作顾名思义我们可以把包命名成另一个我们用起来容易记忆的名字：</p>
+<pre><code>import(
+    f&quot;fmt&quot;
+)
+</code></pre><p>别名操作的话调用函数时前缀变成了我们的前缀，即f.Println(“hello world”)。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="_操作"></a>_操作</h2><p>这个操作经常是让很多人费解的一个操作符，请看下面这个import：</p>
+<pre><code>import(
+    &quot;database/sql&quot;
+    _&quot;github.com/ziutek/mymysql/godrv&quot;
+)
+</code></pre><p>_操作其实是引入该包，而不直接使用包里面的函数，而是调用了该包里面的init函数。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go语言编程/" rel="tag">#Go语言编程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/26/Go错误处理/" rel="next" title="Go错误处理">
+                <i class="fa fa-chevron-left"></i> Go错误处理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/30/Go的struct类型/" rel="prev" title="Go的struct类型">
+                Go的struct类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/27/Go完整示例/"
+           data-title="Go完整示例" data-url="http://lynchwong.com/2015/06/27/Go完整示例/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Go"><span class="nav-number">1.</span> <span class="nav-text">安装Go</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置开发环境"><span class="nav-number">2.</span> <span class="nav-text">配置开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置GOPATH"><span class="nav-number">2.1.</span> <span class="nav-text">设置GOPATH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完整示例"><span class="nav-number">3.</span> <span class="nav-text">完整示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#main函数和init函数"><span class="nav-number">4.</span> <span class="nav-text">main函数和init函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import"><span class="nav-number">5.</span> <span class="nav-text">import</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相对路径"><span class="nav-number">5.1.</span> <span class="nav-text">相对路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绝对路径"><span class="nav-number">5.2.</span> <span class="nav-text">绝对路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点操作"><span class="nav-number">5.3.</span> <span class="nav-text">点操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#别名操作"><span class="nav-number">5.4.</span> <span class="nav-text">别名操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作"><span class="nav-number">5.5.</span> <span class="nav-text">_操作</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

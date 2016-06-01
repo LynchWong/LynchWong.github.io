@@ -1,0 +1,723 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="并发编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="官方文档
+Concurrency and Application Design(并发及应用程序设计)
+在早期的计算当中，计算机单元时间内能够执行的最大工作量取决于CPU的内核工作的时钟频率。但是随着科技的进步以及处理器设计变得更紧凑，温度以及一些物理特性开始限制处理器内核工作的最大时钟频率。因此，芯片制造商开始寻求其它的方法来提升他们芯片的整体性能。他们定下的解决方案就是在每一块芯片上增加处理器的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Concurrency Programming Guide - Concurrency and Application Design">
+<meta property="og:url" content="http://lynchwong.com/2016/01/14/Concurrency-Programming-Guide-Concurrency-and-Application-Design/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="官方文档
+Concurrency and Application Design(并发及应用程序设计)
+在早期的计算当中，计算机单元时间内能够执行的最大工作量取决于CPU的内核工作的时钟频率。但是随着科技的进步以及处理器设计变得更紧凑，温度以及一些物理特性开始限制处理器内核工作的最大时钟频率。因此，芯片制造商开始寻求其它的方法来提升他们芯片的整体性能。他们定下的解决方案就是在每一块芯片上增加处理器的">
+<meta property="og:updated_time" content="2016-06-01T11:42:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Concurrency Programming Guide - Concurrency and Application Design">
+<meta name="twitter:description" content="官方文档
+Concurrency and Application Design(并发及应用程序设计)
+在早期的计算当中，计算机单元时间内能够执行的最大工作量取决于CPU的内核工作的时钟频率。但是随着科技的进步以及处理器设计变得更紧凑，温度以及一些物理特性开始限制处理器内核工作的最大时钟频率。因此，芯片制造商开始寻求其它的方法来提升他们芯片的整体性能。他们定下的解决方案就是在每一块芯片上增加处理器的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Concurrency Programming Guide - Concurrency and Application Design | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Concurrency Programming Guide - Concurrency and Application Design
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-01-14T13:51:15+08:00" content="2016-01-14">
+              2016-01-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程指南/" itemprop="url" rel="index">
+                    <span itemprop="name">编程指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/14/Concurrency-Programming-Guide-Concurrency-and-Application-Design/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/Concurrency-Programming-Guide-Concurrency-and-Application-Design/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://developer.apple.com/library/prerelease/mac/documentation/General/Conceptual/ConcurrencyProgrammingGuide/ConcurrencyandApplicationDesign/ConcurrencyandApplicationDesign.html#//apple_ref/doc/uid/TP40008091-CH100-SW1" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Concurrency-and-Application-Design"><a href="#Concurrency-and-Application-Design" class="headerlink" title="Concurrency and Application Design"></a>Concurrency and Application Design</h1><p>(并发及应用程序设计)</p>
+<p>在早期的计算当中，计算机单元时间内能够执行的最大工作量取决于CPU的内核工作的时钟频率。但是随着科技的进步以及处理器设计变得更紧凑，温度以及一些物理特性开始限制处理器内核工作的最大时钟频率。因此，芯片制造商开始寻求其它的方法来提升他们芯片的整体性能。他们定下的解决方案就是在每一块芯片上增加处理器的内核数量。通过增加内核的数量，单个芯片可以在不增加CPU执行速度或者改变芯片尺寸或者热特性的前提下执行更多的指令。唯一的问题就是如何利用额外的内核。</p>
+<p>为了能够利用多核的优势，计算机需要能够在同一时间做多件事情的软件。像OS X和iOS这样现代的、多任务的操作系统在任何给定的时间都可能运行着上百个或者更多的程序，所以在不同的内核上调度每一个程序成为可能。然而，这些大部分程序不是系统的守护进程就是消耗很少的处理时间的后台应用程序。相反，真正需要的是一种使单个应用程序能够更有效的利用额外内核的方法。</p>
+<p>对于一个应用程序来说使用多内核的传统方法就是创建多个线程。然而，随着内核数量的增加，线程解决方案就会有问题。最大的问题是线程代码的规模跟任意数量的内核并没有很好的扩展。你并不能创建对应内核数量的线程，并期望程序能够很好的运行在上面。你会需要知道的是能够有效利用的内核的数量，这个数量由应用程序来计算是很有挑战的。即使你拿到了正确的数量，然而编程确保这么多的线程能够高效率的运行、避免相互之间互相干扰也是很有挑战的。</p>
+<p>所以，总结一下问题就是：应用程序需要一种能够利用计算机可变数量内核的方法。单个应用程序能够执行的工作量也需要能够动态地扩展以适应系统条件的变化。解决方法必须足够简单以至于不会增加采取这些优势所需的工作量。好消息是苹果的操作系统提供了所有这些问题的解决方案，本章就来了解一下这些技术，你可以在你的代码中使用他们。</p>
+<h2 id="The-Move-Away-from-Threads"><a href="#The-Move-Away-from-Threads" class="headerlink" title="The Move Away from Threads"></a>The Move Away from Threads</h2><p>(远离线程)</p>
+<p>尽管线程已经存在了很多年，并且会被继续使用，但是他们在可伸缩的方式上并没有解决多线程执行的一般性问题。使用线程，创建一个可扩展的解决方案的责任就落在了开发者的身上。你必须决定要创建多少个线程，并且根据系统条件的改变动态调整线程的数量。另外一个问题就是你的应用程序会承担创造和维护线程相关的所有成本。</p>
+<p>OS X和iOS使用异步设计的方式来解决并发问题，而不是依赖于线程。异步函数在操作系统中存在了许多年，它们常常被用来开始一些需要花费很长时间的任务，比如从磁盘读取数据。当调用时，一个异步函数在幕后开始运行任务来做一些工作，但是在这些任务工作完成之前可能就返回了。通常来说，这些任务涉及到后台线程，在这些线程上开始执行任务，然后当任务完成时给调用者发送一个通知(通常来说是回调函数)。在以前的时候，如果不存在你需要的异步函数，那么你必须创建你自己的异步函数然后创建你自己的线程。但是现在，OS X和iOS提供了你可以执行异步任务而不需要你自己管理线程的技术。</p>
+<p>异步执行任务的众多技术之一就是Grand Central Dispatch (GCD)。该技术将你自己应用程序中的线程管理的代码移动到了系统层级。所有你需要做的就是定义你想要执行的任务然后将它们添加到适当的dispatch queues(调度队列)中。GCD负责创建需要的线程，并且在这些线程上调度你的任务。因为线程管理现在成为了系统的一部分，GCD提供了全面的方法来管理和执行任务，提供了比传统线程更好的效率。</p>
+<p>Operation queues是Objective-C对象，和调度队列很像。你定义想要执行的任务然后添加到operation queue(操作队列)中，这些队列负责调度以及执行这些任务。像GCD一样，操作队列负责为你管理所有的线程，确保任务尽可能在系统上快的、高效的执行。</p>
+<p>下面的部分提供了更多关于调度队列、操作队列的信息，以及你可以在应用程序中使用的异步技术相关的一些信息。</p>
+<h3 id="Dispatch-Queues"><a href="#Dispatch-Queues" class="headerlink" title="Dispatch Queues"></a>Dispatch Queues</h3><p>(调度队列)</p>
+<p>调度队列是基于C语言用来执行自定义任务的机制。一个调度队列执行任务时要么是串行的要么是并行的，但是总是先进先出的顺序。(换句话说就是：调度队列将任务出队列并开始执行任务时的顺序与将任务添加到队列时的顺序是一样的。)一个串行的调度队列一次只执行一个任务，等到任务完成时才会将新的任务出队列并执行。相反，一个并行的调度队列会尽它可能多的执行任务，而不用等待已经在执行任务结束后再开始。</p>
+<p>调度队列的其它优点：</p>
+<ul>
+<li>提供了直观简单的编程接口。</li>
+<li>提供了全面、自动的线程池管理。</li>
+<li>提供了调优后的速度。</li>
+<li>更高效的内存使用。</li>
+<li>不会使内核陷入负载之中。 </li>
+<li>异步调度任务到调度队列而不会让队列死锁。</li>
+<li>优雅、可扩展性强。</li>
+<li>一个串行调度队列比其它的锁和同步原语更加高效。</li>
+</ul>
+<p>你提交给调度队列的任务必须封装在函数或者Block对象内。Block对象是C语言的功能，在OS X v10.6和iOS 4.0引进，概念上和函数指针有些相似，但有一些额外的优势。相反，将Block定义在它们自己的作为范围内，通常将Block定义在其它的函数或者方法内，以便于它们能够访问函数和方法的变量。Block也能够移出它们自己的作为范围并复制到堆上，这些行为将会在你把Block提交到调度队列上时发生。所有的这些语义(语法？)让它只需要一小部分代码就能实现非常动态的任务。</p>
+<p>调度队列是Grand Central Dispatch技术的一部分，也是C运行时的一部分。关于调度队列的更多信息，参见<a href="https://developer.apple.com/library/prerelease/mac/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW1" target="_blank" rel="external"> Dispatch Queues </a>。更多关于Block及它优点的信息，参见<a href="https://developer.apple.com/library/prerelease/mac/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007502" target="_blank" rel="external"> Blocks Programming Topics </a>。</p>
+<h3 id="Dispatch-Sources"><a href="#Dispatch-Sources" class="headerlink" title="Dispatch Sources"></a>Dispatch Sources</h3><p>(调度源)</p>
+<p>调度源是基于C语言用来异步处理指定系统类型事件的机制。一个调度源封装了有关特定类型的系统事件的信息，每当事件发生时会提交一个指定的Block对象或者函数给调度队列。你可以使用调度源监控以下几种系统事件：</p>
+<ul>
+<li>定时器</li>
+<li>信号处理</li>
+<li>描述符相关的事件</li>
+<li>进程相关的事件</li>
+<li>Mach端口事件</li>
+<li>你触发的自定义事件</li>
+</ul>
+<p>调度源是Grand Central Dispatch技术的一部分。关于如何在应用程序中使用调度源的更多信息，参见<a href="https://developer.apple.com/library/prerelease/mac/documentation/General/Conceptual/ConcurrencyProgrammingGuide/GCDWorkQueues/GCDWorkQueues.html#//apple_ref/doc/uid/TP40008091-CH103-SW1" target="_blank" rel="external"> Dispatch Sources </a>。</p>
+<h3 id="Operation-Queues"><a href="#Operation-Queues" class="headerlink" title="Operation Queues"></a>Operation Queues</h3><p>(操作队列)</p>
+<p>操作队列是Cocoa框架中的，由<strong>NSOperationQueue</strong>类实现，与并发调度队列(concurrent dispatch queue)是等价的。调度队列总是先进先出的顺序执行任务，当操作队列决定任务的执行顺序时会将其它因素考虑进来。这些因素主要是一个任务是否依赖于另一个完成了的任务。你可以在定义任务的时候配置依赖，从而给你的任务创建复杂的执行顺序图。</p>
+<p>你提交到操作队列中的任务必须是<strong>NSOperation</strong>类的实例。一个操作对象(operation object)是封装了你想要执行的任务以及所需数据的Objective-C对象。因为<strong>NSOperation</strong>本质上是一个抽象基类，你通常需要定义它的子类来执行任务。然而，Foundation框架包含了一些<strong>NSOperation</strong>的子类(NSBlockOperation和NSInvocationOperation)，你可以用来执行你的任务。</p>
+<p>操作对象会生成KVO的通知，它是监测你任务进度的有效途径。虽然操作队列总是并发执行任务，但是需要的时候你可以使用依赖来确保任务是串行执行的。</p>
+<p>关于更多如何使用操作队列以及如何自定义操作对象，参见<a href="https://developer.apple.com/library/prerelease/mac/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationObjects/OperationObjects.html#//apple_ref/doc/uid/TP40008091-CH101-SW1" target="_blank" rel="external"> Operation Queues </a>。</p>
+<h2 id="Asynchronous-Design-Techniques"><a href="#Asynchronous-Design-Techniques" class="headerlink" title="Asynchronous Design Techniques"></a>Asynchronous Design Techniques</h2><p>(异步设计技术)</p>
+<p>在你重新设计你的代码以此来支持并发之前，你应该先问问自己这样做是否是必需的。并发可以提升你代码的响应速度并确保你的主线程能够自由的响应用户事件。它甚至能够在相同时间内借助更多内核做更多的工作来提升代码的效率。然而，这也增加了开销，增加了代码的整体复杂性，在编写和调试代码时更有难度。</p>
+<p>因为并发增加了复杂性，它并不能当作一种功能在产品周期末尾添加到应用程序中。为了做的正确，你需要仔细考虑你应用程序执行的任务及用于执行这些任务的数据结构。操作不当，你就会发现你的代码的运行速度比以前更慢，对用户响应也不灵敏。所以，在你开始设计一些目标时花一些时间仔细想想你需要采取的方法是非常值得的。</p>
+<p>每个应用程序都有不同要求以及不同的任务要执行。所以没有文档告诉你如何设计你的应用程序和相关的任务。但是，接下来部分会提供一些指导，帮助你在设计的过程中做出正确的选择。</p>
+<h3 id="Define-Your-Application’s-Expected-Behavior"><a href="#Define-Your-Application’s-Expected-Behavior" class="headerlink" title="Define Your Application’s Expected Behavior"></a>Define Your Application’s Expected Behavior</h3><p>(定义应用程序的预期行为)</p>
+<p>在考虑把并发添加到你应用程序之前，你应该总是从定义你应用程序的正确的行为开始。明白你应用程序预期的行为是你之后验证设计的一种方法。通过引入并发到应用程序，它也应该能够收到预期的性能优势。</p>
+<p>你应该做的第一件事就是把你应用程序要执行的任务以及任务相关的对象和数据结构枚举出来。最初，你可能想要从用户选择了一个菜单或者点击了一个按钮来执行任务开始。这些任务提供了独立的行为，并明确定义了任务开始和结束的点。你也应该定义一些你应用程序可能会执行但是和用户交互无关的其它类型的任务，比如基于定时器的任务。</p>
+<p>在你列出了这些高层次的任务列表之后，你需要将每一个任务细分到能够将任务成功执行的步骤上。在这个层面上，你应该主要关注那些你需要的数据结构和对象的改变是如何影响整个应用程序状态的改变。你也应该注意对象和数据结构之间的相互依赖。比如，一个任务涉及到对数组里的对象做相同的改变，需要值得注意的是改变一个对象是否会影响其它的对象。如果对象能够相互独立的进行修改，那么这里就可以对这些修改进行并发。</p>
+<h3 id="Factor-Out-Executable-Units-of-Work"><a href="#Factor-Out-Executable-Units-of-Work" class="headerlink" title="Factor Out Executable Units of Work"></a>Factor Out Executable Units of Work</h3><p>(分解出可执行工作单元)</p>
+<p>只要你明白了你应用程序的任务，你应该能够确定你的代码中那些地方能够从并发中受益了。如果改变了任务中一步或者几步就会改变结果，你应该串行的执行这些步骤。如果改变这些顺序对输出没有影响，那么你应该考虑并行的执行这些顺序。在上述两种情形中，你定义了工作的可执行单元用来标示一个或者多个需要执行的步骤。这些工作单元就变成了那些你封装在Block对象或者操作对象中的东西，并调度给合适的队列。</p>
+<p>对于每一个你确定的可执行工作单元，至少在最初阶段不要担心多少工作量被执行了。尽管那里总有开销在运行一个线程，但是调度队列和操作队列的一个优势就是比传统的线程开销要小很多。使用队列来执行更小的工作单元比使用线程更高效。当然，你应该经常测量你的实际性能和调整你的任务所需的尺寸，但最初的时候，任务不应该被考虑的太小。</p>
+<h3 id="Identify-the-Queues-You-Need"><a href="#Identify-the-Queues-You-Need" class="headerlink" title="Identify the Queues You Need"></a>Identify the Queues You Need</h3><p>(确定你需要的队列)</p>
+<p>现在你的任务已经分解成了不同的工作单元封装在Block对象和操作对象中，你需要定义你要用来执行任务的队列。对于一个给定的任务，检查你创建的Block和操作对象以及它们的执行顺序以确保正确执行了任务。</p>
+<p>如果你使用Block来实现任务，你可以将这些任务添加到串行或者并行的调度队列。如果要求指定的执行顺序，你应该总是将Block添加到串行的调度队列。如果不需要指定的执行顺序，你可以将Block添加到并行的调度队列或者添加到几个不同的调度队列，取决于你的需求。</p>
+<p>如果你使用操作对象来实现任务，队列的选择通常对你的对象的配置不感兴趣。要串行的执行操作对象，你必需在两个对象之间配置依赖。依赖可以防止一个操作在另一个操作还在执行时就开始，在一个操作完成工作之后再开始执行。</p>
+<h3 id="Tips-for-Improving-Efficiency"><a href="#Tips-for-Improving-Efficiency" class="headerlink" title="Tips for Improving Efficiency"></a>Tips for Improving Efficiency</h3><p>(提高效率的技巧)</p>
+<p>除了简单地把任务分解，并把它们添加到队列，还有其它的方法来提升使用队列的效率：</p>
+<ul>
+<li>考虑到任务中直接计算值时，内存使用是一个因素。如果你的应用程序已经使用大量内存，那么直接计算值可能比从主内存中直接加载缓存更快。直接计算值使用寄存器和给定处理器内核的高速缓存，比主内存要快很多。当然，经过测试这样有性能提升的时候你才可以这么做。</li>
+<li>尽可能早的识别串行任务，然后尽你可能的让它们更多的并发。如果一个任务必需要串行的执行，是因为它依赖于一些共享资源，可以考虑改变架构来移除这些共享资源。你也可能会考虑为每一个客户端复制一份资源来消除共享资源。</li>
+<li>避免使用锁。由于调度队列和操作队列的支持使得锁在大部分情形下并不需要。比起使用锁来保护共享资源，指定一个串行队列(或者使用操作对象依赖)按照正确的顺序执行任务更好。</li>
+<li>只要可能，尽可能多的依靠系统框架。实现并发的最好的方法就是利用系统提供的内建的并发框架的优势。很多框架使用线程，其它很多技术在内部实现并发行为。当你定义你的任务时，查看现有框架是否定义了函数或者方法正是你需要的。使用这些API可以节省你很多的精力，更可能会给你带来更大的并发可能。</li>
+</ul>
+<h2 id="Performance-Implications"><a href="#Performance-Implications" class="headerlink" title="Performance Implications"></a>Performance Implications</h2><p>(性能影响)</p>
+<p>操作队列，调度队列，调度源是为你简化你的并发编程。然而，这些技术并没有保证会提高你应用程序的效率和响应速度。使用队列时既有效的满足了你的需求并且对其它程序资源没有操作负担是你的责任。比如，尽管你可以创建10000个操作对象，然后提交到操作队列，这样做会导致应用程序会分配一个潜在的大量的内存，这会导致应用程序性能下降。</p>
+<p>在将并发引入你的代码前，不管是使用队列或者是线程，你应该总是搜集你应用程序当前性能的一些基本指标。在引入并发后你应该搜集另外的性能指标，然后和之前的基本指标进行对比，检查你应用程序的效率是否有所提升。如果应用程序的效率和反应低下，你应该使用可用的性能工具来检查潜在的原因。</p>
+<p>关于性能的介绍以及测试性能的工具，更多高级性能的话题，参见<a href="https://developer.apple.com/library/prerelease/mac/documentation/Performance/Conceptual/PerformanceOverview/Introduction/Introduction.html#//apple_ref/doc/uid/TP40001410" target="_blank" rel="external"> Performance Overview </a>。</p>
+<h2 id="Concurrency-and-Other-Technologies"><a href="#Concurrency-and-Other-Technologies" class="headerlink" title="Concurrency and Other Technologies"></a>Concurrency and Other Technologies</h2><p>(并发和其它技术)</p>
+<p>将你的任务代码模块化是提升你应用程序并发量的有效途径。然而，这种设计方法可能无法满足在每种情况下每一个应用程序的需要。根据你的任务，可能还有其它的选择能够给应用程序提供更好的并发性能。本节将介绍一些其它的技术，在你设计程序的时候可以考虑使用。</p>
+<h3 id="OpenCL-and-Concurrency"><a href="#OpenCL-and-Concurrency" class="headerlink" title="OpenCL and Concurrency"></a>OpenCL and Concurrency</h3><p>(OpenCL和并发)</p>
+<p>在OS X中，OpenCL是一个基于标准的技术，用来在计算机的图形处理器进行通用计算。如果你有一个明确定义的一组要应用到大型数据集的计算，那么OpenCL是这方面很好的一个技术。比如，你可以使用OpenCL对图像的像素进行滤波计算或者一次对多个值进行复杂的数学计算。换句话说，OpenCL面向的是数据需要并行处理的问题集。</p>
+<p>虽然OpenCL适用于大规模的并行数据计算，但是并不适用于通用的计算。需要大量的工作来准备传输数据和内核上的工作到显卡上，以便于在GPU上操作。同样的，找回OpenCL生成的结果也需要大量的工作量。结论就是，通常和系统交互的任何任务生成的数据不要与OpenCL交互。比如，你不会使用OpenCL来处理文件数据和网络流数据。相反，你用于OpenCL处理的数据必需更加自包含，便于传输给图形处理器独立运算。</p>
+<p>更多关于OpenCL以及如何使用，参见<a href="https://developer.apple.com/library/prerelease/mac/documentation/Performance/Conceptual/OpenCL_MacProgGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008312" target="_blank" rel="external"> OpenCL Programming Guide for Mac </a>。</p>
+<h3 id="When-to-Use-Threads"><a href="#When-to-Use-Threads" class="headerlink" title="When to Use Threads"></a>When to Use Threads</h3><p>(什么时候使用线程)</p>
+<p>尽管操作队列和调度队列是执行并发任务的首选，但它们不是万能的。取决于你的应用程序，仍然有你需要创建自定义线程的时候。如果你需要创建自定义的线程，你应该尽可能少的创建线程，你应该使用这些线程来执行那些其它方法无法实现的任务。</p>
+<p>线程仍然是实现实时运行代码的好方法。调度队列会尽可能快的执行它们的任务，但它们并没有真正解决时间限制。如果你需要后台运行的代码有更可预测的行为，线程可能依然是更好的选择。</p>
+<p>对于任何线程编程，你始终应该明智的使用且只在绝对必要的时候使用。关于线程包及如何使用，参见<a href="https://developer.apple.com/library/prerelease/mac/documentation/Cocoa/Conceptual/Multithreading/Introduction/Introduction.html#//apple_ref/doc/uid/10000057i" target="_blank" rel="external"> Threading Programming Guide </a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/并发编程/" rel="tag">#并发编程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/14/Concurrency-Programming-Guide-Introduction/" rel="next" title="Concurrency Programming Guide - Introduction">
+                <i class="fa fa-chevron-left"></i> Concurrency Programming Guide - Introduction
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/14/Concurrency-Programming-Guide-Operation-Queues/" rel="prev" title="Concurrency Programming Guide - Operation Queues">
+                Concurrency Programming Guide - Operation Queues <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/14/Concurrency-Programming-Guide-Concurrency-and-Application-Design/"
+           data-title="Concurrency Programming Guide - Concurrency and Application Design" data-url="http://lynchwong.com/2016/01/14/Concurrency-Programming-Guide-Concurrency-and-Application-Design/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Concurrency-and-Application-Design"><span class="nav-number">1.</span> <span class="nav-text">Concurrency and Application Design</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Move-Away-from-Threads"><span class="nav-number">1.1.</span> <span class="nav-text">The Move Away from Threads</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dispatch-Queues"><span class="nav-number">1.1.1.</span> <span class="nav-text">Dispatch Queues</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dispatch-Sources"><span class="nav-number">1.1.2.</span> <span class="nav-text">Dispatch Sources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Operation-Queues"><span class="nav-number">1.1.3.</span> <span class="nav-text">Operation Queues</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Asynchronous-Design-Techniques"><span class="nav-number">1.2.</span> <span class="nav-text">Asynchronous Design Techniques</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-Your-Application’s-Expected-Behavior"><span class="nav-number">1.2.1.</span> <span class="nav-text">Define Your Application’s Expected Behavior</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Factor-Out-Executable-Units-of-Work"><span class="nav-number">1.2.2.</span> <span class="nav-text">Factor Out Executable Units of Work</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Identify-the-Queues-You-Need"><span class="nav-number">1.2.3.</span> <span class="nav-text">Identify the Queues You Need</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tips-for-Improving-Efficiency"><span class="nav-number">1.2.4.</span> <span class="nav-text">Tips for Improving Efficiency</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performance-Implications"><span class="nav-number">1.3.</span> <span class="nav-text">Performance Implications</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concurrency-and-Other-Technologies"><span class="nav-number">1.4.</span> <span class="nav-text">Concurrency and Other Technologies</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenCL-and-Concurrency"><span class="nav-number">1.4.1.</span> <span class="nav-text">OpenCL and Concurrency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#When-to-Use-Threads"><span class="nav-number">1.4.2.</span> <span class="nav-text">When to Use Threads</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift,SpriteKit,iOS Game," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="对于一个想学习游戏开发的新手来说，我觉得第一件事首先就是选择一款游戏引擎。如果你想从构建游戏引擎开始着手来开发一款游戏，对个人开发者以及一些小团队来说真的是有点小题大做了，毕竟免费得游戏引擎很多，而且大多都很优秀，背后有强有力的团队在更新和维护。所以我觉得结合自己的条件，以及游戏的特点选择合适的游戏引擎是很好的选择。
+所以我们先来分析自身的条件：首先鄙人是做iOS App的开发，对iOS的开发虽谈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpriteKit：引言">
+<meta property="og:url" content="http://lynchwong.com/2015/04/12/SpriteKit之引言/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="对于一个想学习游戏开发的新手来说，我觉得第一件事首先就是选择一款游戏引擎。如果你想从构建游戏引擎开始着手来开发一款游戏，对个人开发者以及一些小团队来说真的是有点小题大做了，毕竟免费得游戏引擎很多，而且大多都很优秀，背后有强有力的团队在更新和维护。所以我觉得结合自己的条件，以及游戏的特点选择合适的游戏引擎是很好的选择。
+所以我们先来分析自身的条件：首先鄙人是做iOS App的开发，对iOS的开发虽谈">
+<meta property="og:updated_time" content="2016-06-01T12:02:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpriteKit：引言">
+<meta name="twitter:description" content="对于一个想学习游戏开发的新手来说，我觉得第一件事首先就是选择一款游戏引擎。如果你想从构建游戏引擎开始着手来开发一款游戏，对个人开发者以及一些小团队来说真的是有点小题大做了，毕竟免费得游戏引擎很多，而且大多都很优秀，背后有强有力的团队在更新和维护。所以我觉得结合自己的条件，以及游戏的特点选择合适的游戏引擎是很好的选择。
+所以我们先来分析自身的条件：首先鄙人是做iOS App的开发，对iOS的开发虽谈">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> SpriteKit：引言 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpriteKit：引言
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-04-12T15:04:36+08:00" content="2015-04-12">
+              2015-04-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/04/12/SpriteKit之引言/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/12/SpriteKit之引言/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对于一个想学习游戏开发的新手来说，我觉得第一件事首先就是选择一款游戏引擎。如果你想从构建游戏引擎开始着手来开发一款游戏，对个人开发者以及一些小团队来说真的是有点小题大做了，毕竟免费得游戏引擎很多，而且大多都很优秀，背后有强有力的团队在更新和维护。所以我觉得结合自己的条件，以及游戏的特点选择合适的游戏引擎是很好的选择。</p>
+<p>所以我们先来分析自身的条件：首先鄙人是做iOS App的开发，对iOS的开发虽谈不上精通，但很熟悉，所以我希望开发移动端的手游（规模不大，一个人能完成最好，偏向于2D游戏）；其次鄙人一直都想在空余闲暇的时候做游戏开发，纯粹点说就是个人爱好而已，觉得自己和朋友能玩上鄙人开发的小游戏是一件很有成就感的事情；最后就是游戏运行在多平台上这个需求不是很在意，所以引擎的跨平台性对我来说不是很重要。</p>
+<p>分析完自身条件，我们再来列举一些现在主流的一些移动端的游戏开发引擎，然后选出对自己最优的那个。</p>
+<ol>
+<li>Cocos2D系列</li>
+<li>Unity3D</li>
+<li>SpriteKit</li>
+</ol>
+<p>光Cocos2D系列就有很多个版本的引擎，最先的游戏引擎就是Cocos2D-iPhone这样的，那时针对不同的平台有不同的Cocos2D引擎对应，开发者需要根据不同的平台选择不同的引擎版本。近年来由于跨平台的需求，所以Cocos2D-x的份额越来越大。在Cocos2D-x下还有很多不同语言的版本，比如Cocos2D-lua、JS等，这些脚本语言开发起来更简单、更快速。而lua语言的的简单性和热更新使得Cocos2D-lua大受欢迎，而IDE环境的支持，功能的不断更新大大降低了开发的难度以及开发者的工作量。Cocos2D-x的跨平台性，完整的生态圈，强大的技术支持使得它成为国内手游厂商的最佳选择。而Cocos2D-iPhone随着单一的平台支持、以及苹果在iOS7.0时推出自家引擎后慢慢的淡出了大家的视线。貌似现在Cocos2D-iPhone和SpriteBuilder整合在一起了。</p>
+<p>Unity3D是近年来得一匹大黑马，抢占了移动端3D游戏引擎的大部分份额，一些很有名的移动端手游都是基于Unity3D开发。这匹黑马搞得很多传统大牌的桌面端引擎厂商都慌了，纷纷推出自家移动端的游戏引擎。Unity3D的优势不仅跨平台，还提供了可视化的IDE环境。同时还提供了很多超级棒的子系统，比如物理引擎、粒子系统、动画系统等等，同时还提供了很多有用的资源。Pro版是需要购买授权的，貌似4.0开始有免费版的可以选择使用。如果你得游戏能火，授权费跟游戏赚得钱根本不值一提，专业版还是值得考虑的。</p>
+<p>SpriteKit是苹果在iOS7.0的时候推出的，缺点当然就是不跨平台了。优点对于iOS开发者来说，我到觉得是一大推，根本就不需要说了。其实很早之前就有系统学习过Cocos2D-iPhone，后来学习SpriteKit的时候上手就很快，感觉很多东西都是类似的，概念都是相同的。SpriteKit是2D的，在iOS8.0的时候苹果又推出了SceneKit和Metal。</p>
+<p>说了这么多，我最后的选择就是SpriteKit，因为我不需要跨平台，其次偏向于2D小游戏。我觉得学会一种游戏引擎，然后再转向另一种应该也不会太难。就像精通了一门语言，再学另一门语言一样。</p>
+<p>接下来就开始学习SpriteKit，开始之前还是推荐一本书给大家<a href="http://www.raywenderlich.com/store/ios-games-by-tutorials" target="_blank" rel="external">iOS Games by Tutorials Second Edition</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+            <a href="/tags/SpriteKit/" rel="tag">#SpriteKit</a>
+          
+            <a href="/tags/iOS-Game/" rel="tag">#iOS Game</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/10/iOS多线程/" rel="next" title="iOS多线程">
+                <i class="fa fa-chevron-left"></i> iOS多线程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/12/SpriteKit之简介/" rel="prev" title="SpriteKit：简介">
+                SpriteKit：简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/04/12/SpriteKit之引言/"
+           data-title="SpriteKit：引言" data-url="http://lynchwong.com/2015/04/12/SpriteKit之引言/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

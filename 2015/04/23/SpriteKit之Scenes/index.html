@@ -1,0 +1,751 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift,SpriteKit,iOS Game," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近这周时间比较忙，空闲的时候看了看苹果官方的编程指南。发现有很多东西都是之前忽略掉的，或者就是根本不知道的。看完之后感觉收获良多，在某些方面有恍然大悟之感。其实刚开始学iOS的时候去看一些官方文档可能并没有多少作用，到了一定程度回头再去看得时候就觉得很清晰、很有逻辑。这些编程指南就像一些经典书籍一样，不同的时间回去看就会有不同的收获，这些书籍能随着时间跟随我们一起成长，我们需要做得就是细细的品，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpriteKit：Scenes">
+<meta property="og:url" content="http://lynchwong.com/2015/04/23/SpriteKit之Scenes/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="最近这周时间比较忙，空闲的时候看了看苹果官方的编程指南。发现有很多东西都是之前忽略掉的，或者就是根本不知道的。看完之后感觉收获良多，在某些方面有恍然大悟之感。其实刚开始学iOS的时候去看一些官方文档可能并没有多少作用，到了一定程度回头再去看得时候就觉得很清晰、很有逻辑。这些编程指南就像一些经典书籍一样，不同的时间回去看就会有不同的收获，这些书籍能随着时间跟随我们一起成长，我们需要做得就是细细的品，">
+<meta property="og:updated_time" content="2016-06-01T12:01:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpriteKit：Scenes">
+<meta name="twitter:description" content="最近这周时间比较忙，空闲的时候看了看苹果官方的编程指南。发现有很多东西都是之前忽略掉的，或者就是根本不知道的。看完之后感觉收获良多，在某些方面有恍然大悟之感。其实刚开始学iOS的时候去看一些官方文档可能并没有多少作用，到了一定程度回头再去看得时候就觉得很清晰、很有逻辑。这些编程指南就像一些经典书籍一样，不同的时间回去看就会有不同的收获，这些书籍能随着时间跟随我们一起成长，我们需要做得就是细细的品，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> SpriteKit：Scenes | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpriteKit：Scenes
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-04-23T23:20:32+08:00" content="2015-04-23">
+              2015-04-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/04/23/SpriteKit之Scenes/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/23/SpriteKit之Scenes/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近这周时间比较忙，空闲的时候看了看苹果官方的编程指南。发现有很多东西都是之前忽略掉的，或者就是根本不知道的。看完之后感觉收获良多，在某些方面有恍然大悟之感。其实刚开始学iOS的时候去看一些官方文档可能并没有多少作用，到了一定程度回头再去看得时候就觉得很清晰、很有逻辑。这些编程指南就像一些经典书籍一样，不同的时间回去看就会有不同的收获，这些书籍能随着时间跟随我们一起成长，我们需要做得就是细细的品，不时的回头看看，思考。看书还是多看经典的好，这也是为什么有的人觉得看了那么多书，却感觉没什么用，就是因为经典看的少。</p>
+<p>装了下逼，心情就更舒畅了。SpriteKit这个系列还有很多内容，估计写起来还要花很多时间。所以后面我会穿插一些其他的内容，比如一些阅读编程指南后的感悟，或者就是翻译下编程指南。网上有很多博主已经翻译了很多编程指南，有些可能版本已经对不上了，内容跟现在的有些差异。我会参考这些翻译的指南，重新整理。</p>
+<p>再多说一点，写SpriteKit这个系列，并没有教大家怎样完整的做一个游戏。主要的还是理论、概念方面的讲解，所以当作资料或者工具来使用比较好。同时还是推荐大家<a href="http://www.raywenderlich.com/store/ios-games-by-tutorials" target="_blank" rel="external">iOS Games by Tutorials Second Edition</a>这本书，它有5个完整的游戏Demo，对大家的学习更有帮助。这本书跟大家推荐过很多次了，后面不会再提了。</p>
+<p>回到主题，这章就讲讲场景和视差滚动这两个内容。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>通常继承<code>SKScene</code>，然后实现<code>init(size:)</code>, <code>update()</code>, <code>touchesBegan(withEvent:)</code>或者其他一些你需要的方法。</p>
+<p>还是打开之前的项目，选择<em>File\New\File…</em>，<em>iOS\Source\Swift File</em>，点击<em>Next</em>，输入<em>GameOverScene</em>点击<em>Save As</em>。然后打开<em>GameOverScene.swift</em>文件替换成如下代码：</p>
+<pre><code>import Foundation
+import SpriteKit
+
+class GameOverScene: SKScene {
+
+    override func didMoveToView(view: SKView) {
+        backgroundColor = SKColor.grayColor()
+    }
+
+}
+</code></pre><p>这里将场景的背景色设置为灰色，所以当切换到这个场景时就是灰色的背景。</p>
+<h2 id="切换场景"><a href="#切换场景" class="headerlink" title="切换场景"></a>切换场景</h2><p>首先我们将<code>GameScene.swift</code>的替换成如下代码：</p>
+<pre><code>import SpriteKit
+
+class GameScene: SKScene {
+
+    let ship = SKSpriteNode(imageNamed: &quot;Spaceship&quot;)
+
+    override func didMoveToView(view: SKView) {
+        ship.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        addChild(ship)
+    }
+
+    override func touchesBegan(touches: Set&lt;NSObject&gt;, withEvent event: UIEvent) {
+        let touch = touches.first as! UITouch
+        let location = touch.locationInNode(self)
+        if CGRectContainsPoint(ship.frame, location) {
+            let scene = GameOverScene(size: CGSize(width: 750.0, height: 1334.0))
+            scene.scaleMode = scaleMode
+            let transition = SKTransition.flipHorizontalWithDuration(0.5)
+            view?.presentScene(scene, transition: transition)
+        }
+    }
+
+}
+</code></pre><p>这段代码很简单，相信大家都能看懂。首先我们设置场景的<code>scaleMode</code>为同一个模式，确保有相同的行为。多说一句，有四个值可以选，大家可以⌘点击进去看下具体的描述，这里就不一一解释了。当我们点击飞船精灵的内部时，我们就会从当前这个场景过渡到我们新创建的<code>GameOverScene</code>场景。</p>
+<p>从一个场景过渡到另一个场景只需要三个步骤：</p>
+<ol>
+<li><em>创建新场景。</em>首先，创建新场景的实例。通常我们用默认的初始化方法<code>init(size:)</code>，我们也可以使用自己定义的初始化方法，同时也可以传递额外的参数。</li>
+<li><em>创建过渡对象。</em>然后，你创建过渡对象来指定用来显示新场景时的动画类型。比如，淡入淡出、翻转等等。</li>
+<li><em>调用SKView的 presentScene(transition:) 方法。</em>在iOS中，<code>SKView</code>就是<code>UIView</code>，在屏幕上显示SpriteKit的内容。你可以用场景的属性<code>view</code>来访问它。然后将第一步和第二部创建的参数传递给这个方法。</li>
+</ol>
+<p>有很多过渡用的动画，大家自行测试。</p>
+<h2 id="创建自定义的场景构造器"><a href="#创建自定义的场景构造器" class="headerlink" title="创建自定义的场景构造器"></a>创建自定义的场景构造器</h2><p>替换``为如下代码：</p>
+<pre><code>import Foundation
+import SpriteKit
+
+class GameOverScene: SKScene {
+
+    override init(size: CGSize) {
+        super.init(size: size)
+        backgroundColor = SKColor.yellowColor()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError(&quot;init(coder:) has not been implemented&quot;)
+    }
+
+    //    override func didMoveToView(view: SKView) {
+    //        backgroundColor = SKColor.grayColor()
+    //    }
+
+}
+</code></pre><p><code>init(size: CGSize)</code>这个构造器是从写的父类的，而且这个构造器是指定构造器。如果之前Swift的相关文章看过，这里就涉及到构造器链、以及两段式构造这些概念。指定构造器总是向上代理的，便利构造器总是横向代理的。指定构造器需要在本类所有属性初始化完成后调用父类的指定构造器，避免赋值的属性被父类从新赋值了；便利构造器需要先调用本类的指定构造器然后再对属性赋值，避免赋值的属性被本类的指定构造器从新赋值了，所以要先调用。由于我们没有属性需要初始化，所以直接调用了父类的指定构造器，然后在设置背景颜色为黄色。如果你先设置了背景颜色为黄色，然后再调用父类的指定构造器，编译器就会报错：Use of ‘self’ in property access ‘backgroundColor’ before super.init initializes self。这里就是两段式构造的概念了，在Swift里面，我们不需要显示的使用<code>Self</code>这个关键字。其实这个<code>backgroundColor = SKColor.yellowColor()</code>就相当于是<code>self.backgroundColor = SKColor.yellowColor()</code>。编译器这里也解释了，在调用父类的指定构造器之前是不能使用’self’的。另一方面，指定构造器必须先向上代理调用父类构造器，然后再为继承的属性设置新值。如果没有这么做，指定构造器赋予的新值将被父类中的构造器所覆盖。所以在写自定义构造器时，最好先弄明白构造器链、以及两段式构造这些概念。</p>
+<h2 id="背景层滚动"><a href="#背景层滚动" class="headerlink" title="背景层滚动"></a>背景层滚动</h2><p>大家肯定都见过视差滚动了，很多游戏都用了这个技术。比如大家常玩的一些打飞机类的游戏，就有视差滚动。背景层以一个稳定的速度向着一个方向移动，从上向下或者从左往右，当多个背景层以不同的速度移动的时候就实现了远近的感觉。</p>
+<p>这里我们讲讲怎么简单的实现一个背景层循环滚动，多个背景层滚动就是类似的，不做讲解。其实实现背景层循环滚动有很多种方法，因人而异，但是原理都是差不多的，随便讲解一种。</p>
+<p>还是使用之前的那个项目，最后会上传这个简单的Demo。</p>
+<p>首先我们添加一张背景图片，尺寸就是我们设置的场景的大小。然后替换<code>GameScene.swift</code>内容为如下代码：</p>
+<pre><code>import SpriteKit
+
+class GameScene: SKScene {
+
+    let background = SKSpriteNode(imageNamed: &quot;bg&quot;)
+    let background1 = SKSpriteNode(imageNamed: &quot;bg&quot;)
+
+    override func didMoveToView(view: SKView) {
+        background.anchorPoint = CGPointZero
+        addChild(background)
+
+        background1.anchorPoint = CGPointZero
+        background1.position = CGPoint(x: 0.0, y: background.size.height)
+        addChild(background1)
+    }
+
+    override func update(currentTime: NSTimeInterval) {
+        if background.position.y &lt;= -background.size.height {
+            background.position.y = background.size.height
+        }
+        if background1.position.y &lt;= -background1.size.height {
+            background1.position.y = background1.size.height
+        }
+        background.position.y -= 1
+        background1.position.y -= 1
+    }
+}
+</code></pre><p>点击运行就能看到效果了，代码很简单。主要原理就是判断背景的y坐标是否超过了那个临界值，然后再设置背景的y坐标，这样就实现了循环滚动。<a href="https://github.com/LynchWong/Test" target="_blank" rel="external">Demo</a>，示例很简单。很多视差滚动的原理都是类似的，大家可以自行封装下达到重用的目的。</p>
+<p>由于<code>SKNode</code>本身是不会绘制内容的，所以在SpriteKit里面我们常常使用<code>SKNode</code>来管理、组织我们场景里面的一些内容，就像cocos2d里面的<code>CCLayer</code>。比如一个游戏，我们把背景组织放在一层，当作背景层，放在场景的最下面（设置zPositionsh属性）；然后玩家角色和其他的敌人等放在另外一层，放在场景背景层上面；最后我们将一些UI元素，比如按钮、标签等组织在UI层，放在场景的最上面。这些更方便我们来管理场景，同时操作也更方便。但是这些里面有一些地方时需要注意的，就是坐标问题。比如我们玩家角色需要和背景层里面的一些精灵交互，但是现在两个精灵在不同的层里面，那边位置坐标肯定是不一样的，所以我们应该将两个精灵的坐标转换到同一个坐标系统，不管是玩家角色转换到背景层还是背景层的转换到角色层。比如：</p>
+<pre><code>backgroundLayer.convertPoint(CGPoint(x: size.width, y: CGRectGetMaxY(playableRect)), fromNode: self)
+
+//将场景坐标系统中得一个点转换到backgroundLayer的坐标系统。
+backgroundLayer.convertPoint( background.position, toNode: self)
+
+//将backgroundLayer的点转换到场景坐标系统。
+</code></pre><p>根据需求选择不同的方法。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+            <a href="/tags/SpriteKit/" rel="tag">#SpriteKit</a>
+          
+            <a href="/tags/iOS-Game/" rel="tag">#iOS Game</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/15/SpriteKit之Actions/" rel="next" title="SpriteKit：Actions">
+                <i class="fa fa-chevron-left"></i> SpriteKit：Actions
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/27/Programming-with-Objective-C/" rel="prev" title="Programming with Objective-C">
+                Programming with Objective-C <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/04/23/SpriteKit之Scenes/"
+           data-title="SpriteKit：Scenes" data-url="http://lynchwong.com/2015/04/23/SpriteKit之Scenes/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">1.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切换场景"><span class="nav-number">2.</span> <span class="nav-text">切换场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建自定义的场景构造器"><span class="nav-number">3.</span> <span class="nav-text">创建自定义的场景构造器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景层滚动"><span class="nav-number">4.</span> <span class="nav-text">背景层滚动</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

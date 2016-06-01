@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Go语言编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="大部分应用程序都需要数据库的支持，用来存储和查询信息，比如用户数据，产品目录，新闻列表等。
+其实访问数据库没什么难的，都有相关的数据库驱动，参照文档完全没有问题。本篇也就简单讲讲Go访问MongoDB，MongoDB是非关系型数据库。像MySQL、SQL Server等一些关系型数据库怎么访问就不涉及了，毕竟基础的增删改查这些操作很简单。
+我们先从安装MongoDB开始。
+MongoDBMongo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go访问数据库">
+<meta property="og:url" content="http://lynchwong.com/2015/07/02/Go访问数据库/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="大部分应用程序都需要数据库的支持，用来存储和查询信息，比如用户数据，产品目录，新闻列表等。
+其实访问数据库没什么难的，都有相关的数据库驱动，参照文档完全没有问题。本篇也就简单讲讲Go访问MongoDB，MongoDB是非关系型数据库。像MySQL、SQL Server等一些关系型数据库怎么访问就不涉及了，毕竟基础的增删改查这些操作很简单。
+我们先从安装MongoDB开始。
+MongoDBMongo">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/2.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/3.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/4.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/5.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/6.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/7.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/8.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/9.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/10.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/11.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/12.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/13.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/14.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/15.png">
+<meta property="og:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/16.png">
+<meta property="og:updated_time" content="2016-06-01T11:50:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go访问数据库">
+<meta name="twitter:description" content="大部分应用程序都需要数据库的支持，用来存储和查询信息，比如用户数据，产品目录，新闻列表等。
+其实访问数据库没什么难的，都有相关的数据库驱动，参照文档完全没有问题。本篇也就简单讲讲Go访问MongoDB，MongoDB是非关系型数据库。像MySQL、SQL Server等一些关系型数据库怎么访问就不涉及了，毕竟基础的增删改查这些操作很简单。
+我们先从安装MongoDB开始。
+MongoDBMongo">
+<meta name="twitter:image" content="http://lynchwong.com/img/GoDatabaseMongoDB/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Go访问数据库 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Go访问数据库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-02T09:16:56+08:00" content="2015-07-02">
+              2015-07-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index">
+                    <span itemprop="name">Go</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/02/Go访问数据库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/02/Go访问数据库/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>大部分应用程序都需要数据库的支持，用来存储和查询信息，比如用户数据，产品目录，新闻列表等。</p>
+<p>其实访问数据库没什么难的，都有相关的数据库驱动，参照文档完全没有问题。本篇也就简单讲讲Go访问MongoDB，MongoDB是非关系型数据库。像MySQL、SQL Server等一些关系型数据库怎么访问就不涉及了，毕竟基础的增删改查这些操作很简单。</p>
+<p>我们先从安装MongoDB开始。</p>
+<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><p>MongoDB是目前在IT行业非常流行的一种非关系型数据库(NoSql)，其灵活的数据存储方式备受当前IT从业人员的青睐。MongoDB很好的实现了面向对象的思想(OO思想)，在MongoDB中每一条记录都是一个Document对象。Mongo DB最大的优势在于所有的数据持久操作都无需开发人员手动编写SQL语句，直接调用方法就可以轻松的实现CRUD操作。</p>
+<h2 id="安装MongoDB"><a href="#安装MongoDB" class="headerlink" title="安装MongoDB"></a>安装MongoDB</h2><p>我是参照官方文档<a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/" target="_blank" rel="external"> Install MongoDB on OS X </a>安装的，是手动安装的。</p>
+<p>通过shell下载，敲入如下命令：</p>
+<pre><code>curl -O https://fastdl.mongodb.org/osx/mongodb-osx-x86_64-3.0.4.tgz
+tar -zxvf mongodb-osx-x86_64-3.0.4.tgz
+mkdir -p mongodb
+cp -R -n mongodb-osx-x86_64-3.0.4/ mongodb
+</code></pre><p>执行完这些命令后在当前目录下生成了一个mongodb的文件夹，如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/1.png" alt="alt text"></p>
+<p>然后我们设置PATH变量，和之前设置GOPATH类似的，我用的shell是zsh，所以我在.zshrc中设置,如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/2.png" alt="alt text"></p>
+<p>如果你不设置这个PAHT，那么你每次执行命令都要在前面加上PATH。比如我就需要每次在执行命令前加上<strong>/Users/Lynch/mongodb/bin</strong>。</p>
+<h2 id="运行MongoDB"><a href="#运行MongoDB" class="headerlink" title="运行MongoDB"></a>运行MongoDB</h2><p>在第一次运行之前，你应该创建一个mongod进程写数据的目录，默认使用/data/db目录。如果你设置了其他的，那么你在启动mongod进程的时候在<strong>dbpath</strong>选项指定你设置的目录。</p>
+<pre><code>mkdir -p /data/db
+</code></pre><p>如果你使用上面的命令创建了/data/db的目录，那么这个就是默认的目录。你在启动mongod进程的时候不需要在指定<strong>dbpath</strong>选项，直接输入下面的命令就可以启动：</p>
+<pre><code>mongod
+</code></pre><p>注意：我这里是设置过mongod的PATH的，如之前安装的时候说明的。如果你没设置需要在前面加上PATH，请参看安装的最后一步。</p>
+<p>博主使用默认的/data/db的时候有些权限问题，MongoDB官方文档也说了要确保你的账户有这个目录的读写权限。</p>
+<p>博主将/data/db目录放在了我们安装好的mongodb文件夹里面了，如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/3.png" alt="alt text"></p>
+<p>所以我使用如下命令启动：</p>
+<pre><code>mongod --dbpath /Users/Lynch/mongodb/data/db
+</code></pre><p>如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/4.png" alt="alt text"></p>
+<p><img src="/img/GoDatabaseMongoDB/5.png" alt="alt text"></p>
+<p>可以看见提示说在端口27017等待连接了，你可以在这里使用Control + C来退出。</p>
+<h2 id="使用MongoDB"><a href="#使用MongoDB" class="headerlink" title="使用MongoDB"></a>使用MongoDB</h2><p>如果你退出了，先启动起来。首先我们应该连接到数据库，启动之后输入如下命令：</p>
+<pre><code>mongo
+</code></pre><p>如下所示，已经连接上了：</p>
+<p><img src="/img/GoDatabaseMongoDB/6.png" alt="alt text"></p>
+<p>默认连接使用test。这里有个警告，官方说是操作系统的原因，和MongoDB无关，所以这里就不管了。</p>
+<p>你可以输入<code>show dbs</code>来查看数据库，如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/7.png" alt="alt text"></p>
+<p>这里有些概念需要悉知：数据库，集合，文档。这里集合就相当于我们关系型数据库里面的表，而每一条数据都是一个文档，而文档是JSON的拓展(BSON)形式。</p>
+<p>这里我们创建一个”student”的集合：</p>
+<h3 id="insert操作"><a href="#insert操作" class="headerlink" title="insert操作"></a>insert操作</h3><p>输入如下命令：</p>
+<pre><code>db.student.insert({&quot;name&quot;:&quot;Wong&quot;, &quot;age&quot;:25})
+</code></pre><p>如下所示，返回了写入结果：</p>
+<p><img src="/img/GoDatabaseMongoDB/8.png" alt="alt text"></p>
+<h3 id="find操作"><a href="#find操作" class="headerlink" title="find操作"></a>find操作</h3><pre><code>db.student.find({&quot;name&quot;:&quot;Wong&quot;})
+</code></pre><p>返回结果如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/9.png" alt="alt text"></p>
+<h3 id="update操作"><a href="#update操作" class="headerlink" title="update操作"></a>update操作</h3><pre><code>db.student.update({&quot;name&quot;:&quot;Wong&quot;},{&quot;name&quot;:&quot;Wong&quot;,&quot;age&quot;:26})
+</code></pre><p><img src="/img/GoDatabaseMongoDB/10.png" alt="alt text"></p>
+<p>然后查看：</p>
+<pre><code>db.student.find({&quot;name&quot;:&quot;Wong&quot;})    
+</code></pre><p><img src="/img/GoDatabaseMongoDB/11.png" alt="alt text"></p>
+<h3 id="remove操作"><a href="#remove操作" class="headerlink" title="remove操作"></a>remove操作</h3><pre><code>db.student.remove({&quot;name&quot;:&quot;Wong&quot;})
+</code></pre><p><img src="/img/GoDatabaseMongoDB/12.png" alt="alt text"></p>
+<p>你可以使用<code>db.student.count()</code>来查看数据条数。</p>
+<h3 id="关闭MongoDB"><a href="#关闭MongoDB" class="headerlink" title="关闭MongoDB"></a>关闭MongoDB</h3><p>除了之前我们使用Control + C退出之外，你还可以使用如下命令来关闭MongoDB：</p>
+<pre><code>use admin
+db.shutdownServer()
+</code></pre><p>如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/13.png" alt="alt text"></p>
+<p>这些只是一些简单的操作，冰山一角。详细复杂高端的操作还请自行了解、学习。</p>
+<h1 id="Go访问MongoDB"><a href="#Go访问MongoDB" class="headerlink" title="Go访问MongoDB"></a>Go访问MongoDB</h1><p>Go的MongoDB最好的驱动就是<a href="http://labix.org/mgo" target="_blank" rel="external"> mgo </a>。</p>
+<p>使用如下命令安装mgo：</p>
+<pre><code>go get gopkg.in/mgo.v2
+</code></pre><p>安装完成后在我们GOPATH的pkg目录下就有了相应的包。</p>
+<pre><code>package main
+
+import (
+        &quot;fmt&quot;
+    &quot;log&quot;
+        &quot;gopkg.in/mgo.v2&quot;
+        &quot;gopkg.in/mgo.v2/bson&quot;
+)
+
+type Person struct {
+        Name string
+        Phone string
+}
+
+func main() {
+        session, err := mgo.Dial(&quot;server1.example.com,server2.example.com&quot;)
+        if err != nil {
+                panic(err)
+        }
+        defer session.Close()
+
+        // Optional. Switch the session to a monotonic behavior.
+        session.SetMode(mgo.Monotonic, true)
+
+        c := session.DB(&quot;test&quot;).C(&quot;people&quot;)
+        err = c.Insert(&amp;Person{&quot;Ale&quot;, &quot;+55 53 8116 9639&quot;},
+                   &amp;Person{&quot;Cla&quot;, &quot;+55 53 8402 8510&quot;})
+        if err != nil {
+                log.Fatal(err)
+        }
+
+        result := Person{}
+        err = c.Find(bson.M{&quot;name&quot;: &quot;Ale&quot;}).One(&amp;result)
+        if err != nil {
+                log.Fatal(err)
+        }
+
+        fmt.Println(&quot;Phone:&quot;, result.Phone)
+}
+</code></pre><p>如上代码是mgo给的示例，下面我们新建一个项目，将上面的代码添加进去，如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/14.png" alt="alt text"></p>
+<p>如果你现在就Run，一段时间后就得到如下错误：</p>
+<p><img src="/img/GoDatabaseMongoDB/15.png" alt="alt text"></p>
+<p>我们应该把<code>mgo.Dial(&quot;server1.example.com,server2.example.com&quot;)</code>修改成<code>mgo.Dial(&quot;127.0.0.1:27017&quot;)</code>，然后还要打开MongoDB，最后结果如下所示：</p>
+<p><img src="/img/GoDatabaseMongoDB/16.png" alt="alt text"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go语言编程/" rel="tag">#Go语言编程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/01/Go的Web基础/" rel="next" title="Go的Web基础">
+                <i class="fa fa-chevron-left"></i> Go的Web基础
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/02/Go的文本处理/" rel="prev" title="Go的文本处理">
+                Go的文本处理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/02/Go访问数据库/"
+           data-title="Go访问数据库" data-url="http://lynchwong.com/2015/07/02/Go访问数据库/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB"><span class="nav-number">1.</span> <span class="nav-text">MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装MongoDB"><span class="nav-number">1.1.</span> <span class="nav-text">安装MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行MongoDB"><span class="nav-number">1.2.</span> <span class="nav-text">运行MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用MongoDB"><span class="nav-number">1.3.</span> <span class="nav-text">使用MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#insert操作"><span class="nav-number">1.3.1.</span> <span class="nav-text">insert操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find操作"><span class="nav-number">1.3.2.</span> <span class="nav-text">find操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#update操作"><span class="nav-number">1.3.3.</span> <span class="nav-text">update操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remove操作"><span class="nav-number">1.3.4.</span> <span class="nav-text">remove操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭MongoDB"><span class="nav-number">1.3.5.</span> <span class="nav-text">关闭MongoDB</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go访问MongoDB"><span class="nav-number">2.</span> <span class="nav-text">Go访问MongoDB</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

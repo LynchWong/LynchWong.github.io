@@ -1,0 +1,688 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CoreData," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="很显然的一件事情就是我们应该努力的优化我们开发的程序性能。一个性能低下的应用程序最好的情况可能就只是收到差的评价，最坏的情况就是无法响应以及崩溃。
+在CoreData的应用程序里，我们更应该进行优化。CoreData的大部分实现速度都很快，也很轻量，得益于CoreData内部的不断优化。
+CoreData的灵活性让其成为了一个伟大的工具，但是你在一些方面的使用仍然会让CoreData在性能方面遭受">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreData: Measuring and Boosting Performance">
+<meta property="og:url" content="http://lynchwong.com/2015/07/25/CoreData-Measuring-and-Boosting-Performance/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="很显然的一件事情就是我们应该努力的优化我们开发的程序性能。一个性能低下的应用程序最好的情况可能就只是收到差的评价，最坏的情况就是无法响应以及崩溃。
+在CoreData的应用程序里，我们更应该进行优化。CoreData的大部分实现速度都很快，也很轻量，得益于CoreData内部的不断优化。
+CoreData的灵活性让其成为了一个伟大的工具，但是你在一些方面的使用仍然会让CoreData在性能方面遭受">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataPerformance/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataPerformance/2.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataPerformance/3.png">
+<meta property="og:updated_time" content="2016-06-01T11:40:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreData: Measuring and Boosting Performance">
+<meta name="twitter:description" content="很显然的一件事情就是我们应该努力的优化我们开发的程序性能。一个性能低下的应用程序最好的情况可能就只是收到差的评价，最坏的情况就是无法响应以及崩溃。
+在CoreData的应用程序里，我们更应该进行优化。CoreData的大部分实现速度都很快，也很轻量，得益于CoreData内部的不断优化。
+CoreData的灵活性让其成为了一个伟大的工具，但是你在一些方面的使用仍然会让CoreData在性能方面遭受">
+<meta name="twitter:image" content="http://lynchwong.com/img/CoreDataPerformance/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> CoreData: Measuring and Boosting Performance | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CoreData: Measuring and Boosting Performance
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-25T13:27:29+08:00" content="2015-07-25">
+              2015-07-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/25/CoreData-Measuring-and-Boosting-Performance/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/25/CoreData-Measuring-and-Boosting-Performance/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>很显然的一件事情就是我们应该努力的优化我们开发的程序性能。一个性能低下的应用程序最好的情况可能就只是收到差的评价，最坏的情况就是无法响应以及崩溃。</p>
+<p>在CoreData的应用程序里，我们更应该进行优化。CoreData的大部分实现速度都很快，也很轻量，得益于CoreData内部的不断优化。</p>
+<p>CoreData的灵活性让其成为了一个伟大的工具，但是你在一些方面的使用仍然会让CoreData在性能方面遭受到负面的影响。</p>
+<p>本章就讲解如何优化CoreData的性能。本章没有实例代码，仅将一些结论及代码实践。</p>
+<p>性能即是平衡，内存与速度之间的平衡。我们应用程序中的数据存在于两个地方：内存或者磁盘上。访问内存中数据比磁盘要快的多，但是设备的内存容量要比磁盘小的多。</p>
+<p>你加载到内存中的数据越多，你程序的速度就越快，但是消耗的内存就越多。你可以减少内存的使用，但是你程序的速度就会变慢，因为数据都在磁盘上。</p>
+<p>#Measure,change,verify</p>
+<p>应用程序中哪里有性能瓶颈不是猜测出来的，通过测量应用程序的性能能够节省你大量的时间。Xcode为我们提供了大量的工具。</p>
+<p>理想的情况下，你应该先测量性能，然后进行改进，最后再次测量验证你的改进提升了性能。你应该多次重复测量-改进-验证的过程直到你的应用程序达到你所要求的性能。</p>
+<p>本章不提供Demo，简单叙述下。有两个实体A和B，它们之间是一对多的关系。A有个属性是Binary Data的类型，用来存放图片。应用程序启动时将A实体的所有数据加载到UITableView里面进行显示。</p>
+<p>接下来优化这个程序，按照前面提到的测量-改进-验证这个过程进行。</p>
+<p>##测量</p>
+<p>在Xcode中我们可以看到我们应用程序的内存占用情况。如果我们运行前面提到的那个App，内存占用一定会很大。因为实体中有存储图片的二进制数据，图片数据会被加载到内存中。所以如果我们A的实体记录比较多的话，在程序启动的时候就要加载A的数据到UITableView中进行显示，那么内存就会消耗的很多。</p>
+<p><img src="/img/CoreDataPerformance/1.png" alt="alt text"></p>
+<p>在前面的章节我们也提到过，即使我们只是要修改A的一个属性，与这个图片属性无关，二进制数据也会全部加载到内存中，然而我们根本就用不到。</p>
+<p>所以这里我们应该改进我们的数据模型。</p>
+<p>##改进</p>
+<p>我们应该再新增一个实体C，添加一个Binary Data类型的属性，然后勾选<strong>Allows External Storage</strong>，这个选项我们之前也提到过。通常情况下二进制数据存放在数据库中，当你勾选了这个选项，CoreData会自动决定是当做分离的文件存储在磁盘上还是存放在数据库中。将A和C设为一对一的关系，A中使用缩略图，当点击查看大图的时候通过与C一对一的关系来加载图片。</p>
+<p>##验证</p>
+<p>没有Demo，没有截图，真是不好意思。</p>
+<p>理论上来说，内存占用会减少很多。因为A实体使用了缩略图，大图和小图内存占用当然不一样啦。</p>
+<p>#Fetching and performance</p>
+<p>任何时候我们要访问数据，都需要使用fetch request来查询。我们不应该获取我们需要之外的数据。</p>
+<p>##Fetch batch size</p>
+<p>CoreData的fetch requests包含fetchBatchSize属性，让我们能够简单的获取足够的数据，但是又不会太多。</p>
+<p>如果你不设置batch size，CoreData会使用默认的0值，即不使用batching。</p>
+<p>设置一个非零的正值batch size让你限制返回的batch size。</p>
+<p>在Xcode中⌘I，选择Core Data，如下所示：</p>
+<p><img src="/img/CoreDataPerformance/2.png" alt="alt text"></p>
+<p>然后点击红点进行记录，一段时间后，如下所示：</p>
+<p><img src="/img/CoreDataPerformance/3.png" alt="alt text"></p>
+<p>看最后一列。这列包含了Objective-C版本的调用者，获取数据的条数，以及操作的时间(微秒)。</p>
+<p>回到我们之前假设的ABC。每次启动的时候都会加载所有的A实体的数据。这里我们应该设置<code>fetchRequest.fetchBatchSize = 10</code>。这样我们获取的数据一次就是10条，当需要的时候CoreData会再自动获取数据。这个值应该设置为多大，通常来说，我们在UITableView显示数据。假如我们一屏能显示5条数据，那么应该设置为显示条数的两倍，即10。如果是10条，就设置为20。</p>
+<p>##Advanced fetching</p>
+<p>这一小节主要涉及到<strong>NSFetchRequest</strong>，之前我们有讲过，这里就不在详细讲解了。</p>
+<p>举两个简单的例子。比如获取结果的条数的时候，我们可以设置<strong>NSFetchRequest</strong>的resultType属性为<strong>NSCountResultType</strong>。</p>
+<p>还记得之前获取所有商品价格总和吗，同理设置resultType为<strong>NSDictionaryResultType</strong>。</p>
+<p>详细参见<a href="http://lynchwong.com/2015/07/22/CoreData-Fetching/"> CoreData: Fetching </a></p>
+<p>这一章写的比较粗糙，主要赶时间。推荐大家去看英文原版，有完整的Demo及更详细的讲解。</p>
+<p><a href="http://www.raywenderlich.com/store/core-data-by-tutorials?source=matthewmorey" target="_blank" rel="external">《Core Data by Tutorials: iOS 8 and Swift Edition》</a>的<strong>Chapter 9: Measuring and Boosting Performance</strong>。</p>
+<p>以上。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CoreData/" rel="tag">#CoreData</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/25/CoreData-Unit-Testing/" rel="next" title="CoreData: Unit Testing">
+                <i class="fa fa-chevron-left"></i> CoreData: Unit Testing
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/25/CoreData-Multiple-Managed-Object-Contexts/" rel="prev" title="CoreData: Multiple Managed Object Contexts">
+                CoreData: Multiple Managed Object Contexts <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/25/CoreData-Measuring-and-Boosting-Performance/"
+           data-title="CoreData: Measuring and Boosting Performance" data-url="http://lynchwong.com/2015/07/25/CoreData-Measuring-and-Boosting-Performance/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

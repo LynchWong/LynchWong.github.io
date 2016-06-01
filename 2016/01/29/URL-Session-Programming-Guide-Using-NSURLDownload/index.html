@@ -1,0 +1,817 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NSURLSession,NSURLConnection," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="官方文档
+Using NSURLDownload(使用NSURLDownload)
+在OS X中，NSURLDownload让应用程序具有直接将URL的内容下载到磁盘的能力。它提供了类似于NSURLConnection的接口，增加了一个额外的方法用于指定文件的目的地。NSURLDownload还可以解码常用的编码方案，比如MacBinary，BinHex和gzip。不同于NSURLConnecti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="URL Session Programming Guide - Using NSURLDownload">
+<meta property="og:url" content="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Using-NSURLDownload/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="官方文档
+Using NSURLDownload(使用NSURLDownload)
+在OS X中，NSURLDownload让应用程序具有直接将URL的内容下载到磁盘的能力。它提供了类似于NSURLConnection的接口，增加了一个额外的方法用于指定文件的目的地。NSURLDownload还可以解码常用的编码方案，比如MacBinary，BinHex和gzip。不同于NSURLConnecti">
+<meta property="og:updated_time" content="2016-06-01T12:58:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="URL Session Programming Guide - Using NSURLDownload">
+<meta name="twitter:description" content="官方文档
+Using NSURLDownload(使用NSURLDownload)
+在OS X中，NSURLDownload让应用程序具有直接将URL的内容下载到磁盘的能力。它提供了类似于NSURLConnection的接口，增加了一个额外的方法用于指定文件的目的地。NSURLDownload还可以解码常用的编码方案，比如MacBinary，BinHex和gzip。不同于NSURLConnecti">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> URL Session Programming Guide - Using NSURLDownload | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                URL Session Programming Guide - Using NSURLDownload
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-01-29T14:11:29+08:00" content="2016-01-29">
+              2016-01-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程指南/" itemprop="url" rel="index">
+                    <span itemprop="name">编程指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/29/URL-Session-Programming-Guide-Using-NSURLDownload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Using-NSURLDownload/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Tasks/UsingNSURLDownload.html#//apple_ref/doc/uid/20001839-BAJEAIEE" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Using-NSURLDownload"><a href="#Using-NSURLDownload" class="headerlink" title="Using NSURLDownload"></a>Using NSURLDownload</h1><p>(使用NSURLDownload)</p>
+<p>在OS X中，NSURLDownload让应用程序具有直接将URL的内容下载到磁盘的能力。它提供了类似于NSURLConnection的接口，增加了一个额外的方法用于指定文件的目的地。NSURLDownload还可以解码常用的编码方案，比如MacBinary，BinHex和gzip。不同于NSURLConnection，使用NSURLDownload下载的数据不会存储到缓存系统。</p>
+<p>如果你的应用程序并不局限于使用Foundation框架的类，WebKit框架包含了WebDownload，是NSURLDownload的子类，提供了用于认证的用户界面。</p>
+<p><strong>iOS Note</strong>：NSURLDownload类在iOS中不可用，因为并不鼓励直接下载内容到文件系统。使用NSURLSession或者NSURLConnection类代替。参见<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/UsingNSURLSession.html#//apple_ref/doc/uid/TP40013509-SW1" target="_blank" rel="external"> Using NSURLSession </a>和<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Tasks/UsingNSURLConnection.html#//apple_ref/doc/uid/20001836-BAJEAIEE" target="_blank" rel="external"> Using NSURLConnection </a>获取更多信息。</p>
+<h2 id="Downloading-to-a-Predetermined-Destination"><a href="#Downloading-to-a-Predetermined-Destination" class="headerlink" title="Downloading to a Predetermined Destination"></a>Downloading to a Predetermined Destination</h2><p>(下载到预定的目的地)</p>
+<p>NSURLDownload的一种使用模式就是使用预定的文件名下载到磁盘。如果应用程序直到下载的目标地址，它可以显式的使用setDestination:allowOverwrite:方法。多次给NSURLDownload的实例发送setDestination:allowOverwrite:消息会被忽略。</p>
+<p>当接收到initWithRequest:delegate:消息时下载会立即开始。在代理接收到downloadDidFinish:或download:didFailWithError:方法之前的任何时间发送cancel消息就能取消下载。</p>
+<p>Listing 3-1的例子设置了目标地址，因此代理只需要实现download:didFailWithError:和downloadDidFinish:方法。</p>
+<p>Listing 3-1  Using NSURLDownload with a predetermined destination file location</p>
+<pre><code>- (void)startDownloadingURL:sender
+{
+    // Create the request.
+    NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;http://www.apple.com&quot;]
+                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                            timeoutInterval:60.0];
+
+    // Create the connection with the request and start loading the data.
+    NSURLDownload  *theDownload = [[NSURLDownload alloc] initWithRequest:theRequest
+                                                                delegate:self];
+    if (theDownload) {
+        // Set the destination file.
+        [theDownload setDestination:@&quot;/tmp&quot; allowOverwrite:YES];
+    } else {
+        // inform the user that the download failed.
+    }
+}
+
+
+- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
+{
+    // Dispose of any references to the download object
+    // that your app might keep.
+    ...
+
+    // Inform the user.
+    NSLog(@&quot;Download failed! Error - %@ %@&quot;,
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+}
+
+- (void)downloadDidFinish:(NSURLDownload *)download
+{
+    // Dispose of any references to the download object
+    // that your app might keep.
+    ...
+
+    // Do something with the data.
+    NSLog(@&quot;%@&quot;,@&quot;downloadDidFinish&quot;);
+}
+</code></pre><p>代理可以实现其它额外的方法来自定义处理认证，服务器重定向，以及文件解码。</p>
+<h2 id="Downloading-a-File-Using-the-Suggested-Filename"><a href="#Downloading-a-File-Using-the-Suggested-Filename" class="headerlink" title="Downloading a File Using the Suggested Filename"></a>Downloading a File Using the Suggested Filename</h2><p>(使用建议的文件名下载文件)</p>
+<p>有时候应用程序需要从下载的数据本身推断出目标文件名。这要求你实现download:decideDestinationWithSuggestedFilename:代理方法然后使用建议的文件名调用setDestination:allowOverwrite:方法。Listing 3-2的例子使用建议的文件名将下载的文件保存在了桌面。</p>
+<p>Listing 3-2  Using NSURLDownload with a filename derived from the download</p>
+<pre><code>- (void)startDownloadingURL:sender
+{
+    // Create the request.
+    NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;http://www.apple.com/index.html&quot;]
+                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                            timeoutInterval:60.0];
+
+    // Create the download with the request and start loading the data.
+    NSURLDownload  *theDownload = [[NSURLDownload alloc] initWithRequest:theRequest delegate:self];
+    if (!theDownload) {
+        // Inform the user that the download failed.
+    }
+}
+
+- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
+{
+    NSString *destinationFilename;
+    NSString *homeDirectory = NSHomeDirectory();
+
+    destinationFilename = [[homeDirectory stringByAppendingPathComponent:@&quot;Desktop&quot;]
+                           stringByAppendingPathComponent:filename];
+    [download setDestination:destinationFilename allowOverwrite:NO];
+}
+
+
+- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
+{
+    // Dispose of any references to the download object
+    // that your app might keep.
+    ...
+
+    // Inform the user.
+    NSLog(@&quot;Download failed! Error - %@ %@&quot;,
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+}
+
+- (void)downloadDidFinish:(NSURLDownload *)download
+{
+    // Dispose of any references to the download object
+    // that your app might keep.
+    ...
+
+    // Do something with the data.
+    NSLog(@&quot;%@&quot;,@&quot;downloadDidFinish&quot;);
+}
+</code></pre><p>使用index.html文件名将下载的文件保存在桌面，文件名根据下载内容推断出。给setDestination:allowOverwrite:方法传入NO参数阻止一个已经存在文件被下载的文件重写。相反，通过在文件名后面插入有序的数据来创建一个唯一的文件名，比如index-1.html。</p>
+<p>如果代理实现了download:didCreateDestination:方法，当一个文件在磁盘上创建时会通知代理。这个方法同样也给了应用程序机会来决定保存下载内容使用的最终的文件名。</p>
+<p>Listing 3-3的例子打印了最终使用的文件名。</p>
+<p>Listing 3-3  Logging the finalized filename using download:didCreateDestination:</p>
+<pre><code>-(void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
+{
+    // path now contains the destination path
+    // of the download, taking into account any
+    // unique naming caused by -setDestination:allowOverwrite:
+    NSLog(@&quot;Final file destination: %@&quot;,path);
+}
+</code></pre><p>在代理有机会能够响应download:shouldDecodeSourceDataOfMIMEType:和download:decideDestinationWithSuggestedFilename:消息后这个消息就会发送给代理。</p>
+<h2 id="Displaying-Download-Progress"><a href="#Displaying-Download-Progress" class="headerlink" title="Displaying Download Progress"></a>Displaying Download Progress</h2><p>(显示下载进度)</p>
+<p>通过实现代理的download:didReceiveResponse:和download:didReceiveDataOfLength:方法你可以确定下载的进度。</p>
+<p>download:didReceiveResponse:方法给代理提供了期望从NSURLResponse获取确定内容长度的机会。代理在每次接收到这个消息的时候应该重新设置进度。</p>
+<p>Listing 3-4的例子实现了使用该方法向用户反馈进度。</p>
+<p>Listing 3-4  Displaying the download progress</p>
+<pre><code>- (void)setDownloadResponse:(NSURLResponse *)aDownloadResponse
+{
+    // downloadResponse is an instance variable defined elsewhere.
+    downloadResponse = aDownloadResponse;
+}
+
+- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
+{
+    // Reset the progress, this might be called multiple times.
+    // bytesReceived is an instance variable defined elsewhere.
+    bytesReceived = 0;
+
+    // Store the response to use later.
+    [self setDownloadResponse:response];
+}
+
+- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(unsigned)length
+{
+    long long expectedLength = [[self downloadResponse] expectedContentLength];
+
+    bytesReceived = bytesReceived + length;
+
+    if (expectedLength != NSURLResponseUnknownLength) {
+        // If the expected content length is
+        // available, display percent complete.
+        float percentComplete = (bytesReceived/(float)expectedLength)*100.0;
+        NSLog(@&quot;Percent complete - %f&quot;,percentComplete);
+    } else {
+        // If the expected content length is
+        // unknown, just log the progress.
+        NSLog(@&quot;Bytes received - %d&quot;,bytesReceived);
+    }
+}
+</code></pre><p>在代理开始接收download:didReceiveDataOfLength:消息之前会接收download:didReceiveResponse:消息。</p>
+<h2 id="Resuming-Downloads"><a href="#Resuming-Downloads" class="headerlink" title="Resuming Downloads"></a>Resuming Downloads</h2><p>(恢复下载)</p>
+<p>在某些情形下，你可以恢复取消或者失败的下载。首先你必须确保你下载的原始数据没有被删除，通过给下载的setDeletesFileUponFailure:方法传递NO来实现。如果原始的下载失败，你可以使用resumeData方法来获取下载的数据。然后你可以使用initWithResumeData:delegate:path:方法来初始化一个新的下载。当下载恢复时，下载的代理会接收到download:willResumeWithResponse:fromByte:消息。</p>
+<p>你可以只恢复连接协议和文件MIME类型支持恢复的下载。你可以使用canResumeDownloadDecodedWithEncodingMIMEType:方法来确定文件的MIME类型是否支持。</p>
+<h2 id="Decoding-Encoded-Files"><a href="#Decoding-Encoded-Files" class="headerlink" title="Decoding Encoded Files"></a>Decoding Encoded Files</h2><p>(解码编码的文件)</p>
+<p>NSURLDownload提供了支持MacBinary，BinHex和gzip文件格式的解码。如果NSURLDownload确定了文件解码支持的格式，它会尝试给代理发送download:shouldDecodeSourceDataOfMIMEType:消息。如果代理实现了这个方法，它应该检查传递的MIME类型，如果文件应该解码就返回YES。</p>
+<p>Listing 3-5的例子检查了文件的MIME类型，然后允许使用MacBinary和BinHex解码文件内容。</p>
+<p>Listing 3-5  Example implementation of download:shouldDecodeSourceDataOfMIMEType: method</p>
+<pre><code>- (BOOL)download:(NSURLDownload *)download
+shouldDecodeSourceDataOfMIMEType:(NSString *)encodingType
+{
+    BOOL shouldDecode = NO;
+
+    if ([encodingType isEqual:@&quot;application/macbinary&quot;]) {
+        shouldDecode = YES;
+    } else if ([encodingType isEqual:@&quot;application/binhex&quot;]) {
+        shouldDecode = YES;
+    } else if ([encodingType isEqual:@&quot;application/x-gzip&quot;]) {
+        shouldDecode = NO;
+    }
+    return shouldDecode;
+}
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NSURLSession/" rel="tag">#NSURLSession</a>
+          
+            <a href="/tags/NSURLConnection/" rel="tag">#NSURLConnection</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/29/URL-Session-Programming-Guide-Using-NSURLConnection/" rel="next" title="URL Session Programming Guide - Using NSURLConnection">
+                <i class="fa fa-chevron-left"></i> URL Session Programming Guide - Using NSURLConnection
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/29/URL-Session-Programming-Guide-Encoding-URL-Data/" rel="prev" title="URL Session Programming Guide - Encoding URL Data">
+                URL Session Programming Guide - Encoding URL Data <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Using-NSURLDownload/"
+           data-title="URL Session Programming Guide - Using NSURLDownload" data-url="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Using-NSURLDownload/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Using-NSURLDownload"><span class="nav-number">1.</span> <span class="nav-text">Using NSURLDownload</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Downloading-to-a-Predetermined-Destination"><span class="nav-number">1.1.</span> <span class="nav-text">Downloading to a Predetermined Destination</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Downloading-a-File-Using-the-Suggested-Filename"><span class="nav-number">1.2.</span> <span class="nav-text">Downloading a File Using the Suggested Filename</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Displaying-Download-Progress"><span class="nav-number">1.3.</span> <span class="nav-text">Displaying Download Progress</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resuming-Downloads"><span class="nav-number">1.4.</span> <span class="nav-text">Resuming Downloads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Decoding-Encoded-Files"><span class="nav-number">1.5.</span> <span class="nav-text">Decoding Encoded Files</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

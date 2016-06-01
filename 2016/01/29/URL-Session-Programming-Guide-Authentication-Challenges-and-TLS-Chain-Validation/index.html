@@ -1,0 +1,736 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NSURLSession,NSURLConnection," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="官方文档
+Authentication Challenges and TLS Chain Validation(认证挑战和TLS链验证)
+一个NSURLRequest对象经常会遇到认证挑战，或者在连接服务器的时候要求凭证。NSURLSession，NSURLConnection，和NSURLDownload类在遇到认证挑战的时候会通知他们的代理，以便采取相应的行动。
+重要：URL加载系统的类不会调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="URL Session Programming Guide - Authentication Challenges and TLS Chain Validation">
+<meta property="og:url" content="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Authentication-Challenges-and-TLS-Chain-Validation/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="官方文档
+Authentication Challenges and TLS Chain Validation(认证挑战和TLS链验证)
+一个NSURLRequest对象经常会遇到认证挑战，或者在连接服务器的时候要求凭证。NSURLSession，NSURLConnection，和NSURLDownload类在遇到认证挑战的时候会通知他们的代理，以便采取相应的行动。
+重要：URL加载系统的类不会调">
+<meta property="og:updated_time" content="2016-06-01T12:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="URL Session Programming Guide - Authentication Challenges and TLS Chain Validation">
+<meta name="twitter:description" content="官方文档
+Authentication Challenges and TLS Chain Validation(认证挑战和TLS链验证)
+一个NSURLRequest对象经常会遇到认证挑战，或者在连接服务器的时候要求凭证。NSURLSession，NSURLConnection，和NSURLDownload类在遇到认证挑战的时候会通知他们的代理，以便采取相应的行动。
+重要：URL加载系统的类不会调">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> URL Session Programming Guide - Authentication Challenges and TLS Chain Validation | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                URL Session Programming Guide - Authentication Challenges and TLS Chain Validation
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-01-29T14:12:16+08:00" content="2016-01-29">
+              2016-01-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程指南/" itemprop="url" rel="index">
+                    <span itemprop="name">编程指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/29/URL-Session-Programming-Guide-Authentication-Challenges-and-TLS-Chain-Validation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Authentication-Challenges-and-TLS-Chain-Validation/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/AuthenticationChallenges.html#//apple_ref/doc/uid/TP40009507-SW1" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Authentication-Challenges-and-TLS-Chain-Validation"><a href="#Authentication-Challenges-and-TLS-Chain-Validation" class="headerlink" title="Authentication Challenges and TLS Chain Validation"></a>Authentication Challenges and TLS Chain Validation</h1><p>(认证挑战和TLS链验证)</p>
+<p>一个NSURLRequest对象经常会遇到认证挑战，或者在连接服务器的时候要求凭证。NSURLSession，NSURLConnection，和NSURLDownload类在遇到认证挑战的时候会通知他们的代理，以便采取相应的行动。</p>
+<p><strong>重要</strong>：URL加载系统的类不会调用他们的代理去处理请求挑战除非服务器响应包含了<strong>WWW-Authenticate</strong>首部字段。其它的认证类型，比如proxy authentication和TLS信任验证不需要这个首部。</p>
+<h2 id="Deciding-How-to-Respond-to-an-Authentication-Challenge"><a href="#Deciding-How-to-Respond-to-an-Authentication-Challenge" class="headerlink" title="Deciding How to Respond to an Authentication Challenge"></a>Deciding How to Respond to an Authentication Challenge</h2><p>(决定如何应对认证挑战)</p>
+<p>如果一个NSURLRequest对象要求认证，那么这个认证挑战呈现给你应用程序的方式取决于你是使用NSURLSession对象还是NSURLConnection对象还是NSURLDownload对象执行请求的。</p>
+<ul>
+<li>如果请求和NSURLSession对象相关，所有的认证都会传递给代理，不管是什么认证类型。</li>
+<li>如果请求和NSURLConnection或者NSURLDownload对象相关，对象的代理会接收到connection:canAuthenticateAgainstProtectionSpace:(或者download:canAuthenticateAgainstProtectionSpace:)消息。这允许代理在尝试反对认证之前分析服务器的属性，包括协议和认证的方法。如果你的代理不准备对服务器的保护空间进行认证，你可以返回NO，系统将尝试从用户的钥匙串中的信息进行认证。</li>
+<li>NSURLConnection或者NSURLDownload对象的代理没有实现connection:canAuthenticateAgainstProtectionSpace:(或者download:canAuthenticateAgainstProtectionSpace:)方法以及用户客户端证书认证的保护空间或者服务器信任认证，系统的行为就像你返回了NO。对于其它的认证类型，系统的行为就像返回了YES。</li>
+</ul>
+<p>接下来，如果你的代理同意处理认证，以及没有有效的可用凭证，请求的URL或者共享的NSURLCredentialStorage都没有，代理会接收如下之一的消息：</p>
+<ul>
+<li>URLSession:didReceiveChallenge:completionHandler:</li>
+<li>URLSession:task:didReceiveChallenge:completionHandler:</li>
+<li>connection:didReceiveAuthenticationChallenge:</li>
+<li>download:didReceiveAuthenticationChallenge:</li>
+</ul>
+<p>为了让连接能够继续，代理有如下三个选择：</p>
+<ul>
+<li>提供认证凭证。</li>
+<li>不要凭证尝试继续。</li>
+<li>取消认证挑战。</li>
+</ul>
+<p>为了帮助确定正确的操作，传递给方法的NSURLAuthenticationChallenge实例包含了有关触发认证挑战的信息，对挑战做了多少次尝试，以及之前尝试的任何凭证，NSURLProtectionSpace要求凭证和挑战的发送者。</p>
+<p>如果之前尝试认证并且失败(比如，如果用户改变了它在服务器上的密码)，你可以通过在认证挑战上调用proposedCredential来获得尝试的凭证。代理可以使用这些凭证来填充它给用户呈现的对话框。</p>
+<p>在认证挑战上调用previousFailureCount会返回之前认证尝试的总次数，包括不同的认证协议。代理可以提供这些信息给用户，以确定它是否先前提供的凭证是失败的，或限制认证尝试的最大次数。</p>
+<h2 id="Responding-to-an-Authentication-Challenge"><a href="#Responding-to-an-Authentication-Challenge" class="headerlink" title="Responding to an Authentication Challenge"></a>Responding to an Authentication Challenge</h2><p>(响应认证挑战)</p>
+<p>你可以使用如下三种方式来响应connection:didReceiveAuthenticationChallenge:代理方法。</p>
+<h3 id="Providing-Credentials"><a href="#Providing-Credentials" class="headerlink" title="Providing Credentials"></a>Providing Credentials</h3><p>(提供凭证)</p>
+<p>为了尝试认证，应用程序应创建服务器期望形式的认证信息的NSURLCredential对象。你可以通过在认证挑战的保护空间上调用authenticationMethod来确定服务器认证的方法。被NSURLCredential支持的认证方法有：</p>
+<ul>
+<li>HTTP basic authentication (NSURLAuthenticationMethodHTTPBasic)要求一个用户名和密码。提示用户必需的信息，使用credentialWithUser:password:persistence:方法创建NSURLCredential对象。</li>
+<li>HTTP digest authentication (NSURLAuthenticationMethodHTTPDigest)，类似于basic authentication，要求一个用户名和密码。(digest自动生成。)提示用户必需的信息，使用credentialWithUser:password:persistence:方法创建NSURLCredential对象。</li>
+<li>Client certificate authentication (NSURLAuthenticationMethodClientCertificate)要求系统的身份以及服务器认证需要的所有证书。使用credentialWithIdentity:certificates:persistence:创建一个NSURLCredential对象。</li>
+<li>Server trust authentication (NSURLAuthenticationMethodServerTrust) 要求认证挑战的保护空间提供一个信任证书。使用credentialForTrust:方法创建一个NSURLCredential对象。</li>
+</ul>
+<p>创建NSURLCredential对象之后：</p>
+<ul>
+<li>对于NSURLSession，使用提供的完成处理句柄将对象发送给认证挑战的发送者。</li>
+<li>对于NSURLConnection和NSURLDownload，使用useCredential:forAuthenticationChallenge:方法将对象传递给认证挑战的发送者。</li>
+</ul>
+<h3 id="Continuing-Without-Credentials"><a href="#Continuing-Without-Credentials" class="headerlink" title="Continuing Without Credentials"></a>Continuing Without Credentials</h3><p>(继续但不要凭证)</p>
+<p>如果代理选择不为认证挑战提供凭证，它仍然可以继续。</p>
+<ul>
+<li>对于NSURLSession，传递如下之一的值给完成处理的block：<ol>
+<li>NSURLSessionAuthChallengePerformDefaultHandling处理请求就像代理没有提供处理挑战的方法。</li>
+<li>NSURLSessionAuthChallengeRejectProtectionSpace拒绝挑战。取决于服务器响应允许的认证类型，URL加载系统可能为额外的保护空间多次调用代理的方法。</li>
+</ol>
+</li>
+<li>对于NSURLConnection和NSURLDownload，在[challenge sender]上调用continueWithoutCredentialsForAuthenticationChallenge:。取决于协议的实现，不要凭证继续可能会引起连接失败，导致接收到connectionDidFailWithError:消息，或者返回替代的没有要求认证的URL内容。</li>
+</ul>
+<h3 id="Canceling-the-Connection"><a href="#Canceling-the-Connection" class="headerlink" title="Canceling the Connection"></a>Canceling the Connection</h3><p>(取消连接)</p>
+<p>代理可能也会选择取消认证挑战。</p>
+<ul>
+<li>对于NSURLSession，传递NSURLSessionAuthChallengeCancelAuthenticationChallenge给完成处理的Block。</li>
+<li>对于NSURLConnection或者NSURLDownload，在[challenge sender]上调用cancelAuthenticationChallenge:。代理会接收到connection:didCancelAuthenticationChallenge:消息，提供给用户反馈的机会。</li>
+</ul>
+<h3 id="An-Authentication-Example"><a href="#An-Authentication-Example" class="headerlink" title="An Authentication Example"></a>An Authentication Example</h3><p>(一个认证例子)</p>
+<p>Listing 6-1展示的例子实现了通过使用应用程序偏好设置提供的用户名和密码创建NSURLCredential实例来响应挑战。如果之前的认证失败了，它会取消认证挑战然后通知用户。</p>
+<p>Listing 6-1  An example of using the connection:didReceiveAuthenticationChallenge: delegate method</p>
+<pre><code>-(void)connection:(NSURLConnection *)connection
+didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    if ([challenge previousFailureCount] == 0) {
+        NSURLCredential *newCredential;
+        newCredential = [NSURLCredential credentialWithUser:[self preferencesName]
+                                                   password:[self preferencesPassword]
+                                                persistence:NSURLCredentialPersistenceNone];
+        [[challenge sender] useCredential:newCredential
+               forAuthenticationChallenge:challenge];
+    } else {
+        [[challenge sender] cancelAuthenticationChallenge:challenge];
+        // inform the user that the user name and password
+        // in the preferences are incorrect
+        [self showPreferencesCredentialsAreIncorrectPanel:self];
+    }
+}
+</code></pre><p>如果代理没有实现connection:didReceiveAuthenticationChallenge:方法并且请求要求认证，有效的凭证必需在URL credential storage中或者作为URL请求的一部分提供。如果凭证不可用或者它们认证失败，continueWithoutCredentialForAuthenticationChallenge:消息会被底层实现发送。</p>
+<h2 id="Performing-Custom-TLS-Chain-Validation"><a href="#Performing-Custom-TLS-Chain-Validation" class="headerlink" title="Performing Custom TLS Chain Validation"></a>Performing Custom TLS Chain Validation</h2><p>(执行自定义的TLS链验证)</p>
+<p>在NSURL家族API中，TLS链验证由你应用程序的认证代理的方法处理，但不是提供凭证给用户(你应用程序)给服务器，你的应用程序检查凭证在服务器提供TLS握手期间，然后告诉URL加载系统是否应该接受或者拒绝这些凭证。</p>
+<p>如果你需要以非标准的方式来执行链验证(比如接受指定的证书来测试)，你的应用程序必需做如下事情：</p>
+<ul>
+<li>对于NSURLSession，实现URLSession:didReceiveChallenge:completionHandler:或者URLSession:task:didReceiveChallenge:completionHandler:代理方法。如果你都实现了，那么在会话层级的方法会响应处理认证。</li>
+<li>对于NSURLConnection和NSURLDownload，实现connection:canAuthenticateAgainstProtectionSpace:或者download:canAuthenticateAgainstProtectionSpace:方法，如果认证的保护空间是NSURLAuthenticationMethodServerTrust类型然后返回YES。然后实现connection:didReceiveAuthenticationChallenge:或者download:didReceiveAuthenticationChallenge:方法来处理认证。</li>
+</ul>
+<p>在你处理认证的代理方法中，你应该检查认证的保护空间的类型是否是NSURLAuthenticationMethodServerTrust，如果是，从保护空间获取serverTrust信息。</p>
+<p>对于额外的详细信息和代码片段(基于NSURLConnection)，阅读 Overriding TLS Chain Validation Correctly。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NSURLSession/" rel="tag">#NSURLSession</a>
+          
+            <a href="/tags/NSURLConnection/" rel="tag">#NSURLConnection</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/29/URL-Session-Programming-Guide-Handling-Redirects-and-Other-Request-Changes/" rel="next" title="URL Session Programming Guide - Handling Redirects and Other Request Changes">
+                <i class="fa fa-chevron-left"></i> URL Session Programming Guide - Handling Redirects and Other Request Changes
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/29/URL-Session-Programming-Guide-Understanding-Cache-Access/" rel="prev" title="URL Session Programming Guide - Understanding Cache Access">
+                URL Session Programming Guide - Understanding Cache Access <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Authentication-Challenges-and-TLS-Chain-Validation/"
+           data-title="URL Session Programming Guide - Authentication Challenges and TLS Chain Validation" data-url="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Authentication-Challenges-and-TLS-Chain-Validation/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Authentication-Challenges-and-TLS-Chain-Validation"><span class="nav-number">1.</span> <span class="nav-text">Authentication Challenges and TLS Chain Validation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Deciding-How-to-Respond-to-an-Authentication-Challenge"><span class="nav-number">1.1.</span> <span class="nav-text">Deciding How to Respond to an Authentication Challenge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Responding-to-an-Authentication-Challenge"><span class="nav-number">1.2.</span> <span class="nav-text">Responding to an Authentication Challenge</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Providing-Credentials"><span class="nav-number">1.2.1.</span> <span class="nav-text">Providing Credentials</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Continuing-Without-Credentials"><span class="nav-number">1.2.2.</span> <span class="nav-text">Continuing Without Credentials</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Canceling-the-Connection"><span class="nav-number">1.2.3.</span> <span class="nav-text">Canceling the Connection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#An-Authentication-Example"><span class="nav-number">1.2.4.</span> <span class="nav-text">An Authentication Example</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performing-Custom-TLS-Chain-Validation"><span class="nav-number">1.3.</span> <span class="nav-text">Performing Custom TLS Chain Validation</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

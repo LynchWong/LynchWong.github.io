@@ -1,0 +1,785 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Go语言编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="函数函数构成代码执行的逻辑结构。在Go语言中，函数的基本组成为：关键字func、函数名、参数列表、返回值、函数体和返回语句。
+函数定义前面我们已经大概介绍过函数，这里我们用一个最简单的加法函数来进行详细说明：
+package mymath
+import &amp;quot;errors&amp;quot;
+
+func Add(a int, b int) (ret int, err error) {
+    if">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go函数">
+<meta property="og:url" content="http://lynchwong.com/2015/06/26/Go函数/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="函数函数构成代码执行的逻辑结构。在Go语言中，函数的基本组成为：关键字func、函数名、参数列表、返回值、函数体和返回语句。
+函数定义前面我们已经大概介绍过函数，这里我们用一个最简单的加法函数来进行详细说明：
+package mymath
+import &amp;quot;errors&amp;quot;
+
+func Add(a int, b int) (ret int, err error) {
+    if">
+<meta property="og:updated_time" content="2016-06-01T11:46:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go函数">
+<meta name="twitter:description" content="函数函数构成代码执行的逻辑结构。在Go语言中，函数的基本组成为：关键字func、函数名、参数列表、返回值、函数体和返回语句。
+函数定义前面我们已经大概介绍过函数，这里我们用一个最简单的加法函数来进行详细说明：
+package mymath
+import &amp;quot;errors&amp;quot;
+
+func Add(a int, b int) (ret int, err error) {
+    if">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Go函数 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Go函数
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-26T13:56:25+08:00" content="2015-06-26">
+              2015-06-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index">
+                    <span itemprop="name">Go</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/26/Go函数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/26/Go函数/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p>函数构成代码执行的逻辑结构。在Go语言中，函数的基本组成为：关键字func、函数名、参数列表、返回值、函数体和返回语句。</p>
+<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>前面我们已经大概介绍过函数，这里我们用一个最简单的加法函数来进行详细说明：</p>
+<pre><code>package mymath
+import &quot;errors&quot;
+
+func Add(a int, b int) (ret int, err error) {
+    if a &lt; 0 || b &lt; 0 {// 假设这个函数只支持两个非负数值的加法
+        err = errors.New(&quot;Should be non-negative numbers!&quot;)
+        return
+    }
+    return a + b, nil
+}
+</code></pre><a id="more"></a>
+<p>如果参数列表中若干个相邻的参数类型的相同，比如上面例子中的a和b，则可以在参数列表中省略前面变量的类型声明，如下所示：</p>
+<pre><code>func Add(a, b int) (ret int, err error) {
+    // ...
+}
+</code></pre><p>如果返回值列表中多个返回值的类型相同，也可以用同样的方式合并。如果函数只有一个返回值，也可以这么写：</p>
+<pre><code>func Add(a, b int) int {
+    // ...
+}
+</code></pre><h2 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h2><p>函数调用非常方便，只要事先导入了该函数所在的包，就可以直接按照如下所示的方式调用函数：</p>
+<pre><code>import &quot;mymath&quot;// 假设Add被放在一个叫做mymath的包中
+    // ...
+c := mymath.Add(1, 2)
+</code></pre><p>在Go语言中，函数支持多重返回值，这在之后的内容中会介绍。利用函数的多重返回值和错误处理机制，我们可以很容易地写出优雅美观的Go代码。</p>
+<p>Go语言中函数名字的大小写不仅仅是风格，更直接体现了该函数的可见性，这一点尤其需要注意。对于很多注意美感的程序员(尤其是工作在Linux平台上的C程序员)而言，这里的函数名的首字母大写可能会让他们感觉不太适应，在自己练习的时候可能会顺手改成全小写，比如写 成add_xxx这样的Linux风格。很不幸的是，如果这样做了，你可能会遇到莫名其妙的编译错误，比如你明明导入了对应的包，Go编译器还是会告诉你无法找到add_xxx函数。</p>
+<p>因此需要先牢记这样的规则：小写字母开头的函数只在本包内可见，大写字母开头的函数才能被其他包使用。</p>
+<p>这个规则也适用于类型和变量的可见性。</p>
+<h2 id="不定参数"><a href="#不定参数" class="headerlink" title="不定参数"></a>不定参数</h2><p>在C语言时代大家一般都用过printf()函数，从那个时候开始其实已经在感受不定参数的魅力和价值。如同C语言中的printf()函数，Go语言标准库中的fmt.Println()等函数的实现也严重依赖于语言的不定参数功能。</p>
+<p>本节我们将介绍不定参数的用法。合适地使用不定参数,可以让代码简单易用，尤其是输入输出类函数，比如日志函数等。</p>
+<h3 id="不定参数类型"><a href="#不定参数类型" class="headerlink" title="不定参数类型"></a>不定参数类型</h3><p>不定参数是指函数传入的参数个数为不定数量。为了做到这点，首先需要将函数定义为接受不定参数类型：</p>
+<pre><code>func myfunc(args ...int) {
+    for _, arg := range args {
+        fmt.Println(arg)
+    }
+}
+</code></pre><p>这段代码的意思是，函数myfunc()接受不定数量的参数，这些参数的类型全部是int，所以它可以用如下方式调用：</p>
+<pre><code>myfunc(2, 3, 4)
+myfunc(1, 3, 7, 13)
+</code></pre><p>形如…type格式的类型只能作为函数的参数类型存在，并且必须是最后一个参数。它是一个语法糖(syntactic sugar)，即这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说，使用语法糖能够增加程序的可读性，从而减少程序出错的机会。</p>
+<p>从内部实现机理上来说，类型…type本质上是一个数组切片，也就是[]type，这也是为什么上面的参数args可以用for循环来获得每个传入的参数。</p>
+<p>假如没有…type这样的语法糖，开发者将不得不这么写：<br>    func myfunc2(args []int) {<br>        for _, arg := range args {<br>            fmt.Println(arg)<br>        }<br>    }</p>
+<p>从函数的实现角度来看，这没有任何影响，该怎么写就怎么写。但从调用方来说，情形则完全不同：</p>
+<pre><code>myfunc2([]int{1, 3, 7, 13})
+</code></pre><p>你会发现，我们不得不加上[]int{}来构造一个数组切片实例。但是有了…type这个语法糖，我们就不用自己来处理了。</p>
+<h3 id="不定参数的传递"><a href="#不定参数的传递" class="headerlink" title="不定参数的传递"></a>不定参数的传递</h3><p>假设有另一个变参函数叫做myfunc3(args …int)，下面的例子演示了如何向其传递变参：</p>
+<p>func myfunc(args …int) {</p>
+<pre><code>//按原样传递
+myfunc3(args...)
+
+//传递片段，实际上任意的int slice都可以传进去
+myfunc3(args[1:]...)
+</code></pre><p>}</p>
+<h3 id="任意类型的不定参数"><a href="#任意类型的不定参数" class="headerlink" title="任意类型的不定参数"></a>任意类型的不定参数</h3><p>之前的例子中将不定参数类型约束为int，如果你希望传任意类型，可以指定类型为interface{}。下面是Go语言标准库中fmt.Printf()的函数原型：</p>
+<pre><code>func Printf(format string, args ...interface{}) {
+    // ...
+}
+</code></pre><p>用interface{}传递任意类型数据是Go语言的惯例用法。使用interface{}仍然是类型安全的，这和 C/C++ 不太一样。下面代码示范了如何分派传入interface{}类型的数据。</p>
+<pre><code>package main
+import &quot;fmt&quot;
+
+func MyPrintf(args ...interface{}) {
+    for _, arg := range args {
+        switch arg.(type) {
+            case int:
+                fmt.Println(arg, &quot;is an int value.&quot;)
+            case string:
+                fmt.Println(arg, &quot;is an string value.&quot;)
+            case int64:
+                fmt.Println(arg, &quot;is an int64 value.&quot;)
+            default:
+                fmt.Println(arg, &quot;is an unknown value.&quot;)
+        }
+    }
+}
+
+func main() {
+    var v1 int = 1
+    var v2 int64 = 234
+    var v3 string = &quot;hello&quot;
+    var v4 float32 = 1.234
+    MyPrintf(v1, v2, v3, v4)
+}
+</code></pre><h2 id="多返回值"><a href="#多返回值" class="headerlink" title="多返回值"></a>多返回值</h2><p>与C、C++和Java等开发语言的一个极大不同在于，Go语言的函数或者成员的方法可以有多个返回值，这个特性能够使我们写出比其他语言更优雅、更简洁的代码，比如File.Read()函数就可以同时返回读取的字节数和错误信息。如果读取文件成功，则返回值中的n为读取的字节数，err为nil，否则err为具体的出错信息：</p>
+<pre><code>func (file *File) Read(b []byte) (n int, err Error)
+</code></pre><p>同样，从上面的方法原型可以看到，我们还可以给返回值命名，就像函数的输入参数一样。返回值被命名之后，它们的值在函数开始的时候被自动初始化为空。在函数中执行不带任何参数的return语句时，会返回对应的返回值变量的值。</p>
+<p>Go语言并不需要强制命名返回值，但是命名后的返回值可以让代码更清晰，可读性更强，同时也可以用于文档。</p>
+<p>如果调用方调用了一个具有多返回值的方法，但是却不想关心其中的某个返回值，可以简单地用一个下划线“_”来跳过这个返回值，比如下面的代码表示调用者在读文件的时候不想关心Read()函数返回的错误码：</p>
+<pre><code>n, _ := f.Read(buf)
+</code></pre><h2 id="匿名函数与闭包"><a href="#匿名函数与闭包" class="headerlink" title="匿名函数与闭包"></a>匿名函数与闭包</h2><p>匿名函数是指不需要定义函数名的一种函数实现方式，它并不是一个新概念，最早可以回溯到1958年的Lisp语言。但是由于种种原因，C和C++一直都没有对匿名函数给以支持，其他的各种语言，比如JavaScript、C#和Objective-C等语言都提供了匿名函数特性，当然也包含Go语言。</p>
+<h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><p>在Go里面，函数可以像普通变量一样被传递或使用，这与C语言的回调函数比较类似。不同的是，Go语言支持随时在代码里定义匿名函数。</p>
+<p>匿名函数由一个不带函数名的函数声明和函数体组成，如下所示：</p>
+<pre><code>func(a, b int, z float64) bool {
+    return a * b &lt; int(z)
+}
+</code></pre><p>匿名函数可以直接赋值给一个变量或者直接执行：</p>
+<pre><code>f := func(x, y int) int {
+    return x + y
+}
+
+func(ch chan int) {
+    ch &lt;- ACK
+} (reply_chan) //花括号后直接跟参数列表表示函数调用
+</code></pre><h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>Go的匿名函数是一个闭包，下面我们先来了解一下闭包的概念、价值和应用场景。</p>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>闭包是可以包含自由(未绑定到特定对象)变量的代码块，这些变量不在这个代码块内或者任何全局上下文中定义，而是在定义代码块的环境中定义。要执行的代码块(由于自由变量包含在代码块中，所以这些自由变量以及它们引用的对象没有被释放)为自由变量提供绑定的计算环境(作用域)。</p>
+<h4 id="闭包的价值"><a href="#闭包的价值" class="headerlink" title="闭包的价值"></a>闭包的价值</h4><p>闭包的价值在于可以作为函数对象或者匿名函数，对于类型系统而言，这意味着不仅要表示数据还要表示代码。支持闭包的多数语言都将函数作为第一级对象,就是说这些函数可以存储到变量中作为参数传递给其他函数，最重要的是能够被函数动态创建和返回。</p>
+<h4 id="Go语言中的闭包"><a href="#Go语言中的闭包" class="headerlink" title="Go语言中的闭包"></a>Go语言中的闭包</h4><p>Go语言中的闭包同样也会引用到函数外的变量。闭包的实现确保只要闭包还被使用，那么被闭包引用的变量会一直存在，如下所示：</p>
+<pre><code>package main
+import &quot;fmt&quot;
+
+func main() {
+    var j int = 5
+
+    a := func() (func()) {
+        var i int = 10
+        return func() {
+            fmt.Printf(&quot;i, j: %d, %d\n&quot;, i, j)
+        }
+    }()
+
+    a()
+    j *= 2
+    a()
+}
+</code></pre><p>上述例子的执行结果是：</p>
+<pre><code>i, j: 10, 5
+i, j: 10, 10
+</code></pre><p>在上面的例子中，变量a指向的闭包函数引用了局部变量i和j，i的值被隔离，在闭包外不能被修改，改变j的值以后，再次调用a，发现结果是修改过的值。</p>
+<p>￼在变量a指向的闭包函数中，只有内部的匿名函数才能访问变量i，而无法通过其他途径访问到，因此保证了i的安全性。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go语言编程/" rel="tag">#Go语言编程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/21/Go流程控制/" rel="next" title="Go流程控制">
+                <i class="fa fa-chevron-left"></i> Go流程控制
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/26/Go错误处理/" rel="prev" title="Go错误处理">
+                Go错误处理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/26/Go函数/"
+           data-title="Go函数" data-url="http://lynchwong.com/2015/06/26/Go函数/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">1.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数定义"><span class="nav-number">1.1.</span> <span class="nav-text">函数定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数调用"><span class="nav-number">1.2.</span> <span class="nav-text">函数调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不定参数"><span class="nav-number">1.3.</span> <span class="nav-text">不定参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不定参数类型"><span class="nav-number">1.3.1.</span> <span class="nav-text">不定参数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不定参数的传递"><span class="nav-number">1.3.2.</span> <span class="nav-text">不定参数的传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任意类型的不定参数"><span class="nav-number">1.3.3.</span> <span class="nav-text">任意类型的不定参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多返回值"><span class="nav-number">1.4.</span> <span class="nav-text">多返回值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名函数与闭包"><span class="nav-number">1.5.</span> <span class="nav-text">匿名函数与闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#匿名函数"><span class="nav-number">1.5.1.</span> <span class="nav-text">匿名函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">1.5.2.</span> <span class="nav-text">闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#闭包的价值"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">闭包的价值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Go语言中的闭包"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">Go语言中的闭包</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

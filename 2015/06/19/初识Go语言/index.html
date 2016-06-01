@@ -1,0 +1,679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Go语言编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="作为一个程序员，要有一颗不断上进的心，不然就永远只能有程序员的称号。俗话说技多不压身，活到老学到老。
+博主最开始就是做Web开发的，后来才转战到iOS。大学的时候培训过Java那一套东东，学过SSH开源的那些框架，毕业设计也是用Java做的。但是找工作的时候却是找了.Net的，用C#做开发。直到最近觉得有必要把Web的东西拾起来，觉得没有必要局限在一个圈子中。其实拾起Java或者.Net应该会很快">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识Go语言">
+<meta property="og:url" content="http://lynchwong.com/2015/06/19/初识Go语言/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="作为一个程序员，要有一颗不断上进的心，不然就永远只能有程序员的称号。俗话说技多不压身，活到老学到老。
+博主最开始就是做Web开发的，后来才转战到iOS。大学的时候培训过Java那一套东东，学过SSH开源的那些框架，毕业设计也是用Java做的。但是找工作的时候却是找了.Net的，用C#做开发。直到最近觉得有必要把Web的东西拾起来，觉得没有必要局限在一个圈子中。其实拾起Java或者.Net应该会很快">
+<meta property="og:updated_time" content="2016-06-01T12:51:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识Go语言">
+<meta name="twitter:description" content="作为一个程序员，要有一颗不断上进的心，不然就永远只能有程序员的称号。俗话说技多不压身，活到老学到老。
+博主最开始就是做Web开发的，后来才转战到iOS。大学的时候培训过Java那一套东东，学过SSH开源的那些框架，毕业设计也是用Java做的。但是找工作的时候却是找了.Net的，用C#做开发。直到最近觉得有必要把Web的东西拾起来，觉得没有必要局限在一个圈子中。其实拾起Java或者.Net应该会很快">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 初识Go语言 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                初识Go语言
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-19T10:37:31+08:00" content="2015-06-19">
+              2015-06-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index">
+                    <span itemprop="name">Go</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/19/初识Go语言/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/19/初识Go语言/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作为一个程序员，要有一颗不断上进的心，不然就永远只能有程序员的称号。俗话说技多不压身，活到老学到老。</p>
+<p>博主最开始就是做Web开发的，后来才转战到iOS。大学的时候培训过Java那一套东东，学过SSH开源的那些框架，毕业设计也是用Java做的。但是找工作的时候却是找了.Net的，用C#做开发。直到最近觉得有必要把Web的东西拾起来，觉得没有必要局限在一个圈子中。其实拾起Java或者.Net应该会很快，毕竟有基础，同时我也考虑过Ruby。其实前年的时候就有同事给我推荐过Go语言，那时没在意，在了解了下Go语言后觉得是更好的选择，所以就选择Go语言。</p>
+<p>博主虽然用过不少语言，非常熟悉的应该算是OC了。从去年苹果发布Swift之后，博主一直在学习和使用Swift，加上之前做的Swift博文以及几个自己的项目，对Swift也是非常熟悉了。在大概浏览了下Go语言后，我到觉得Swift借鉴了不少Go的语法及特点。这两门语言有很多相似的地方，据很多Ruby开发者说Swift与Ruby也很相似。Swift真是集众家之长啊，另外在6月初的WWDC大会上宣布Swift的编译器和标准库将在年底开源，所以Swift将来也会像Go一样成为全栈式的开发语言？！</p>
+<p>对于编程语言其实没有什么好说的，很多时候编程语言并不是重点，因为编程语言实在是太多了。我觉得正确的做法就应该是非常非常精通一门语言，然后学习其他语言就能很快上手了，因为很多语言都是相似的。博主那时候就花了几天的时间了解了下OC的语法，看了些实例就开始做iOS开发了。虽然那时我根本不知道他们说的发送消息是什么意思，也不知道和函数调用的区别，但是使用是完全没问题的。而且iOS开发，重点不在OC这门语言，而在于Cocoa Touch框架。</p>
+<p>扯了好多蛋，让我们开始吧。最后说一句，博主学Go语言是为了Web编程，所以博主会先记录Go这门语言，然后再记录Web编程。所以你想使用Go做桌面软件，这些可能不适合你。</p>
+<p>该系列博文的内容大都来自《Go语言编程》和 <a href="https://github.com/astaxie/build-web-application-with-golang" target="_blank" rel="external">《Go Web编程》</a>。</p>
+<h1 id="语言简史"><a href="#语言简史" class="headerlink" title="语言简史"></a>语言简史</h1><p>Limbo语言被认为是Go语言的前身,不仅仅因为是同一批人设计的语言,而是Go语言确实从 Limbo语言中继承了众多优秀的特性。</p>
+<p>Go语言的第一个版本在2009年11月正式对外发布，并在此后的两年内快速迭代，发展迅猛。第一个正式版本的Go语言于2012年3月28日正式发布，让Go语言迎来了第一个引人瞩目的里程碑。</p>
+<h1 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h1><p>Go语言最主要的特性：</p>
+<ul>
+<li>自动垃圾回收</li>
+<li>更丰富的内置类型</li>
+<li>函数多返回值</li>
+<li>错误处理</li>
+<li>匿名函数和闭包 </li>
+<li>类型和接口</li>
+<li>并发编程 </li>
+<li>反射</li>
+<li>语言交互性<br>这些特性会在后面的学习中了解到。</li>
+</ul>
+<h1 id="第一个Go程序"><a href="#第一个Go程序" class="headerlink" title="第一个Go程序"></a>第一个Go程序</h1><pre><code>package main
+import &quot;fmt&quot;// 我们需要使用fmt包中的Println()函数
+func main() {
+    fmt.Println(&quot;Hello, world. 你好,世界!&quot;)
+}
+</code></pre><p>每个Go源代码文件的开头都是一个package声明，表示该Go代码所属的包。包是Go语言里最基本的分发单位，也是工程管理中依赖关系的体现。要生成Go可执行程序，必须建立一个名字为main的包，并且在该包中包含一个叫main()的函数(该函数是Go可执行程序的执行起点)。<br>Go语言的main()函数不能带参数，也不能定义返回值。命令行传入的参数在os.Args变量中保存。如果需要支持命令行开关，可使用flag包。在本书后面我们将解释如何使用flag包来做命令行参数规范的定义，以及获取和解析命令行参数。<br>￼￼在包声明之后，是一系列的import语句，用于导入该程序所依赖的包。由于本示例程序用到了Println()函数，所以需要导入该函数所属的fmt包。<br>有一点需要注意，不得包含在源代码文件中没有用到的包，否则Go编译器会报编译错误、这与下面提到的强制左花括号{的放置位置以及之后会提到的函数名的大小写规则，均体现了Go语言在语言层面解决软件工程问题的设计哲学。</p>
+<p>所有Go函数(包括在对象编程中会提到的类型成员函数)以关键字func开头。一个常规的函数定义包含以下部分:</p>
+<pre><code>func 函数名(参数列表)(返回值列表) { 
+    // 函数体
+}
+</code></pre><p>对应的一个实例如下:<br>    func Compute(value1 int, value2 float64)(result float64, err error) {<br>        // 函数体<br>    ￼}</p>
+<p>Go支持多个返回值。以上的示例函数Compute()返回了两个值，一个叫result，另一个是err。并不是所有返回值都必须赋值。在函数返回时没有被明确赋值的返回值都会被设置为默认值，比如result会被设为0.0，err会被设为nil。</p>
+<p>代码注释:</p>
+<pre><code>/*
+块注释
+*/
+// 行注释
+</code></pre><p>Go程序并不要求开发者在每个语句后面加上分号表示语句结束。有些读者可能会自然地把左花括号{另起一行放置，这样做的结果是Go编译器报告编译错误，这点需要特别注意：<br>    syntax error: unexpected semicolon or newline before {</p>
+<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><p>Eclipse+Goclipse、Sublime Text2、VIM、LiteIDE、Gedit、IntelliJ IDEA。开发工具的选择完全个人爱好，可自行选择。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go语言编程/" rel="tag">#Go语言编程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/15/创建自己的Spec/" rel="next" title="创建自己的Spec">
+                <i class="fa fa-chevron-left"></i> 创建自己的Spec
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/19/Go基本语言/" rel="prev" title="Go基本语法">
+                Go基本语法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/19/初识Go语言/"
+           data-title="初识Go语言" data-url="http://lynchwong.com/2015/06/19/初识Go语言/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#语言简史"><span class="nav-number">1.</span> <span class="nav-text">语言简史</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语言特性"><span class="nav-number">2.</span> <span class="nav-text">语言特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第一个Go程序"><span class="nav-number">3.</span> <span class="nav-text">第一个Go程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发工具"><span class="nav-number">4.</span> <span class="nav-text">开发工具</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

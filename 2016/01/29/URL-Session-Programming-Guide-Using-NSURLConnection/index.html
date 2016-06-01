@@ -1,0 +1,792 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NSURLSession,NSURLConnection," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="官方文档
+Using NSURLConnection(使用NSURLConnection)
+ NSURLConnection 提供了最灵活的方法来获取URL的内容。这个类提供了简单的接口来创建和取消一个连接，也提供了一组代理方法来反馈和控制连接的各个方面。这些类分为五个类别：URL加载，缓存管理，认证和凭证，Cookie存储以及协议支持。
+Creating a Connection(创建连接)
+N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="URL Session Programming Guide - Using NSURLConnection">
+<meta property="og:url" content="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Using-NSURLConnection/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="官方文档
+Using NSURLConnection(使用NSURLConnection)
+ NSURLConnection 提供了最灵活的方法来获取URL的内容。这个类提供了简单的接口来创建和取消一个连接，也提供了一组代理方法来反馈和控制连接的各个方面。这些类分为五个类别：URL加载，缓存管理，认证和凭证，Cookie存储以及协议支持。
+Creating a Connection(创建连接)
+N">
+<meta property="og:updated_time" content="2016-06-01T12:57:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="URL Session Programming Guide - Using NSURLConnection">
+<meta name="twitter:description" content="官方文档
+Using NSURLConnection(使用NSURLConnection)
+ NSURLConnection 提供了最灵活的方法来获取URL的内容。这个类提供了简单的接口来创建和取消一个连接，也提供了一组代理方法来反馈和控制连接的各个方面。这些类分为五个类别：URL加载，缓存管理，认证和凭证，Cookie存储以及协议支持。
+Creating a Connection(创建连接)
+N">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> URL Session Programming Guide - Using NSURLConnection | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                URL Session Programming Guide - Using NSURLConnection
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-01-29T14:11:09+08:00" content="2016-01-29">
+              2016-01-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程指南/" itemprop="url" rel="index">
+                    <span itemprop="name">编程指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/29/URL-Session-Programming-Guide-Using-NSURLConnection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Using-NSURLConnection/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Tasks/UsingNSURLConnection.html#//apple_ref/doc/uid/20001836-BAJEAIEE" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Using-NSURLConnection"><a href="#Using-NSURLConnection" class="headerlink" title="Using NSURLConnection"></a>Using NSURLConnection</h1><p>(使用NSURLConnection)</p>
+<p><a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/index.html#//apple_ref/occ/cl/NSURLConnection" target="_blank" rel="external"> NSURLConnection </a>提供了最灵活的方法来获取URL的内容。这个类提供了简单的接口来创建和取消一个连接，也提供了一组代理方法来反馈和控制连接的各个方面。这些类分为五个类别：URL加载，缓存管理，认证和凭证，Cookie存储以及协议支持。</p>
+<h2 id="Creating-a-Connection"><a href="#Creating-a-Connection" class="headerlink" title="Creating a Connection"></a>Creating a Connection</h2><p>(创建连接)</p>
+<p>NSURLConnection类支持三种方法获取URL内容：同步获取，使用完成处理器Block异步获取，使用自定义的代理对象异步获取。</p>
+<p>同步获取URL内容：对于运行在后台线程的代码，你可以调用<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/index.html#//apple_ref/occ/clm/NSURLConnection/sendSynchronousRequest:returningResponse:error:" target="_blank" rel="external"> sendSynchronousRequest:returningResponse:error: </a>方法来执行HTTP请求。这个方法会在请求完成或者发生错误的时候返回。更多信息，参见<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Tasks/UsingNSURLConnection.html#//apple_ref/doc/uid/20001836-SW3" target="_blank" rel="external"> Retrieving Data Synchronously </a>。<br>使用完成处理器获取内容：如果你不需要监视请求的状态，仅仅需要在数据完全接收后执行一些操作，你可以调用<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/index.html#//apple_ref/occ/clm/NSURLConnection/sendAsynchronousRequest:queue:completionHandler:" target="_blank" rel="external"> sendAsynchronousRequest:queue:completionHandler: </a>方法，传递Block处理结果。更多细节，参阅<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Tasks/UsingNSURLConnection.html#//apple_ref/doc/uid/20001836-SW1" target="_blank" rel="external"> Retrieving Data Using a Completion Handler Block </a>。<br>使用代理对象获取内容：创建一个代理类，至少实现这些方法：connection:didReceiveResponse:，connection:didReceiveData:，connection:didFailWithError:，and connectionDidFinishLoading:。支持的代理方法定义在 <a href="https://developer.apple.com/library/prerelease/tvos/documentation/Foundation/Reference/NSURLConnectionDelegate_Protocol/index.html#//apple_ref/occ/intf/NSURLConnectionDelegate" target="_blank" rel="external"> NSURLConnectionDelegate </a>, <a href="https://developer.apple.com/library/prerelease/tvos/documentation/Foundation/Reference/NSURLConnectionDownloadDelegate_Protocol/index.html#//apple_ref/occ/intf/NSURLConnectionDownloadDelegate" target="_blank" rel="external"> NSURLConnectionDownloadDelegate </a>, and <a href="https://developer.apple.com/library/prerelease/tvos/documentation/Foundation/Reference/NSURLConnectionDataDelegate_protocol/index.html#//apple_ref/occ/intf/NSURLConnectionDataDelegate" target="_blank" rel="external"> NSURLConnectionDataDelegate </a>协议中。</p>
+<p>Listing 2-1的例子使用URL初始化了一个连接。这段代码开始使用URL创建了一个NSURLRequest实例，指定了访问的缓存策略和超时。然后创建了一个NSURLConnection实例，指定请求和代理。如果NSURLConnection不能为请求创建连接，initWithRequest:delegate:方法会返回nil。然后创建了NSMutableData实例来存储数据，这些数据由代理提供。</p>
+<p>Listing 2-1  Creating a connection using NSURLConnection</p>
+<pre><code>// Create the request.
+NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;http://www.apple.com/&quot;]
+                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                      timeoutInterval:60.0];
+
+// Create the NSMutableData to hold the received data.
+// receivedData is an instance variable declared elsewhere.
+receivedData = [NSMutableData dataWithCapacity: 0];
+
+// create the connection with the request
+// and start loading the data
+NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+if (!theConnection) {
+    // Release the receivedData object.
+    receivedData = nil;
+
+    // Inform the user that the connection failed.
+}
+</code></pre><p>在收到initWithRequest:delegate:消息后传输会马上开始。通过给连接发送cancel消息可以在代理接收connectionDidFinishLoading: 或者 connection:didFailWithError:消息之前任何时间取消。</p>
+<p>当服务器已经提供了足够了数据来创建一个NSURLResponse对象，代理会接收一个connection:didReceiveResponse:消息。代理方法可以检测提供的NSURLResponse对象，侦测期望的数据的内容长度，MIME类型，建议的文件名，以及服务器提供的其他源数据。</p>
+<p>你应该让你的代理准备好单个连接会接收多次connection:didReceiveResponse:消息；当响应是多部分的MIME编码的时候就会发生这种情况。每一次代理接收connection:didReceiveResponse:消息，它应该重设进度指示以及放弃之前接收的数据(除了多响应这种情况)。Listing 2-2展示了每一次调用都将接收的数据的长度设为0.</p>
+<p>Listing 2-2  Example connection:didReceiveResponse: implementation</p>
+<pre><code>- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // This method is called when the server has determined that it
+    // has enough information to create the NSURLResponse object.
+
+    // It can be called multiple times, for example in the case of a
+    // redirect, so each time we reset the data.
+
+    // receivedData is an instance variable declared elsewhere.
+    [receivedData setLength:0];
+}
+</code></pre><p>当接收到数据时，代理会定期的发送connection:didReceiveData:消息。代理实现负责存储新接收到的数据。Listing 2-3的实现例子中，新的数据拼接到了Listing 2-1中创建的NSMutableData对象上了。</p>
+<p>Listing 2-3  Example connection:didReceiveData: implementation</p>
+<pre><code>- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    // Append the new data to receivedData.
+    // receivedData is an instance variable declared elsewhere.
+    [receivedData appendData:data];
+}
+</code></pre><p>你也可以使用connection:didReceiveData:方法来向用户提供指示连接的进度。为了实现这些，你必须首先获取期望的内容长度，通过在connection:didReceiveResponse:代理方法中调用响应对象的expectedContentLength方法。如果服务器没有提供长度信息，expectedContentLength返回<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSURLResponse_Class/index.html#//apple_ref/c/macro/NSURLResponseUnknownLength" target="_blank" rel="external"> NSURLResponseUnknownLength. </a>。</p>
+<p>如果在传输过程中发生了错误，代理会接收到connection:didFailWithError:消息。NSError对象会当作参数传递过去，对象中指定了错误的详细信息。在user info字典中也提供了请求失败的URL，使用<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/index.html#//apple_ref/c/data/NSURLErrorFailingURLStringErrorKey" target="_blank" rel="external"> NSURLErrorFailingURLStringErrorKey </a>键获取。</p>
+<p>在代理接收了connection:didFailWithError:消息，就不会再接收指定连接的任何消息了。</p>
+<p>Listing 2-4的例子释放了连接，以及接收的数据，然后打印出错误。</p>
+<p>Listing 2-4  Example connection:didFailWithError: implementation</p>
+<pre><code>- (void)connection:(NSURLConnection *)connection
+  didFailWithError:(NSError *)error
+{
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    theConnection = nil;
+    receivedData = nil;
+
+    // inform the user
+    NSLog(@&quot;Connection failed! Error - %@ %@&quot;,
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+}
+</code></pre><p>最后，如果连接成功的检索了请求，代理会接收connectionDidFinishLoading:消息。之后便不会再接收连接的任何消息，应用程序可以释放NSURLConnection对象。</p>
+<p>Listing 2-5的列子，实现了打印接收的数据长度，然后释放了连接对象和接收到的数据。</p>
+<p>Listing 2-5  Example connectionDidFinishLoading: implementation</p>
+<pre><code>- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    // do something with the data
+    // receivedData is declared as a property elsewhere
+    NSLog(@&quot;Succeeded! Received %d bytes of data&quot;,[receivedData length]);
+
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    theConnection = nil;
+    receivedData = nil;
+}
+</code></pre><p>这个例子展示了使用NSURLConnection的一个简单实现。另外的代理方法提供了自定义处理重定向，请求认证，以及响应缓存的能力。</p>
+<h2 id="Making-a-POST-Request"><a href="#Making-a-POST-Request" class="headerlink" title="Making a POST Request"></a>Making a POST Request</h2><p>(创建一个POST请求)</p>
+<p>你可以像发起其他请求(在<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/AuthenticationChallenges.html#//apple_ref/doc/uid/TP40009507-SW2" target="_blank" rel="external"> An Authentication Example </a>中描述)一样的方式发起一个HTTP或者HTTPS的POST请求。主要的区别就是你必须首先配置提供给initWithRequest:delegate:方法的<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSMutableURLRequest_Class/index.html#//apple_ref/occ/cl/NSMutableURLRequest" target="_blank" rel="external"> NSMutableURLRequest </a>对象。</p>
+<p>你也需要构建正文数据(body data)。你可以使用如下三种方式之一构建：</p>
+<ul>
+<li>对于上传小的，内存中的数据，你应该URL编码存在的数据，正如<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/AuthenticationChallenges.html#//apple_ref/doc/uid/TP40009507-SW7" target="_blank" rel="external"> Continuing Without Credentials </a>中描述。</li>
+<li>对于上传磁盘文件数据，调用<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSMutableURLRequest_Class/index.html#//apple_ref/occ/instm/NSMutableURLRequest/setHTTPBodyStream:" target="_blank" rel="external"> setHTTPBodyStream: </a>方法告诉NSMutableURLRequest对象从NSInputStream中读取，然后将读取的结果数据当作正文内容(body content)。</li>
+<li>对于构建大数据块，调用CFStreamCreateBoundPair创建一对流，然后调用setHTTPBodyStream:方法告诉NSMutableURLRequest使用这些流中的一个当作正文内容的资源。通过写入其他数据流，你可以一次发送一小段数据。取决于你服务端是怎么处理这些数据的，你可以希望想要编码你发送的数据。(详情，参见<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/AuthenticationChallenges.html#//apple_ref/doc/uid/TP40009507-SW7" target="_blank" rel="external"> Continuing Without Credentials </a>。)</li>
+</ul>
+<p>如果你上传数据到兼容的服务端，URL加载系统也支持100(Continue)HTTP状态码，允许在认证失败或者其它错误的情况下继续上传。如果要支持上传continuation，在请求对象中设置Expect:首部字段为100-continue。</p>
+<p>Listing 6-1展示怎么配置一个POST的NSMutableURLRequest。</p>
+<p>Listing 2-6  Configuring an NSMutableRequest object for a POST request</p>
+<pre><code>// In body data for the &apos;application/x-www-form-urlencoded&apos; content type,
+// form fields are separated by an ampersand. Note the absence of a
+// leading ampersand.
+NSString *bodyData = @&quot;name=Jane+Doe&amp;address=123+Main+St&quot;;
+
+NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@&quot;https://www.apple.com&quot;]];
+
+// Set the request&apos;s content type to application/x-www-form-urlencoded
+[postRequest setValue:@&quot;application/x-www-form-urlencoded&quot; forHTTPHeaderField:@&quot;Content-Type&quot;];
+
+// Designate the request a POST request and specify its body data
+[postRequest setHTTPMethod:@&quot;POST&quot;];
+[postRequest setHTTPBody:[NSData dataWithBytes:[bodyData UTF8String] length:strlen([bodyData UTF8String])]];
+
+// Initialize the NSURLConnection and proceed as described in
+// Retrieving the Contents of a URL
+</code></pre><p>使用setValue:forHTTPHeaderField:方法可以为请求指定不同的内容类型。如果这样做，请确保你的正文内容类型和这个匹配。</p>
+<p>为了获取POST请求的进度，在连接的代理中实现connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:方法。注意这不是上传进度的准确的测量，因为连接可能失败或者连接可能遇到认证挑战。</p>
+<h2 id="Retrieving-Data-Using-a-Completion-Handler-Block"><a href="#Retrieving-Data-Using-a-Completion-Handler-Block" class="headerlink" title="Retrieving Data Using a Completion Handler Block"></a>Retrieving Data Using a Completion Handler Block</h2><p>(使用完成处理器Block获取数据)</p>
+<p>NSURLConnection类提供支持异步管理，并且在结果返回或者发生错误或者超时时回调Block。要做到这一点，调用类方法sendAsynchronousRequest:queue:completionHandler:方法，提供请求对象，一个回调Block，一个操作队列(用来运行Block)，当请求完成或者错误发生时，URL加载系统会调用这个Block返回结果数据或者错误信息。</p>
+<p>如果请求成功，请求的内容传递给回调Block，会返回NSData对象和NSURLResponse对象。如果NSURLConnection不能检索URL，一个NSError对象会当作第三个参数传递过来。</p>
+<p><strong>注意</strong>：这个方法有两个显著的局限性：</p>
+<ul>
+<li>最小程度的支持需要认证的请求。如果请求需要认证然后连接，有效的凭证必须已经在NSURLCredentialStorage对象中可用了，或者当作URL请求对象的一部分提供了。如果凭证不可用或者认证失败，URL加载系统负责发送连接的continueWithoutCredentialForAuthenticationChallenge:消息到NSURLProtocol的子类处理。</li>
+<li>没有办法修改默认的响应缓存的行为或者接收服务器重定向。当连接遇到服务器重定向时，重定向始终是被允许的。同样的，根据提供的协议的默认实现，响应的数据存储在缓存中。</li>
+</ul>
+<p>NSURLSession提供了相似的功能当没有这些限制。更多信息，阅读<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/UsingNSURLSession.html#//apple_ref/doc/uid/TP40013509-SW1" target="_blank" rel="external"> Using NSURLSession </a>。</p>
+<h2 id="Retrieving-Data-Synchronously"><a href="#Retrieving-Data-Synchronously" class="headerlink" title="Retrieving Data Synchronously"></a>Retrieving Data Synchronously</h2><p>(同步获取数据)</p>
+<p>NSURLConnection类提供支持同步管理，调用类方法<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/index.html#//apple_ref/occ/clm/NSURLConnection/sendSynchronousRequest:returningResponse:error:" target="_blank" rel="external"> sendSynchronousRequest:returningResponse:error: </a>来实现同步获取数据。并不推荐使用这种方法，因为它有几点限制：</p>
+<ul>
+<li>除非你在开发command-line工具，否则你必须添加额外的代码保证请求没有运行在你应用程序的主线程上。</li>
+<li>最小程度的支持请求的认证。</li>
+<li>没有办法修改默认的响应缓存的行为或者接收服务器重定向。</li>
+</ul>
+<p><strong>重要</strong>：如果你同步获取数据，你必须确保请求的代码不会运行在你应用程序的主线程上。网络操作需要人任意长的时间才能完成。如果你尝试在主线程上同步执行网络操作，这些操作会阻塞应用程序的执行直到数据完全获取到，或者发生错误，或者请求超时。这回造成糟糕的用户体验，也会引起iOS终止你的应用程序。</p>
+<p>如果请求成功，会通过NSData对象和NSURLResponse对象的引用返回请求的内容。如果NSURLConnection无法检索URL，这方法会返回nil，以及一个NSError实例的引用。</p>
+<p>如果请求需要认证之后连接，有效的凭证必须已经在NSURLCredentialStorage对象且可用，或者必须作为URL请求的一部分提供。如果凭证不可用或者认证失败，URL加载系统负责发送连接的continueWithoutCredentialForAuthenticationChallenge:消息到NSURLProtocol的子类处理。</p>
+<p>如果同步连接遇到服务器重定向，重定向始终是被允许的。同样的，根据提供的协议的默认实现，响应的数据存储在缓存中。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NSURLSession/" rel="tag">#NSURLSession</a>
+          
+            <a href="/tags/NSURLConnection/" rel="tag">#NSURLConnection</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/29/URL-Session-Programming-Guide-Using-NSURLSession/" rel="next" title="URL Session Programming Guide - Using NSURLSession">
+                <i class="fa fa-chevron-left"></i> URL Session Programming Guide - Using NSURLSession
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/29/URL-Session-Programming-Guide-Using-NSURLDownload/" rel="prev" title="URL Session Programming Guide - Using NSURLDownload">
+                URL Session Programming Guide - Using NSURLDownload <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Using-NSURLConnection/"
+           data-title="URL Session Programming Guide - Using NSURLConnection" data-url="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Using-NSURLConnection/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Using-NSURLConnection"><span class="nav-number">1.</span> <span class="nav-text">Using NSURLConnection</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-a-Connection"><span class="nav-number">1.1.</span> <span class="nav-text">Creating a Connection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Making-a-POST-Request"><span class="nav-number">1.2.</span> <span class="nav-text">Making a POST Request</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Retrieving-Data-Using-a-Completion-Handler-Block"><span class="nav-number">1.3.</span> <span class="nav-text">Retrieving Data Using a Completion Handler Block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Retrieving-Data-Synchronously"><span class="nav-number">1.4.</span> <span class="nav-text">Retrieving Data Synchronously</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

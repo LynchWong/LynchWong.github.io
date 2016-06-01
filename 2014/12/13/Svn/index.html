@@ -1,0 +1,688 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Svn," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="从开始做iOS开发后就一直用的Git，代码托管在Github上。而之前是做.Net开发，用的VS2010。团队协作，代码托管都是用的TFS，不知道是不是叫这个，已经是很久之前的事了。
+TFS用起来还是挺方便的，但是后来换了公司。新公司架构师是做Ruby的，大家都知道最开始将代码托管在Github的那群人就是Ruby社区的。所以公司所有的代码都托管在Github上。
+刚转到Git时，各种不适应，但公">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Svn">
+<meta property="og:url" content="http://lynchwong.com/2014/12/13/Svn/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="从开始做iOS开发后就一直用的Git，代码托管在Github上。而之前是做.Net开发，用的VS2010。团队协作，代码托管都是用的TFS，不知道是不是叫这个，已经是很久之前的事了。
+TFS用起来还是挺方便的，但是后来换了公司。新公司架构师是做Ruby的，大家都知道最开始将代码托管在Github的那群人就是Ruby社区的。所以公司所有的代码都托管在Github上。
+刚转到Git时，各种不适应，但公">
+<meta property="og:updated_time" content="2016-06-01T13:00:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Svn">
+<meta name="twitter:description" content="从开始做iOS开发后就一直用的Git，代码托管在Github上。而之前是做.Net开发，用的VS2010。团队协作，代码托管都是用的TFS，不知道是不是叫这个，已经是很久之前的事了。
+TFS用起来还是挺方便的，但是后来换了公司。新公司架构师是做Ruby的，大家都知道最开始将代码托管在Github的那群人就是Ruby社区的。所以公司所有的代码都托管在Github上。
+刚转到Git时，各种不适应，但公">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Svn | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Svn
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-12-13T17:04:27+08:00" content="2014-12-13">
+              2014-12-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/杂项/" itemprop="url" rel="index">
+                    <span itemprop="name">杂项</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/13/Svn/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/13/Svn/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>从开始做iOS开发后就一直用的Git，代码托管在Github上。而之前是做.Net开发，用的VS2010。团队协作，代码托管都是用的TFS，不知道是不是叫这个，已经是很久之前的事了。</p>
+<p>TFS用起来还是挺方便的，但是后来换了公司。新公司架构师是做Ruby的，大家都知道最开始将代码托管在Github的那群人就是Ruby社区的。所以公司所有的代码都托管在Github上。</p>
+<p>刚转到Git时，各种不适应，但公司其他人都是命令行操作，所以也只能硬着头皮学了。熟悉了之后还是觉得挺好用的，用了没多久又换公司了，所以你懂的，这次的公司是用Svn的。</p>
+<a id="more"></a>
+<h3 id="Svn常用命令"><a href="#Svn常用命令" class="headerlink" title="Svn常用命令"></a>Svn常用命令</h3><h5 id="1、将文件checkout到本地目录"><a href="#1、将文件checkout到本地目录" class="headerlink" title="1、将文件checkout到本地目录"></a>1、将文件checkout到本地目录</h5><p>svn checkout path（path是服务器上的目录）</p>
+<p>简写：svn co</p>
+<h5 id="2、往版本库中添加新的文件"><a href="#2、往版本库中添加新的文件" class="headerlink" title="2、往版本库中添加新的文件"></a>2、往版本库中添加新的文件</h5><p>svn add file</p>
+<h5 id="3、将改动的文件提交到版本库"><a href="#3、将改动的文件提交到版本库" class="headerlink" title="3、将改动的文件提交到版本库"></a>3、将改动的文件提交到版本库</h5><p>svn commit -m “LogMessage” [-N] [–no-unlock] PATH(如果选择了保持锁，就使用–no-unlock开关)</p>
+<p>简写：svn ci</p>
+<h5 id="4、加锁-解锁"><a href="#4、加锁-解锁" class="headerlink" title="4、加锁/解锁"></a>4、加锁/解锁</h5><p>svn lock -m “LockMessage” [–force] PATH</p>
+<p>svn unlock PATH</p>
+<h5 id="5、更新到某个版本"><a href="#5、更新到某个版本" class="headerlink" title="5、更新到某个版本"></a>5、更新到某个版本</h5><p>svn update -r m path</p>
+<p>简写：svn up</p>
+<h5 id="6、查看文件或者目录状态"><a href="#6、查看文件或者目录状态" class="headerlink" title="6、查看文件或者目录状态"></a>6、查看文件或者目录状态</h5><p>1）svn status path（目录下的文件和子目录的状态，正常状态不显示）</p>
+<p>2）svn status -v path(显示文件和子目录状态)</p>
+<p>简写：svn st</p>
+<h5 id="7、删除文件"><a href="#7、删除文件" class="headerlink" title="7、删除文件"></a>7、删除文件</h5><p>svn delete path -m “delete test fle”</p>
+<p>简写：svn (del, remove, rm)</p>
+<h5 id="8、查看日志"><a href="#8、查看日志" class="headerlink" title="8、查看日志"></a>8、查看日志</h5><p>svn log path</p>
+<h5 id="9、查看文件详细信息"><a href="#9、查看文件详细信息" class="headerlink" title="9、查看文件详细信息"></a>9、查看文件详细信息</h5><p>svn info path</p>
+<h5 id="10、比较差异"><a href="#10、比较差异" class="headerlink" title="10、比较差异"></a>10、比较差异</h5><p>svn diff path(将修改的文件与基础版本比较)</p>
+<p>svn diff -r m:n path(对版本m和版本n比较差异)</p>
+<p>简写：svn di</p>
+<h5 id="11、将两个版本之间的差异合并到当前文件"><a href="#11、将两个版本之间的差异合并到当前文件" class="headerlink" title="11、将两个版本之间的差异合并到当前文件"></a>11、将两个版本之间的差异合并到当前文件</h5><p>svn merge -r m:n path</p>
+<h5 id="12、SVN-帮助"><a href="#12、SVN-帮助" class="headerlink" title="12、SVN 帮助"></a>12、SVN 帮助</h5><p>svn help</p>
+<p>svn help ci</p>
+<h5 id="13、svn-cleanup"><a href="#13、svn-cleanup" class="headerlink" title="13、svn cleanup"></a>13、svn cleanup</h5><p>当Subversion修改你的工作副本时（或者任何在.svn中的信息），它尝试尽可能做到安全。在改变一个工作副本前，Subversion把它的意 图写到一个日志文件中。接下来它执行日志文件中的命令来应用要求的修改。最后，Subversion删除日志文件。从架构上来说，这与一个日志文件系统 （journaled filesystem）类似。如果一个 Subversion操作被打断（例如，进程被杀掉了，或机器当掉了）了，日志文件仍在硬盘上。重新执行日志文件，Subversion可以完成先前开始 的操作，这样你的工作副本能回到一个可靠的状态。 </p>
+<p>以下是svn cleanup所做的：它搜索你的工作副本并执行所有遗留的日志，在这过程中删除锁。如果Subversion曾告诉你你的工作副本的一部分被“锁定”了，那么你应该执行这个命令。另外， svn status会在锁定的项前显示L。 </p>
+<p>$ svn status</p>
+<p>L    somedir</p>
+<p>M   somedir/foo.c </p>
+<p>$ svn cleanup</p>
+<p>$ svn status</p>
+<p>M      somedir/foo.c</p>
+<h5 id="14、svn-import"><a href="#14、svn-import" class="headerlink" title="14、svn import"></a>14、svn import</h5><p>使用svn import是把未版本化的文件树复制到资料库的快速办法，它需要创建一个临时目录。 </p>
+<p>$ svnadmin create /usr/local/svn/newrepos</p>
+<p>$ svn import mytree file:///usr/local/svn/newrepos/some/project</p>
+<p>Adding         mytree/foo.c</p>
+<p>Adding         mytree/bar.c</p>
+<p>Adding         mytree/subdir</p>
+<p>Adding         mytree/subdir/quux.h</p>
+<p>Committed revision 1.</p>
+<p>上面的例子把在some/project目录下mytree目录的内容复制到资料库中。 </p>
+<p>$ svn list file:///usr/local/svn/newrepos/some/project<br>bar.c<br>foo.c<br>subdir/</p>
+<p>注意在导入完成后，原来的树没有被转化成一个工作副本。为了开始工作，你仍然需要svn checkout这个树的一个新的工作副本。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Svn/" rel="tag">#Svn</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/12/12/Git/" rel="next" title="Git">
+                <i class="fa fa-chevron-left"></i> Git
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/15/iOS蓝牙，CoreBluetooth框架简介及入门使用/" rel="prev" title="iOS蓝牙，CoreBluetooth框架简介及入门使用">
+                iOS蓝牙，CoreBluetooth框架简介及入门使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/12/13/Svn/"
+           data-title="Svn" data-url="http://lynchwong.com/2014/12/13/Svn/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Svn常用命令"><span class="nav-number">1.</span> <span class="nav-text">Svn常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、将文件checkout到本地目录"><span class="nav-number">1.0.1.</span> <span class="nav-text">1、将文件checkout到本地目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、往版本库中添加新的文件"><span class="nav-number">1.0.2.</span> <span class="nav-text">2、往版本库中添加新的文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、将改动的文件提交到版本库"><span class="nav-number">1.0.3.</span> <span class="nav-text">3、将改动的文件提交到版本库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、加锁-解锁"><span class="nav-number">1.0.4.</span> <span class="nav-text">4、加锁/解锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、更新到某个版本"><span class="nav-number">1.0.5.</span> <span class="nav-text">5、更新到某个版本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、查看文件或者目录状态"><span class="nav-number">1.0.6.</span> <span class="nav-text">6、查看文件或者目录状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7、删除文件"><span class="nav-number">1.0.7.</span> <span class="nav-text">7、删除文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8、查看日志"><span class="nav-number">1.0.8.</span> <span class="nav-text">8、查看日志</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9、查看文件详细信息"><span class="nav-number">1.0.9.</span> <span class="nav-text">9、查看文件详细信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#10、比较差异"><span class="nav-number">1.0.10.</span> <span class="nav-text">10、比较差异</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#11、将两个版本之间的差异合并到当前文件"><span class="nav-number">1.0.11.</span> <span class="nav-text">11、将两个版本之间的差异合并到当前文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#12、SVN-帮助"><span class="nav-number">1.0.12.</span> <span class="nav-text">12、SVN 帮助</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#13、svn-cleanup"><span class="nav-number">1.0.13.</span> <span class="nav-text">13、svn cleanup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#14、svn-import"><span class="nav-number">1.0.14.</span> <span class="nav-text">14、svn import</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

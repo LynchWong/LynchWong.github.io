@@ -1,0 +1,776 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CoreData," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前面我们从CoreData提取数据的时候都只是简单的使用了NSFetchRequest，没有对数据进行精确的控制和刷选。
+本章就讲讲NSFetchRequest，但是没有Demo演示，大多都只是给出代码，相信大家都能看得懂，然后自己去尝试使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreData: Fetching">
+<meta property="og:url" content="http://lynchwong.com/2015/07/22/CoreData-Fetching/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="前面我们从CoreData提取数据的时候都只是简单的使用了NSFetchRequest，没有对数据进行精确的控制和刷选。
+本章就讲讲NSFetchRequest，但是没有Demo演示，大多都只是给出代码，相信大家都能看得懂，然后自己去尝试使用。">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataFetching/1.png">
+<meta property="og:updated_time" content="2016-06-01T11:39:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreData: Fetching">
+<meta name="twitter:description" content="前面我们从CoreData提取数据的时候都只是简单的使用了NSFetchRequest，没有对数据进行精确的控制和刷选。
+本章就讲讲NSFetchRequest，但是没有Demo演示，大多都只是给出代码，相信大家都能看得懂，然后自己去尝试使用。">
+<meta name="twitter:image" content="http://lynchwong.com/img/CoreDataFetching/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> CoreData: Fetching | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CoreData: Fetching
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-22T22:00:06+08:00" content="2015-07-22">
+              2015-07-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/22/CoreData-Fetching/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/22/CoreData-Fetching/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前面我们从CoreData提取数据的时候都只是简单的使用了<strong>NSFetchRequest</strong>，没有对数据进行精确的控制和刷选。</p>
+<p>本章就讲讲<strong>NSFetchRequest</strong>，但是没有Demo演示，大多都只是给出代码，相信大家都能看得懂，然后自己去尝试使用。</p>
+<a id="more"></a>
+<h1 id="NSFetchRequest"><a href="#NSFetchRequest" class="headerlink" title="NSFetchRequest"></a>NSFetchRequest</h1><p>从前面的章节我们得知，从CoreData获取数据的方法就是新建<strong>NSFetchRequest</strong>的实例，然后进行你需要的配置，再交给<strong>NSManagedObjectContext</strong>来完成操作。</p>
+<p>看起来相当的简单，实际上，有四种方法来获取一个<strong>NSFetchRequest</strong>。如下所示：</p>
+<pre><code>//1
+let fetchRequest1 = NSFetchRequest()
+let entity = NSEntityDescription.entityForName(&quot;Warehouse&quot;, inManagedObjectContext: managedContext)!
+fetchRequest1.entity = entity
+
+//2
+let fetchRequest2 = NSFetchRequest(entityName: &quot;Warehouse&quot;)
+
+//3
+let fetchRequest3 = managedObjectModel.fetchRequestTemplateForName(&quot;FetchRequest&quot;)
+
+//4
+let fetchRequest4 = managedObjectModel.fetchRequestFromTemplateWithName(&quot;FetchRequest&quot;, substitutionVariables: [&quot;name&quot; : &quot;apple&quot;])
+</code></pre><p>如上代码所示，第一种和第二种都很简单。第三种方法，我们从<strong>NSManagedObjectModel</strong>里面检索了<strong>NSFetchRequest</strong>。你可以在Xcode的数据模型编辑器里面存储你经常使用的一些<strong>NSFetchRequest</strong>，后面我们会讲解。第四种方法和第三种是类似的，但是传递了参数，<code>substitutionVariables</code>会用在谓词中来细化我们要获取的数据。</p>
+<h1 id="Stored-fetch-requests"><a href="#Stored-fetch-requests" class="headerlink" title="Stored fetch requests"></a>Stored fetch requests</h1><p>正如之前提到的，我们可以将一些频繁使用的<strong>NSFetchRequest</strong>存储到数据模型中。这样不仅便于我们访问，而且可视化的界面操作也便于我们设置参数。</p>
+<p>打开<strong>.xcdatamodeld</strong>文件，然后长按<strong>Add Entity</strong>，然后选择<strong>Add Fetch Request</strong>。如下图所示：</p>
+<p><img src="/img/CoreDataFetching/1.png" alt="alt text"></p>
+<p>你可以从新设置名字，这里我使用了默认的名字。也增加了谓词，如图中所示。查找name是apple的Good。使用如下代码来获取这个FetchRequest，以及使用：</p>
+<pre><code>let fetchRequest = managedObjectModel.fetchRequestTemplateForName(&quot;FetchRequest&quot;)!
+var error: NSError?
+let results = managedContext.executeFetchRequest(fetchRequest, error: &amp;error) as? [Good]
+if let fetchedResults = results {
+    let good = fetchedResults[0]
+    println(&quot;result : \(good.name)&quot;)
+} else {
+    println(&quot;Could not fetch \(error), \(error!.userInfo)&quot;)
+}
+</code></pre><p>使用方法和我们之前是类似的，只是获取的方式不一样。注意这里是使用的<strong>managedObjectModel</strong>来获取的，即是我们之前<strong>CoreDataStack</strong>里面的<strong>model</strong>属性，<strong>NSManagedObjectModel</strong>的实例。<strong>fetchRequestTemplateForName()</strong>方法接收一个字符串参数，这个字符串必须与我们设置的FetchRequest的名字匹配，否侧程序会抛出异常然后崩溃。</p>
+<p>如果你使用的是上一章节的Demo，那么你就需要在<strong>AppDelegate.swift</strong>里设置<strong>ViewController.swift</strong>时添加如下代码，同理还要在<strong>ViewController.swift</strong>设置一个<strong>managedObjectModel</strong>属性：</p>
+<pre><code>viewController.managedObjectModel = coreDataStack.model
+
+var managedObjectModel: NSManagedObjectModel!
+</code></pre><p>最后输出结果：</p>
+<pre><code>result : apple
+</code></pre><h1 id="Fetching-different-result-types"><a href="#Fetching-different-result-types" class="headerlink" title="Fetching different result types"></a>Fetching different result types</h1><p>感觉上<strong>NSFetchRequest</strong>没有多大用处，实际上，<strong>NSFetchRequest</strong>就像一把多功能瑞士军刀。你可以用它获取独立的数据，计算过后的数据，比如平均值、最小值、最大值等等。</p>
+<p><strong>NSFetchRequest</strong>有一个<strong>resultType</strong>属性，到目前为止，我们使用的都是默认的<strong>NSManagedObjectResultType</strong>。如下列出了所有可能的值：</p>
+<ul>
+<li><strong>NSManagedObjectResultType</strong>：返回managed objects(默认值)。</li>
+<li><strong>NSCountResultType</strong>：返回结果的条数。</li>
+<li><strong>NSDictionaryResultType</strong>：返回不同的计算结果。</li>
+<li><strong>NSManagedObjectIDResultType</strong>：返回一个唯一的identifiers，而不是整个对象。</li>
+</ul>
+<h2 id="NSCountResultType"><a href="#NSCountResultType" class="headerlink" title="NSCountResultType"></a>NSCountResultType</h2><pre><code>let fetchRequest = NSFetchRequest(entityName: &quot;Good&quot;)
+fetchRequest.resultType = .CountResultType
+var error: NSError?
+let results = managedContext.executeFetchRequest(fetchRequest, error: &amp;error) as? [NSNumber]
+if let fetchedResults = results {
+    let number = fetchedResults[0]
+    println(&quot;result : \(number.integerValue)&quot;)
+} else {
+    println(&quot;Could not fetch \(error), \(error!.userInfo)&quot;)
+}
+</code></pre><p>一旦你设置了resultType为<strong>NSCountResultType</strong>，返回值就变成了包含单个<strong>NSNumber</strong>对象的可选数组。因为没有添加谓词，所以应该会查询所有的Good，CoreData里面只有两条数据，最后输出如下：<br>    result : 2</p>
+<p><strong>注意：</strong>你可能会觉得我们不需设置为<strong>NSCountResultType</strong>，只需使用默认值，然后使用数组的count属性就可以达到相同的目的。但是这样的话，返回值数组包含的是对象。假设我们有百万条数据，你觉得CoreData是给我们一个数值高效还是给我们百万条记录更高效，同时内存占用也完全不一样。</p>
+<h3 id="An-alternate-way-to-fetch-a-count"><a href="#An-alternate-way-to-fetch-a-count" class="headerlink" title="An alternate way to fetch a count"></a>An alternate way to fetch a count</h3><p>还有另外一种可以替代设置resultType为<strong>NSCountResultType</strong>的方法，如下：</p>
+<pre><code>let fetchRequest = NSFetchRequest(entityName: &quot;Good&quot;)
+var error: NSError?
+let count = managedContext.countForFetchRequest(fetchRequest, error: &amp;error)
+if count == NSNotFound {
+    println(&quot;Could not fetch \(error), \(error!.userInfo)&quot;)
+}
+println(&quot;count : \(count)&quot;)
+</code></pre><h2 id="NSDictionaryResultType"><a href="#NSDictionaryResultType" class="headerlink" title="NSDictionaryResultType"></a>NSDictionaryResultType</h2><p>假设Good有个<strong>price</strong>的属性，类型是<strong>Double</strong>。现在我们有个新的需求，就是要得到所有商品的价格总和。实现这个需求并不难，我们可以把所有的商品查询出来，然后用一个循环把商品的价格加起来就实现了这个需求。幸运的是CoreData内建支持了大量不同的函数，比如求平均值的、总和的、最小值或最大值等等。</p>
+<pre><code>//1
+let fetchRequest = NSFetchRequest(entityName: &quot;Good&quot;)
+fetchRequest.resultType = .DictionaryResultType
+//2
+let sumExpressionDesc = NSExpressionDescription()
+sumExpressionDesc.name = &quot;sumPrice&quot;
+//3
+sumExpressionDesc.expression = NSExpression(forFunction: &quot;sum:&quot;, arguments:[NSExpression(forKeyPath: &quot;price&quot;)])
+sumExpressionDesc.expressionResultType = .Integer32AttributeType
+//4
+fetchRequest.propertiesToFetch = [sumExpressionDesc]
+//5
+var error: NSError?
+let result = managedContext.executeFetchRequest(fetchRequest, error: &amp;error) as? [NSDictionary]
+if let resultArray = result {
+    let resultDict = resultArray[0]
+    let sumPrice: AnyObject? = resultDict[&quot;sumPrice&quot;]
+    println(&quot;SumPrice : \(sumPrice!)&quot;)
+} else {
+    println(&quot;Could not fetch \(error), \(error!.userInfo)&quot;)
+}
+</code></pre><p>最后输出结果：</p>
+<pre><code>SumPrice : 100
+</code></pre><p>我修改了下Good实体，添加了price属性，然后重新生成了NSManagedObject subclasses。然后在添加Good的方法里面设置所有添加的商品的price都为100。这里就不详细讲解怎么实现的了。</p>
+<p>我们创建了<strong>NSExpressionDescription</strong>来请求总和，然后设置<strong>name</strong>属性为“sumPrice”。便于我们在后面字典里面获取这个值。然后我们指定了“sum:”这个函数以及需要求和的属性“price”；设置返回结果的类型，最后设置了propertiesToFetch属性wierd我们刚才创建的<strong>NSExpressionDescription</strong>。</p>
+<p><strong>注意：</strong>CoreData支持哪些函数，count, min, max, average, median, mode, absolute value等等，详见苹果官方文档的<strong>NSExpression</strong>。</p>
+<h2 id="NSManagedObjectIDResultType"><a href="#NSManagedObjectIDResultType" class="headerlink" title="NSManagedObjectIDResultType"></a>NSManagedObjectIDResultType</h2><p>当设置为这种类型的时候，返回值数组包含的是<strong>NSManagedObjectID</strong>对象，而不是实体对象。<strong>NSManagedObjectID</strong>是一个全局唯一的identifier，就像是数据库里面的主键一样。</p>
+<p>在iOS5之前，是用IDs来fetching数据很流行，因为它适配了并发模型。而现在线程限制已在更现代的并发模型中被废弃了，所以没有再使用这种类型的理由了。</p>
+<h1 id="Sorting-fetched-results"><a href="#Sorting-fetched-results" class="headerlink" title="Sorting fetched results"></a>Sorting fetched results</h1><p><strong>NSFetchRequest</strong>另一个强大的功能就是对请求的数据进行排序，通过使用<strong>NSSortDescriptor</strong>。排序发生在<strong>SQLite</strong>层面，而不是在内存中。这让排序在CoreData中很高效。</p>
+<pre><code>fetchRequest.sortDescriptors = [NSSortDescriptor(key: &quot;warehouse.name&quot;, ascending: true)]
+</code></pre><p>使用如上代码给<strong>NSFetchRequest</strong>添加排序，支持key path。</p>
+<h1 id="Asynchronous-fetching"><a href="#Asynchronous-fetching" class="headerlink" title="Asynchronous fetching"></a>Asynchronous fetching</h1><p>到目前为止，我们执行的每一个<strong>NSFetchRequest</strong>都会阻塞主线程，阻塞主线程会导致什么结果相信大家都很清楚。</p>
+<p>在我们的Demo中没有感受到阻塞是因为我们的数据量太少，做的操作都很简单。</p>
+<p>CoreData从一开始就提供了几种不同的技术在后台执行<strong>NSFetchRequest</strong>。在iOS8，CoreData有了一个新的API，能够在后台长时间的执行<strong>NSFetchRequest</strong>，然后在完成时进行回调。</p>
+<pre><code>let fetchRequest = NSFetchRequest(entityName: &quot;Good&quot;)
+let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) {
+    [unowned self] (result: NSAsynchronousFetchResult! ) -&gt; Void in
+        var goods = result.finalResult as! [Good]
+}
+var error: NSError?
+let results = managedContext.executeRequest(asyncFetchRequest, error: &amp;error)
+if let persistentStoreResults = results {
+    //Returns immediately, cancel here if you want
+} else {
+    println(&quot;Could not fetch \(error), \(error!.userInfo)&quot;)
+}
+</code></pre><p>从代码中可以看到<strong>NSAsynchronousFetchRequest</strong>，但是仍然需要<strong>NSFetchRequest</strong>。这里需要注意的是<strong>executeFetchRequest()</strong>被<strong>executeRequest()</strong>方法替换了。<br><strong>注意：</strong>你可以使用<strong>NSAsynchronousFetchRequest</strong>的<strong>cancel()</strong>方法来取消数据请求。<br>除此之外还要修改<strong>NSManagedObjectContext</strong>，在比如之前的Demo，我们需要修改<strong>CoreDataStack</strong>中的<strong>context</strong>，如下：<br>    context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)</p>
+<p><strong>NSManagedObjectContext</strong>有三种concurrencyType。如果你不设置，默认的是<strong>.ConfinementConcurrencyType</strong>，已经废弃了。还有一种是<strong>.PrivateQueueConcurrencyType</strong>，后面的章节会讲解。</p>
+<h1 id="Batch-updates-no-fetching-required"><a href="#Batch-updates-no-fetching-required" class="headerlink" title="Batch updates: no fetching required"></a>Batch updates: no fetching required</h1><p>我们从CoreData里面获取数据就是为了要修改数据，大部分的操作也是基于此。如果你想要一次更新上百上千条数据怎么办呢？这需要大量的时间和内存开销，当然最普通的方法就是循环需要修改的数据，单着并不是最好的方法。</p>
+<p>幸运的是在iOS8，苹果引进了batch updates，一种新的更新CoreData对象的方法，而不需要fetch任何东西到内存里。这种方式大大的减少了时间和内存的开销。代码如下：</p>
+<pre><code>let batchUpdate = NSBatchUpdateRequest(entityName: &quot;Good&quot;)
+batchUpdate.propertiesToUpdate = [&quot;price&quot;: NSNumber(double: 150)]
+batchUpdate.affectedStores = psc.persistentStores
+batchUpdate.resultType = .UpdatedObjectsCountResultType
+
+var batchError: NSError?
+let batchResult = managedContext.executeRequest(batchUpdate, error: &amp;batchError) as? NSBatchUpdateResult
+
+if let result = batchResult {
+    println(&quot;Records updated \(result.result)&quot;)
+} else {
+    println(&quot;Could not update \(batchError), \(batchError!.userInfo)&quot;)
+}
+</code></pre><p>比如上面的代码，我将所有商品的价格都修改成了150。经典的使用场景就是一个邮件或者消息客户端有个“Mark all as read”的功能。</p>
+<p>本章没有完整的演示Demo，大都只是提供代码，相信大家都能看懂，毕竟很多代码都是前面几章Demo涉及到的。</p>
+<p>PS：最后两小节比较有局限性，只在iOS8中可用。到目前为止，整个App都只有单个的<strong>NSManagedObjectContext</strong>，后面我们会涉及到多个<strong>NSManagedObjectContext</strong>，以及在多线程间的同步问题。不过在学习这些之前还有些基础的知识需要了解学习，以上。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CoreData/" rel="tag">#CoreData</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/21/CoreData-The-Core-Data-Stack/" rel="next" title="CoreData: The Core Data Stack">
+                <i class="fa fa-chevron-left"></i> CoreData: The Core Data Stack
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/23/CoreData-NSFetchedResultsController/" rel="prev" title="CoreData: NSFetchedResultsController">
+                CoreData: NSFetchedResultsController <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/22/CoreData-Fetching/"
+           data-title="CoreData: Fetching" data-url="http://lynchwong.com/2015/07/22/CoreData-Fetching/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NSFetchRequest"><span class="nav-number">1.</span> <span class="nav-text">NSFetchRequest</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stored-fetch-requests"><span class="nav-number">2.</span> <span class="nav-text">Stored fetch requests</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fetching-different-result-types"><span class="nav-number">3.</span> <span class="nav-text">Fetching different result types</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NSCountResultType"><span class="nav-number">3.1.</span> <span class="nav-text">NSCountResultType</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#An-alternate-way-to-fetch-a-count"><span class="nav-number">3.1.1.</span> <span class="nav-text">An alternate way to fetch a count</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSDictionaryResultType"><span class="nav-number">3.2.</span> <span class="nav-text">NSDictionaryResultType</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSManagedObjectIDResultType"><span class="nav-number">3.3.</span> <span class="nav-text">NSManagedObjectIDResultType</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sorting-fetched-results"><span class="nav-number">4.</span> <span class="nav-text">Sorting fetched results</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Asynchronous-fetching"><span class="nav-number">5.</span> <span class="nav-text">Asynchronous fetching</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Batch-updates-no-fetching-required"><span class="nav-number">6.</span> <span class="nav-text">Batch updates: no fetching required</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

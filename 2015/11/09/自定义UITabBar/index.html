@@ -1,0 +1,681 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS自定义控件," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="先给出两个参考资料：
+ iOS 自定义TabBarController  学习笔记：UITabBarController使用详解 
+先说说思路，和第一个参考资料的思路基本类似。我们自己做一个类似UITabBar的视图，然后我们新建一个继承自UITabBarController的控制器，然后将我们自己的视图添加到系统的UITabBar。这样做的好处前面的参考资料里面也提到了，省去了隐藏TabBar时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义UITabBar">
+<meta property="og:url" content="http://lynchwong.com/2015/11/09/自定义UITabBar/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="先给出两个参考资料：
+ iOS 自定义TabBarController  学习笔记：UITabBarController使用详解 
+先说说思路，和第一个参考资料的思路基本类似。我们自己做一个类似UITabBar的视图，然后我们新建一个继承自UITabBarController的控制器，然后将我们自己的视图添加到系统的UITabBar。这样做的好处前面的参考资料里面也提到了，省去了隐藏TabBar时">
+<meta property="og:image" content="http://lynchwong.com/img/SelfDefineUITabBar/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/SelfDefineUITabBar/2.png">
+<meta property="og:updated_time" content="2016-06-01T12:54:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义UITabBar">
+<meta name="twitter:description" content="先给出两个参考资料：
+ iOS 自定义TabBarController  学习笔记：UITabBarController使用详解 
+先说说思路，和第一个参考资料的思路基本类似。我们自己做一个类似UITabBar的视图，然后我们新建一个继承自UITabBarController的控制器，然后将我们自己的视图添加到系统的UITabBar。这样做的好处前面的参考资料里面也提到了，省去了隐藏TabBar时">
+<meta name="twitter:image" content="http://lynchwong.com/img/SelfDefineUITabBar/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 自定义UITabBar | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                自定义UITabBar
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-11-09T15:48:59+08:00" content="2015-11-09">
+              2015-11-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/09/自定义UITabBar/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/09/自定义UITabBar/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先给出两个参考资料：</p>
+<p><a href="http://blog.csdn.net/gf771115/article/details/37890663" target="_blank" rel="external"> iOS 自定义TabBarController </a><br><a href="http://www.cnblogs.com/martin1009/archive/2012/05/30/2526401.html" target="_blank" rel="external"> 学习笔记：UITabBarController使用详解 </a></p>
+<p>先说说思路，和第一个参考资料的思路基本类似。我们自己做一个类似<strong>UITabBar</strong>的视图，然后我们新建一个继承自<strong>UITabBarController</strong>的控制器，然后将我们自己的视图添加到系统的<strong>UITabBar</strong>。这样做的好处前面的参考资料里面也提到了，省去了隐藏TabBar时的许多麻烦。</p>
+<p>这里就不手把手的一步一步的讲解怎么做了，我描述一下大概的步骤，提示一些细节。最后我会上传一个完整的Demo工程，大家参考工程源码就能明白了。</p>
+<h1 id="自定义视图"><a href="#自定义视图" class="headerlink" title="自定义视图"></a>自定义视图</h1><p>自定义视图很简单，不管你是用代码还是用Xib或者StoryBoard都可以。我工程中使用的是Xib，而且我做的这个视图并不具有通用性，完全参照UI设计的来做的。工程里面的代码没有什么难点的地方，约束也都很简单。这里我们需要一个委托来选择点击的按钮是对应的控制器。</p>
+<h1 id="添加视图"><a href="#添加视图" class="headerlink" title="添加视图"></a>添加视图</h1><p>我们新建一个继承自<strong>UITabBarController</strong>的控制器，然后在<strong>viewWillAppear:</strong>方法里面添加如下代码：</p>
+<pre><code>//去掉那条线
+self.tabBar.shadowImage = [UIImage imageNamed:@&quot;TransparentPixel&quot;];
+[self.tabBar setBackgroundImage:[UIImage imageNamed:@&quot;Pixel&quot;]];
+
+//去掉Tabbar原来的子视图
+CGRect rect = self.tabBar.bounds;
+for (UIView *view in self.tabBar.subviews) {
+    [view removeFromSuperview];
+    NSLog(@&quot;removeFromSuperview : %@&quot;, [[view class] description]);
+}
+
+//添加我们自己的Tabbar
+YKTabBar *tabbar = [[[NSBundle mainBundle] loadNibNamed:@&quot;YKTabBar&quot; owner:nil options:nil] firstObject];
+tabbar.frame = rect;
+tabbar.delegate = self;
+[self.tabBar addSubview:tabbar];
+
+_preSelectedButton = tabbar.firstButton;
+_preSelectedButton.enabled = NO;
+</code></pre><p>代码中我们循环了系统的UITabBar，然后我们移除了所有的子视图。最开始的时候我是在<strong>viewDidLoad</strong>方法里面做这些操作的，在循环中打印Log，什么都没有输出。</p>
+<p>最开始的两行代码很有用，用来去掉UITabBar上面那条线的。如下图所示：</p>
+<p><img src="/img/SelfDefineUITabBar/1.png" alt="alt text"></p>
+<p>左边的和右边的数字对应。图中1的UIVIew是我自己添加到视图中的，而2就是我们要去掉的那条线。我循环去掉UITabBar的子视图也没能把这个UIImageView去掉。这个方法是参考苹果官方Demo来实现的，<a href="https://developer.apple.com/library/ios/samplecode/NavBar/Introduction/Intro.html" target="_blank" rel="external"> Customizing UINavigationBar </a>。</p>
+<p>然后我们将我们自己的视图添加到系统的UITabBar，最后设置第一个按钮的状态。</p>
+<h1 id="实现委托"><a href="#实现委托" class="headerlink" title="实现委托"></a>实现委托</h1><p>最后一步就是实现委托的方法，在委托方法中设置<strong>selectedIndex</strong>的值为对应按钮的Tag值就好了。</p>
+<p>效果图如下：</p>
+<p><img src="/img/SelfDefineUITabBar/2.png" alt="alt text"></p>
+<p>上传的源码最后的效果图和我这个不一样，图片资源就不提供了。</p>
+<p><a href="https://github.com/LynchWong/UITabbarDemo" target="_blank" rel="external"> 工程源码 </a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS自定义控件/" rel="tag">#iOS自定义控件</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/29/ReactiveCocoa/" rel="next" title="ReactiveCocoa">
+                <i class="fa fa-chevron-left"></i> ReactiveCocoa
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/08/UITabbarController和UINavigationController混用的一个BUG/" rel="prev" title="UITabBarController和UINavigationController混用的一个BUG">
+                UITabBarController和UINavigationController混用的一个BUG <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/11/09/自定义UITabBar/"
+           data-title="自定义UITabBar" data-url="http://lynchwong.com/2015/11/09/自定义UITabBar/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义视图"><span class="nav-number">1.</span> <span class="nav-text">自定义视图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加视图"><span class="nav-number">2.</span> <span class="nav-text">添加视图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现委托"><span class="nav-number">3.</span> <span class="nav-text">实现委托</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

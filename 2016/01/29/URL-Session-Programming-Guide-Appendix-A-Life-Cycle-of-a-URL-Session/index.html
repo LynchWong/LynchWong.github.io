@@ -1,0 +1,730 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NSURLSession,NSURLConnection," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="官方文档
+Life Cycle of a URL Session(URL Session的生命周期)
+你可以有两种方式使用NSURLSession的API：使用系统提供的代理或者你自己的代理。通常，如果你的应用程序需要做如下任何事情时你必须使用自己的代理：
+
+在应用程序没有运行的时候使用后台会话下载或者上传内容。
+执行自定义的认证。
+执行自定义的SSL证书验证。
+决定传输的内容是应该下载到磁盘或者">
+<meta property="og:type" content="article">
+<meta property="og:title" content="URL Session Programming Guide - Appendix A: Life Cycle of a URL Session">
+<meta property="og:url" content="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Appendix-A-Life-Cycle-of-a-URL-Session/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="官方文档
+Life Cycle of a URL Session(URL Session的生命周期)
+你可以有两种方式使用NSURLSession的API：使用系统提供的代理或者你自己的代理。通常，如果你的应用程序需要做如下任何事情时你必须使用自己的代理：
+
+在应用程序没有运行的时候使用后台会话下载或者上传内容。
+执行自定义的认证。
+执行自定义的SSL证书验证。
+决定传输的内容是应该下载到磁盘或者">
+<meta property="og:updated_time" content="2016-06-01T12:55:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="URL Session Programming Guide - Appendix A: Life Cycle of a URL Session">
+<meta name="twitter:description" content="官方文档
+Life Cycle of a URL Session(URL Session的生命周期)
+你可以有两种方式使用NSURLSession的API：使用系统提供的代理或者你自己的代理。通常，如果你的应用程序需要做如下任何事情时你必须使用自己的代理：
+
+在应用程序没有运行的时候使用后台会话下载或者上传内容。
+执行自定义的认证。
+执行自定义的SSL证书验证。
+决定传输的内容是应该下载到磁盘或者">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> URL Session Programming Guide - Appendix A: Life Cycle of a URL Session | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                URL Session Programming Guide - Appendix A: Life Cycle of a URL Session
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-01-29T14:14:22+08:00" content="2016-01-29">
+              2016-01-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程指南/" itemprop="url" rel="index">
+                    <span itemprop="name">编程指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/29/URL-Session-Programming-Guide-Appendix-A-Life-Cycle-of-a-URL-Session/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Appendix-A-Life-Cycle-of-a-URL-Session/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/NSURLSessionConcepts/NSURLSessionConcepts.html#//apple_ref/doc/uid/10000165i-CH2-SW1" target="_blank" rel="external">官方文档</a></p>
+<h1 id="Life-Cycle-of-a-URL-Session"><a href="#Life-Cycle-of-a-URL-Session" class="headerlink" title="Life Cycle of a URL Session"></a>Life Cycle of a URL Session</h1><p>(URL Session的生命周期)</p>
+<p>你可以有两种方式使用NSURLSession的API：使用系统提供的代理或者你自己的代理。通常，如果你的应用程序需要做如下任何事情时你必须使用自己的代理：</p>
+<ul>
+<li>在应用程序没有运行的时候使用后台会话下载或者上传内容。</li>
+<li>执行自定义的认证。</li>
+<li>执行自定义的SSL证书验证。</li>
+<li>决定传输的内容是应该下载到磁盘或者基于服务器返回的MIME类型或者类似标准来显示。</li>
+<li>从body stream上传数据(而不是一个NSData对象)。</li>
+<li>编程限制缓存。</li>
+<li>编程限制HTTP重定向。</li>
+</ul>
+<p>如果你的应用程序不需要做以上任何事情，你的应用程序可以使用系统提供的代理。取决于你使用哪种技术，你应该阅读以下之一的章节：</p>
+<ul>
+<li><a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/NSURLSessionConcepts/NSURLSessionConcepts.html#//apple_ref/doc/uid/10000165i-CH2-SW2" target="_blank" rel="external"> Life Cycle of a URL Session with System-Provided Delegates </a>提供了轻量级的关于如何创建和使用URL会话的代码。即使你尝试编写你自己的代理你也应该阅读这个章节，因为它给了一个你的代码配置使用对象的完整的模版。</li>
+<li><a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/NSURLSessionConcepts/NSURLSessionConcepts.html#//apple_ref/doc/uid/10000165i-CH2-SW42" target="_blank" rel="external"> Life Cycle of a URL Session with Custom Delegates </a>提供了URL会话操作的每一个步骤的完整视图。你应该阅读本章节来帮助你明白会话是如何与代理交互的。具体来说，这章节解释了每个代理方法在何时调用。</li>
+</ul>
+<h2 id="Life-Cycle-of-a-URL-Session-with-System-Provided-Delegates"><a href="#Life-Cycle-of-a-URL-Session-with-System-Provided-Delegates" class="headerlink" title="Life Cycle of a URL Session with System-Provided Delegates"></a>Life Cycle of a URL Session with System-Provided Delegates</h2><p>(使用系统提供代理的URL Session的生命周期)</p>
+<p>如果你使用NSURLSession类而没有提供代理对象，系统提供的代理会帮你处理很多细节。这里是当你使用系统提供代理的NSURLSession调用方法的基本顺序：</p>
+<ol>
+<li>创建一个会话配置。对于后台会话，这个配置必须包含一个唯一标识。存储那个标识，如果你的应用程序崩溃或者终结或者挂起时使用这个标识与会话重新关联。</li>
+<li>创建会话，指定一个配置对象和nil的代理。</li>
+<li>使用会话创建一个任务对象来表示资源请求。每一个任务都以挂起的状态开始。当你应用程序调用了任务对象的resume方法后，它就会开始下载指定的资源。任务对象是NSURLSessionTask的子类，如NSURLSessionDataTask，NSURLSessionUploadTask，或者NSURLSessionDownloadTask，取决于你想实现的行为。这些对象类似于NSURLConnection对象，但是给你更多的控制和统一的代理模式。尽管你的应用程序可以(通常来说应该)添加不止一个任务给会话，为了简单起见，其余的步骤描述了单个任务的生命周期。</li>
+</ol>
+<p><strong>重要</strong>：如果你使用NSURLSession类而没有提供代理，那么你应用程序调用创建任务的方法必须传入completionHandler参数，否则你无法从类获取到数据。</p>
+<ol>
+<li>对于一个下载任务，在与服务器传输期间，如果你的用户告诉应用程序暂停下载，通过调用cancelByProducingResumeData:方法取消下载。之后可以传递返回的数据给downloadTaskWithResumeData:或者downloadTaskWithResumeData:completionHandler:方法来创建新的下载任务继续下载。</li>
+<li>当任务完成时，NSURLSession对象会调用任务的完成处理句柄。</li>
+</ol>
+<p><strong>注意</strong>：NSURLSession不会通过error参数来报告服务器的错误。你应用程序通过这个错误接收到的都是客户端这边的错误，比如无法解析主机或者无法连接主机。错误码在<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Constants/index.html#//apple_ref/doc/constant_group/URL_Loading_System_Error_Codes" target="_blank" rel="external"> URL Loading System Error Codes </a>中描述。服务端的错误通过NSHTTPURLResponse对象里面的HTTP状态码来报告。更多信息，参见<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSHTTPURLResponse_Class/index.html#//apple_ref/occ/cl/NSHTTPURLResponse" target="_blank" rel="external"> NSHTTPURLResponse </a>和<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSURLResponse_Class/index.html#//apple_ref/occ/cl/NSURLResponse" target="_blank" rel="external"> NSURLResponse </a>类的文档。</p>
+<ol>
+<li>当你的应用程序不再需要会话，通过调用<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Foundation/Reference/NSURLSession_class/index.html#//apple_ref/occ/instm/NSURLSession/invalidateAndCancel" target="_blank" rel="external"> invalidateAndCancel </a>(取消未完成的任务)或者<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Foundation/Reference/NSURLSession_class/index.html#//apple_ref/occ/instm/NSURLSession/finishTasksAndInvalidate" target="_blank" rel="external"> finishTasksAndInvalidate </a>(允许未完成的任务完成之后再使会话无效)。</li>
+</ol>
+<h2 id="Life-Cycle-of-a-URL-Session-with-Custom-Delegates"><a href="#Life-Cycle-of-a-URL-Session-with-Custom-Delegates" class="headerlink" title="Life Cycle of a URL Session with Custom Delegates"></a>Life Cycle of a URL Session with Custom Delegates</h2><p>(使用自定义代理的URL Session的生命周期)</p>
+<p>你可以经常使用NSURLSession的API而无需提供代理。但是，如果你使用NSURLSession的API进行后台下载和上传，或者你需要以非缺省的方式处理认证和缓存，那么你必须提供一个适配了会话代理协议的代理，一个或者多个任务代理协议，或者这些协议的组合。这个代理服务于许多用途：</p>
+<ul>
+<li>当使用下载任务时，NSURLSession对象会使用代理给你的应用程序提供一个文件URL来获取下载的数据。所有的后台下载和上传都要求代理。这些代理必须提供了<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Foundation/Reference/NSURLSessionDownloadDelegate_protocol/index.html#//apple_ref/occ/intf/NSURLSessionDownloadDelegate" target="_blank" rel="external"> NSURLSessionDownloadDelegate </a>协议的所有代理方法。</li>
+<li>代理可以处理某些认证挑战。</li>
+<li>代理为基于流上传数据到服务器的任务提供body streams。</li>
+<li>代理决定是否遵循HTTP重定向。</li>
+<li>NSURLSession对象使用代理为你的应用程序提供每个数据传输的状态。数据任务代理接收初始调用，你可以将请求转换成下载及后续调用，提供了从远程服务器接收的数据块。</li>
+<li>代理是告诉你应用程序传输任务完成的方法之一。</li>
+</ul>
+<p>如果你的URL会话(要求后台任务)使用自定义的代理，那么URL会话的生命周期就很复杂。下面是使用自定义代理时基本的代理方法的调用顺序：</p>
+<ol>
+<li>创建一个会话配置。对于后台会话，这个配置必须包含一个唯一标识。存储那个标识，如果你的应用程序崩溃或者终结或者挂起时使用这个标识与会话重新关联。</li>
+<li>创建会话，指定配置对象，可选的，一个代理。</li>
+<li>使用会话创建一个任务对象来表示资源请求。每一个任务都以挂起的状态开始。当你应用程序调用了任务对象的resume方法后，它就会开始下载指定的资源。任务对象是NSURLSessionTask的子类，如NSURLSessionDataTask，NSURLSessionUploadTask，或者NSURLSessionDownloadTask，取决于你想实现的行为。这些对象类似于NSURLConnection对象，但是给你更多的控制和统一的代理模式。尽管你的应用程序可以(通常来说应该)添加不止一个任务给会话，为了简单起见，其余的步骤描述了单个任务的生命周期。</li>
+<li>如果远程服务器返回一个状态码指示要求认证以及如果认证要求连接级别的挑战(比如SSL客户端证书)，NSURLSession就会调用认证挑战的代理方法。<ul>
+<li>对于会话级别的挑战，NSURLAuthenticationMethodNTLM，NSURLAuthenticationMethodNegotiate，NSURLAuthenticationMethodClientCertificate，或者NSURLAuthenticationMethodServerTrust，NSURLSession对象调用会话代理的URLSession:didReceiveChallenge:completionHandler:方法。如果你的应用程序没有提供会话代理方法，NSURLSession对象会调用任务代理的URLSession:task:didReceiveChallenge:completionHandler:方法来处理认证挑战。</li>
+<li>对于非会话级别的挑战(其它所有情况)，NSURLSession对象会调用会话代理的URLSession:task:didReceiveChallenge:completionHandler:方法来处理挑战。如果你的应用程序提供了会话代理以及你需要处理认证，那么你必须在任务级别处理认证或者提供一个任务级别的处理器，显示调用每一个会话的处理器。会话的代理方法URLSession:didReceiveChallenge:completionHandler:对于非会话级别的挑战并不会调用。<br><strong>注意</strong>：Kerberos认证是透明处理的。<br>如果上传任务的认证失败，任务的数据由流来提供，NSURLSession对象调用代理的URLSession:task:needNewBodyStream:代理方法。代理必须提供一个新的NSInputStream对象来为新的请求提供新的数据。<br>关于如何实现NSURLSession认证的代理方法，参阅<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/AuthenticationChallenges.html#//apple_ref/doc/uid/TP40009507-SW1" target="_blank" rel="external"> Authentication Challenges and TLS Chain Validation </a>。</li>
+</ul>
+</li>
+<li>根据接收到的HTTP重定向响应，NSURLSession对象会调用代理的URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:方法。代理方法会调用提供的完成处理器，一个新的NSURLRequest对象(重定向到不同的URL)，或者nil(将重定向的响应当作有效的效应然后作为结果返回)。<ul>
+<li>如果遵循重定向，会返回到步骤四(认证挑战处理)。</li>
+<li>如果代理没有实现这些方法，重定向会遵循最大的重定向次数。</li>
+</ul>
+</li>
+<li>对于调用downloadTaskWithResumeData:或者downloadTaskWithResumeData:completionHandler:方法重新创建的下载任务，NSURLSession会使用新的任务对象调用URLSession:downloadTask:didResumeAtOffset:expectedTotalBytes:方法。</li>
+<li>对于一个数据任务，NSURLSession对象会调用代理的URLSession:dataTask:didReceiveResponse:completionHandler:方法。决定是否将数据任务转换成为下载任务，然后调用完成回调来接收数据或者下载数据。如果你的应用程序选择将数据任务转换成为下载任务，NSURLSession会使用新的下载任务当作参数调用代理的URLSession:dataTask:didBecomeDownloadTask:方法。在调用之后，代理不再接收来自数据任务更多的回调，然后接收来自下载任务的回调。</li>
+<li>如果是uploadTaskWithStreamedRequest:方法创建的任务，NSURLSession会调用代理的URLSession:task:needNewBodyStream:方法来提供body data。</li>
+<li>在初始化上传到服务器的内容期间，代理会定期的接收URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:回调来报告上传的进度。</li>
+<li>在与服务器传输期间，任务的代理会定期的接收回调来报告上传的进度。对于一个下载任务，会话会调用代理的URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:方法，该方法会携带成功写入磁盘的比特数。对于数据任务，会话会调用代理的URLSession:dataTask:didReceiveData:方法，该方法懈怠了接收的数据块。对于一个下载任务，在与服务器传输期间，如果用户告诉应用程序暂停下载，通过调用cancelByProducingResumeData:方法来取消任务。之后，如果用户要求你应用程序恢复下载，你可以调用 ownloadTaskWithResumeData:或者downloadTaskWithResumeData:completionHandler:方法，传入返回的恢复数据来创建一个新的下载任务继续之前的下载，然后返回步骤3(创建恢复的任务对象)。</li>
+<li>对于一个数据任务，NSURLSession对象会调用代理的URLSession:dataTask:willCacheResponse:completionHandler:方法。你的应用程序应该决定是否允许缓存。如果你没有实现这个方法，那么默认行为就是使用指定了会话配置对象的缓存策略。</li>
+<li>如果一个下载任务成功完成，NSURLSession对象就会调用任务的URLSession:downloadTask:didFinishDownloadingToURL:方法，该方法会携带一个下载了数据的本地的临时文件。你的应用程序在该方法返回之前要么从文件中读取数据要么移动你应用程序沙盒中的永久的地址。</li>
+<li>当任何任务完成时，NSURLSession对象会调用代理的URLSession:task:didCompleteWithError:方法，该方法会携带一个error对象或者nil(任务成功完成)。如果任务失败，大多数应用程序应该重新请求直到用户取消下载或者服务器返回错误指示请求永远都不会成功。你的应用程序不应该立即重试。相反的，你应该使用reachability的API来检测服务器是否是可达的，并且只有在接收到可达性改变的通知后发起一个新的请求。如果下载任务是可以恢复的，NSError对象的userInfo字典包含一个NSURLSessionDownloadTaskResumeData的键。你的应用程序应该传递这个值给downloadTaskWithResumeData:或者downloadTaskWithResumeData:completionHandler:来创建一个新的下载任务来继续已经存在的下载。如果任务是不可恢复的，你的应用程序应该创建一个新的下载任务然后重新开始任务。在任一情况下，如果传输失败超过一个服务器错误以外的任何原因，转到步骤3(创建和恢复任务对象)。<br><strong>注意</strong>：NSURLSession不会通过error参数来报告任何服务器的错误。通过error参数你代理接收到的错误只是客户端这一边的错误，比如无法解析主机或者无法连接到主机。错误代码在<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Constants/index.html#//apple_ref/doc/constant_group/URL_Loading_System_Error_Codes" target="_blank" rel="external"> URL Loading System Error Codes </a>中描述。服务端的错误通过NSHTTPURLResponse对象的HTTP状态码来报告。关于更多信息，参阅<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSHTTPURLResponse_Class/index.html#//apple_ref/occ/cl/NSHTTPURLResponse" target="_blank" rel="external"> NSHTTPURLResponse </a>和<a href="https://developer.apple.com/library/prerelease/tvos/documentation/Cocoa/Reference/Foundation/Classes/NSURLResponse_Class/index.html#//apple_ref/occ/cl/NSURLResponse" target="_blank" rel="external"> NSURLResponse </a>类的文档。</li>
+<li>如果响应是多部分编码的，会话可能会再次调用代理的didReceiveResponse方法，伴随着零次或者多次didReceiveData调用。如果发生这些，返回步骤7(处理didReceiveResponse调用)。</li>
+<li>当你不在需要会话时，通过调用invalidateAndCancel(取消未完成的任务)或者finishTasksAndInvalidate(允许未完成的任务完成之后再使会话对象无效)方法来使会话对象无效。在会话对象无效后，当所有的未完成的任务完成或者取消时，会话会给代理发送URLSession:didBecomeInvalidWithError:消息。当代理方法返回时，会话会处置对代理的强引用。<br><strong>重要</strong>：会话对象会保持对代理的强引用直到你的应用程序显式的使会话无效。如果你不将会话失效，你的应用程序会内存泄漏。</li>
+</ol>
+<p>如果你的应用程序取消了一个正在进行的下载，NSURLSession对象会由因为发生错误而调用代理的URLSession:task:didCompleteWithError:方法。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NSURLSession/" rel="tag">#NSURLSession</a>
+          
+            <a href="/tags/NSURLConnection/" rel="tag">#NSURLConnection</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/29/URL-Session-Programming-Guide-Cookies-and-Custom-Protocols/" rel="next" title="URL Session Programming Guide - Cookies and Custom Protocols">
+                <i class="fa fa-chevron-left"></i> URL Session Programming Guide - Cookies and Custom Protocols
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/28/Advanced-Memory-Management-Programming-Guide-Introduction/" rel="prev" title="Advanced Memory Management Programming Guide - Introduction">
+                Advanced Memory Management Programming Guide - Introduction <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/29/URL-Session-Programming-Guide-Appendix-A-Life-Cycle-of-a-URL-Session/"
+           data-title="URL Session Programming Guide - Appendix A: Life Cycle of a URL Session" data-url="http://lynchwong.com/2016/01/29/URL-Session-Programming-Guide-Appendix-A-Life-Cycle-of-a-URL-Session/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Life-Cycle-of-a-URL-Session"><span class="nav-number">1.</span> <span class="nav-text">Life Cycle of a URL Session</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Life-Cycle-of-a-URL-Session-with-System-Provided-Delegates"><span class="nav-number">1.1.</span> <span class="nav-text">Life Cycle of a URL Session with System-Provided Delegates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Life-Cycle-of-a-URL-Session-with-Custom-Delegates"><span class="nav-number">1.2.</span> <span class="nav-text">Life Cycle of a URL Session with Custom Delegates</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

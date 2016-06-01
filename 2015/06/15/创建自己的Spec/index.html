@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CocoaPods," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="CocoaPods相信大家都听说过了，是用来帮助我们管理第三方依赖库的工具。
+CocoaPods使用起来相当方便，简单的安装和使用就不说了，可以参考一下资料：
+CocoaPods安装和使用教程CocoaPods详解之—-使用篇CocoaPods官网
+相信大家有自己重用的代码，而且很多都可以当做第三方库使用，我们完全可以创建自己的依赖库。
+先给出参考链接：
+CocoaPods详解之—-制作篇 貌似上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="创建自己的Spec">
+<meta property="og:url" content="http://lynchwong.com/2015/06/15/创建自己的Spec/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="CocoaPods相信大家都听说过了，是用来帮助我们管理第三方依赖库的工具。
+CocoaPods使用起来相当方便，简单的安装和使用就不说了，可以参考一下资料：
+CocoaPods安装和使用教程CocoaPods详解之—-使用篇CocoaPods官网
+相信大家有自己重用的代码，而且很多都可以当做第三方库使用，我们完全可以创建自己的依赖库。
+先给出参考链接：
+CocoaPods详解之—-制作篇 貌似上">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/2.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/3.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/4.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/5.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/6.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/7.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/8.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/9.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/10.png">
+<meta property="og:image" content="http://lynchwong.com/img/CreateCocoaPods/11.png">
+<meta property="og:updated_time" content="2016-06-01T12:50:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="创建自己的Spec">
+<meta name="twitter:description" content="CocoaPods相信大家都听说过了，是用来帮助我们管理第三方依赖库的工具。
+CocoaPods使用起来相当方便，简单的安装和使用就不说了，可以参考一下资料：
+CocoaPods安装和使用教程CocoaPods详解之—-使用篇CocoaPods官网
+相信大家有自己重用的代码，而且很多都可以当做第三方库使用，我们完全可以创建自己的依赖库。
+先给出参考链接：
+CocoaPods详解之—-制作篇 貌似上">
+<meta name="twitter:image" content="http://lynchwong.com/img/CreateCocoaPods/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 创建自己的Spec | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                创建自己的Spec
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-15T16:33:08+08:00" content="2015-06-15">
+              2015-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/15/创建自己的Spec/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/15/创建自己的Spec/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>CocoaPods相信大家都听说过了，是用来帮助我们管理第三方依赖库的工具。</p>
+<p>CocoaPods使用起来相当方便，简单的安装和使用就不说了，可以参考一下资料：</p>
+<p><a href="http://code4app.com/article/cocoapods-install-usage" target="_blank" rel="external">CocoaPods安装和使用教程</a><br><a href="http://blog.csdn.net/wzzvictory/article/details/18737437" target="_blank" rel="external">CocoaPods详解之—-使用篇</a><br><a href="https://cocoapods.org/" target="_blank" rel="external">CocoaPods官网</a></p>
+<p>相信大家有自己重用的代码，而且很多都可以当做第三方库使用，我们完全可以创建自己的依赖库。</p>
+<p>先给出参考链接：</p>
+<p><a href="http://blog.csdn.net/wzzvictory/article/details/20067595" target="_blank" rel="external">CocoaPods详解之—-制作篇</a> 貌似上传podspec文件，已经不用该博主的方式了。CocoaPods在0.33加入了Trunk服务，后面会讲到。<br><a href="http://nshipster.cn/cocoapods/" target="_blank" rel="external">Cocoa​Pods</a>，该博文也提到了Trunk服务。</p>
+<p>下面给出创建步骤：</p>
+<h1 id="创建GitHub-Repository"><a href="#创建GitHub-Repository" class="headerlink" title="创建GitHub Repository"></a>创建GitHub Repository</h1><p><img src="/img/CreateCocoaPods/1.png" alt="alt text"></p>
+<p>如图所示，我创建了一个叫做<strong>HZPersistentStack</strong>的Repository，描述那里根据自己的需求随便写，设为Public。选择License，大家自行选择，这里的License是必须的。点击创建后如下图所示：</p>
+<p><img src="/img/CreateCocoaPods/2.png" alt="alt text"></p>
+<p>然后我们Clone到本地，如下图：</p>
+<p><img src="/img/CreateCocoaPods/3.png" alt="alt text"></p>
+<p>然后我们进入Clone的文件夹，创建一个叫做HZPersistentStack的spec，如下所示：</p>
+<p><img src="/img/CreateCocoaPods/4.png" alt="alt text"></p>
+<h1 id="创建Spec"><a href="#创建Spec" class="headerlink" title="创建Spec"></a>创建Spec</h1><p>创建了一个<strong>HZPersistentStack.podspec</strong>文件，下面我们就要编辑这个文件，你可以使用Vim直接打开编辑或者进入文件夹打开文件直接编辑。</p>
+<p>博主用Sublime Text 2打开，打开后发现有很多可编辑的选项，大家可以自行研究下。直接替换为如下内容：</p>
+<pre><code>Pod::Spec.new do |s|  
+  s.name             = &quot;HZPersistentStack&quot;  
+  s.version          = &quot;0.0.1&quot;  
+  s.summary          = &quot;CoreData PersistentStack&quot;  
+  s.homepage         = &quot;https://github.com/LynchWong/HZPersistentStack&quot;  
+  s.license          = &apos;MIT&apos;  
+  s.author           = { &quot;Lynch Wong&quot; =&gt; &quot;lynch.wong@me.com&quot; }  
+  s.source           = { :git =&gt; &quot;https://github.com/LynchWong/HZPersistentStack.git&quot;, :tag =&gt; s.version.to_s }    
+  s.platform     = :ios, &apos;7.0&apos;  
+  s.requires_arc = true  
+  s.source_files = &apos;Classes/*&apos;  
+end
+</code></pre><p>请注意将s.name、s.source替换成自己。</p>
+<p>注意这里的s.source_files是相对于<strong>HZPersistentStack.podspec</strong>的路径，所以我们进入到文件夹创建<strong>Classes</strong>文件夹，如下图所示：</p>
+<p><img src="/img/CreateCocoaPods/5.png" alt="alt text"></p>
+<p>然后我们将文件类文件放入到<strong>Classes</strong>里，如下图所示：</p>
+<p><img src="/img/CreateCocoaPods/6.png" alt="alt text"></p>
+<h1 id="验证Spec"><a href="#验证Spec" class="headerlink" title="验证Spec"></a>验证Spec</h1><p>然后设置版本和tag，注意版本和tag都是0.0.1，和<strong>HZPersistentStack.podspec</strong>里面的是一样的。如下图所示：</p>
+<p><img src="/img/CreateCocoaPods/7.png" alt="alt text"></p>
+<p>然后执行</p>
+<pre><code>git add -A &amp;&amp; git commit -m &quot;Release 0.0.1.&quot;  
+git tag &apos;0.0.1&apos;  
+git push --tags  
+git push origin master
+</code></pre><p>然后执行<strong>pod lib lint</strong>验证Spec，如下图所示：</p>
+<p><img src="/img/CreateCocoaPods/8.png" alt="alt text"></p>
+<p>如图所示，通过了验证。</p>
+<h1 id="发布Spec"><a href="#发布Spec" class="headerlink" title="发布Spec"></a>发布Spec</h1><p>其实这部分内容可以参考<a href="http://nshipster.cn/cocoapods/" target="_blank" rel="external">Cocoa​Pods</a>，也解释了为什么要使用Trunk服务。所以这里不再赘述，直接引用：</p>
+<blockquote>
+<p>CocoaPods 0.33中加入了Trunk服务。</p>
+<p>虽然一开始使用GitHub Pull Requests来整理所有公共pods效果很好。但是，随着Pod数量的增加，这个工作对于spec维护人员Keith Smiley来说变得十分繁杂。甚至一些没有通过$ pod lint的spec也被提交上来，造成repo无法build。</p>
+<p>CocoaPods Trunk服务的引入，解决了很多类似的问题。CocoaPods作为一个集中式的服务，使得分析和统计平台数据变得十分方便。</p>
+<p>要想使用Trunk服务，首先你需要注册自己的电脑。这很简单，只要你指明你的邮箱地址（spec文件中的）和名称即可。</p>
+<pre><code>pod trunk register mattt@nshipster.com &quot;Mattt Thompson&quot;
+</code></pre><p>然后就会收到邮件验证等。<br>至此，你就可以通过以下命令来方便地发布和升级你的Pod！</p>
+<pre><code>pod trunk push NAME.podspec
+</code></pre></blockquote>
+<p>最后发布Spec：</p>
+<p><img src="/img/CreateCocoaPods/9.png" alt="alt text"></p>
+<p>现在你可以搜索你自己的依赖库了，如下：</p>
+<p><img src="/img/CreateCocoaPods/10.png" alt="alt text"></p>
+<p>在项目的Podfile文件中添加，如下：</p>
+<pre><code>source &apos;https://github.com/CocoaPods/Specs.git&apos;
+platform :ios, &apos;8.0&apos;
+
+target &apos;Demooo&apos; do
+    pod &apos;HZPersistentStack&apos;, &apos;~&gt; 0.0.1&apos;
+end
+</code></pre><p>然后<strong>pod install</strong>，最后项目结构如下：</p>
+<p><img src="/img/CreateCocoaPods/11.png" alt="alt text"></p>
+<p>在需要使用的地方引入：</p>
+<pre><code>#import &lt;HZPersistentStack/PersistentStack.h&gt;
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CocoaPods/" rel="tag">#CocoaPods</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/11/审核被拒/" rel="next" title="审核被拒">
+                <i class="fa fa-chevron-left"></i> 审核被拒
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/19/初识Go语言/" rel="prev" title="初识Go语言">
+                初识Go语言 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/15/创建自己的Spec/"
+           data-title="创建自己的Spec" data-url="http://lynchwong.com/2015/06/15/创建自己的Spec/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#创建GitHub-Repository"><span class="nav-number">1.</span> <span class="nav-text">创建GitHub Repository</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建Spec"><span class="nav-number">2.</span> <span class="nav-text">创建Spec</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#验证Spec"><span class="nav-number">3.</span> <span class="nav-text">验证Spec</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#发布Spec"><span class="nav-number">4.</span> <span class="nav-text">发布Spec</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,857 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CoreData," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="使用UITableView来展示CoreData的数据已经是标配了，NSFetchedResultsController能够简化我们的操作，就像是CoreData与UITableView之间的桥梁。
+begins在ViewController添加了如下所示的属性：
+var fetchedResultsController : NSFetchedResultsController!
+然后在viewD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreData: NSFetchedResultsController">
+<meta property="og:url" content="http://lynchwong.com/2015/07/23/CoreData-NSFetchedResultsController/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="使用UITableView来展示CoreData的数据已经是标配了，NSFetchedResultsController能够简化我们的操作，就像是CoreData与UITableView之间的桥梁。
+begins在ViewController添加了如下所示的属性：
+var fetchedResultsController : NSFetchedResultsController!
+然后在viewD">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/2.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/3.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/4.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/5.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/6.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/7.png">
+<meta property="og:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/8.png">
+<meta property="og:updated_time" content="2016-06-01T11:40:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreData: NSFetchedResultsController">
+<meta name="twitter:description" content="使用UITableView来展示CoreData的数据已经是标配了，NSFetchedResultsController能够简化我们的操作，就像是CoreData与UITableView之间的桥梁。
+begins在ViewController添加了如下所示的属性：
+var fetchedResultsController : NSFetchedResultsController!
+然后在viewD">
+<meta name="twitter:image" content="http://lynchwong.com/img/CoreDataNSFetchedResultsController/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> CoreData: NSFetchedResultsController | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CoreData: NSFetchedResultsController
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-23T13:34:02+08:00" content="2015-07-23">
+              2015-07-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/23/CoreData-NSFetchedResultsController/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/23/CoreData-NSFetchedResultsController/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>使用<strong>UITableView</strong>来展示CoreData的数据已经是标配了，<strong>NSFetchedResultsController</strong>能够简化我们的操作，就像是CoreData与<strong>UITableView</strong>之间的桥梁。</p>
+<h1 id="begins"><a href="#begins" class="headerlink" title="begins"></a>begins</h1><p>在<strong>ViewController</strong>添加了如下所示的属性：</p>
+<pre><code>var fetchedResultsController : NSFetchedResultsController!
+</code></pre><p>然后在<strong>viewDidLoad()</strong>里面设置刚才添加的属性：</p>
+<pre><code>let fetchRequest = NSFetchRequest(entityName: &quot;Good&quot;)
+
+fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+    managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)
+
+var error: NSError?
+if !fetchedResultsController.performFetch(&amp;error) {
+    println(&quot;Error: \(error?.localizedDescription)&quot;)
+}
+</code></pre><p>如上代码所示，我们还是需要创建<strong>NSFetchRequest</strong>的实例，然后传递给<strong>NSFetchedResultsController</strong>。<code>sectionNameKeyPath</code>和<code>cacheName</code>先不细说。最后调用<strong>performFetch()</strong>方法。</p>
+<p><strong>NSFetchedResultsController</strong>不仅包装了请求查询，而且它也是请求查询结果的容器。</p>
+<p>这里查询获取数据是完成了，接下来我们就要展示数据，所以要实现<strong>UITableViewDataSource</strong>的一些方法，如下所示：</p>
+<pre><code>func numberOfSectionsInTableView(tableView: UITableView) -&gt; Int {
+    return fetchedResultsController.sections!.count
+}
+
+func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+    let sectionInfo = fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
+    return sectionInfo.numberOfObjects
+}
+
+func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
+    let identifier = &quot;Cell&quot;
+
+    var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
+    if cell == nil {
+        cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
+    }
+    let good = fetchedResultsController.objectAtIndexPath(indexPath) as! Good
+    cell?.textLabel?.text = good.name
+    return cell!
+}
+</code></pre><p>如果你现在运行，程序会崩溃，Xcode打印的原因如下：</p>
+<pre><code>reason: &apos;An instance of NSFetchedResultsController requires a fetch request with sort descriptors&apos;
+</code></pre><p>如果你想这样使用<strong>NSFetchedResultsController</strong>，那么不能将一个基本的<strong>NSFetchRequest</strong>扔给它。因为基本的<strong>NSFetchRequest</strong>不要求sort descriptor。然而<strong>NSFetchedResultsController</strong>至少要求一个sort descriptor，不然怎么知道table view的顺序呢。</p>
+<p>所以我回头添加了如下代码：</p>
+<pre><code>fetchRequest.sortDescriptors = [NSSortDescriptor(key: &quot;name&quot;, ascending: true)]
+</code></pre><p>运行后的截图如下所示：</p>
+<p><img src="/img/CoreDataNSFetchedResultsController/1.png" alt="alt text"></p>
+<p>这里我将前面的Demo进行了一些改造，而且已经初始化了一些数据。文章最后会给出源码地址，所以这里就不一一讲解了怎么实现了。</p>
+<h1 id="Grouping-results-into-sections"><a href="#Grouping-results-into-sections" class="headerlink" title="Grouping results into sections"></a>Grouping results into sections</h1><p>我们的商品属于不同的分类，比如蔬菜、水果、零食等。所以我们修改下<strong>NSFetchedResultsController</strong>的初始化方法，记得之前提到的<code>sectionNameKeyPath</code>参数吗？代码如下：</p>
+<pre><code>fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+    managedObjectContext: managedContext, sectionNameKeyPath: &quot;category&quot;, cacheName: nil)
+</code></pre><p>这里我们只是修改了下<code>sectionNameKeyPath</code>参数，能够接收keyPath字符串。比如实体的属性名或者关系，比如<strong>warehouse.name</strong>，所以这里的<strong>category</strong>是<strong>Good</strong>的一个属性。</p>
+<p>除此之外，我们还要添加如下所示的方法：</p>
+<pre><code>func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -&gt; String? {
+    let sectionInfo = fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
+    return sectionInfo.name
+}
+</code></pre><p>最后运行效果如下：</p>
+<p><img src="/img/CoreDataNSFetchedResultsController/2.png" alt="alt text"></p>
+<p>这里有一个<strong>NSFetchedResultsController</strong>的疑难杂症，如果你使用keyPath将请求查询的结果分成了多个section，那么第一个sort descriptor的属性名必须与keyPath的属性名相匹配。</p>
+<p>从上面的截图你能看出来，section对应的项是不对的，的确如此，我设置的华夫饼应该在零食里面，而番茄应该在蔬菜里面，全都乱了。所以我重新修改了sort descriptor，如下所示：</p>
+<pre><code>fetchRequest.sortDescriptors = [NSSortDescriptor(key: &quot;category&quot;, ascending: true)]
+</code></pre><p>重新运行，截图如下：</p>
+<p><img src="/img/CoreDataNSFetchedResultsController/3.png" alt="alt text"></p>
+<p>现在看起来好像对了。</p>
+<h1 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h1><p>你可以指定一个cache name来打开<strong>NSFetchedResultsController</strong>在磁盘上的section cache。这就是你所有要做的工作。需要记住的是这个section cache与CoreData的persistent store是完全分开的。</p>
+<pre><code>fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+managedObjectContext: managedContext, sectionNameKeyPath: &quot;category&quot;, cacheName: &quot;GoodCache&quot;)
+</code></pre><p><strong>注意：</strong>NSFetchedResultsController的section cache对fetch request的改变非常敏感。任何改变，比如不同的entity description或者sort descriptors都会给你一个不同的结果集合，完全无效的cache。如果你做了这样的改变，你必须使用deleteCacheWithName:删除已经存在的cache或者使用新的cache name。</p>
+<p>在你的应用程序中，当你需要将结果组织到section中或者有大的数据集合或者在老机器上运行时考虑使用NSFetchedResultsController的cache。</p>
+<h1 id="Modifying-data"><a href="#Modifying-data" class="headerlink" title="Modifying data"></a>Modifying data</h1><p><img src="/img/CoreDataNSFetchedResultsController/4.png" alt="alt text"></p>
+<p>如图所示，每种商品都有对应的数量。现在我们要实现一个新的功能，点击对应的商品，然后数量增加1。添加如下代码：</p>
+<pre><code>func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+    let good = fetchedResultsController.objectAtIndexPath(indexPath) as! Good
+    let number = good.number.integerValue
+    good.number = NSNumber(int: number + 1)
+
+    var error: NSError?
+    if !managedContext.save(&amp;error) {
+        println(&quot;Could not save: \(error)&quot;)
+    }
+}
+</code></pre><p>运行点击，发现界面并没有变化，重启后发现数据有了变化。为了解决这个问题在方法最后添加如下代码：</p>
+<pre><code>tableView.reloadData()
+</code></pre><p>重新运行点击商品会发现界面会跟着变化了。但是这种方法相当的暴力，并不是最优的选择。接下来我们使用更好的方法来实现这个需求。</p>
+<h1 id="Monitoring-changes"><a href="#Monitoring-changes" class="headerlink" title="Monitoring changes"></a>Monitoring changes</h1><p>当数据改变时，我们使用<code>tableView.reloadData()</code>来改变界面，这种方式很粗鲁。还有更好的方法，这一次又是<strong>NSFetchedResultsController</strong>拯救了我们。</p>
+<p><strong>NSFetchedResultsController</strong>能够监听结果集的变化，然后通知它的delegate，<strong>NSFetchedResultsControllerDelegate</strong>。你可以使用这个delegate来刷新table view在任何时候，只要底层数据改变了。</p>
+<p>首先添加<strong>NSFetchedResultsControllerDelegate</strong>协议，然后设置<code>fetchedResultsController.delegate = self</code>。</p>
+<p><strong>注意：</strong>NSFetchedResultsController只能监听初始化时指定的<strong>NSManagedObjectContext</strong>造成的改变。如果你在应用程序的其他地方创建了一个<strong>NSManagedObjectContext</strong>，你的delegate的方法不会被执行，直到这些改变被保存并且被<strong>NSFetchedResultsController</strong>的context合并。</p>
+<p>首先，从<strong>tableView(_:didSelectRowAtIndexPath:)</strong>方法中移除<code>tableView.reloadData()</code>。</p>
+<p><strong>NSFetchedResultsControllerDelegate</strong>有四个方法，我们实现如下方法：</p>
+<pre><code>func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    tableView.beginUpdates()
+}
+
+func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    switch type {
+        case .Insert:
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        case .Delete:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+        case .Update:
+            tableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .None)
+        case .Move:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        default:
+            break
+    }
+}
+
+func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    tableView.endUpdates()
+}
+</code></pre><p>重启运行App，点击商品进行测试，实现了同样的需求。</p>
+<ul>
+<li><strong>controllerWillChangeContent:</strong>这个delegate方法会提醒你改变将要发生了，你使用<strong>beginUpdates()</strong>方法来准备好你的table view。</li>
+<li><strong>controller(_:didChangeObject…):</strong>这个方法会告诉你哪个对象发生了改变，以及改变的类型，是插入数据、删除、更新、或者重新排序，以及影响的index paths。这个方法会将table view的数据与CoreData进行同步。不管底层数据发生了多大的改变，你的table view都会真实的展现出persistent store的变化。</li>
+<li><strong>controllerDidChangeContent:</strong>使用<strong>endUpdates()</strong>方法来刷新界面。</li>
+</ul>
+<p><strong>注意：</strong>上面的这些代码都是由苹果的NSFetchedResultsControllerDelegate文档提供。请注意这些方法的顺序和性质。使用“begin updates- make changes-end updates”这种模式并不是一种巧合。</p>
+<p>还剩一个<strong>NSFetchedResultsControllerDelegate</strong>的方法：</p>
+<pre><code>func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+
+    let indexSet = NSIndexSet(index: sectionIndex)
+
+    switch type {
+        case .Insert:
+            tableView.insertSections(indexSet, withRowAnimation: .Automatic)
+        case .Delete:
+            tableView.deleteSections(indexSet, withRowAnimation: .Automatic)
+        default :
+            break
+    }
+}
+</code></pre><p>这个方法和<strong>didChangeObject…</strong>类似，只不过是提醒你sections的改变，而不是具体的对象的改变。上面方法只有创建新的section或者删除section的时候才会触发。</p>
+<p>现在我们来思考下什么样的改变会触发这些通知。也许我新添加了一种类型的商品，比如服装。相反的情况是我删除了一个商品，而这个商品所属的类型的所有商品只有它自己，所以我就删除了这个section。接下来的小节让我们来实现这些需求。</p>
+<h1 id="Inserting-data"><a href="#Inserting-data" class="headerlink" title="Inserting data"></a>Inserting data</h1><p>在<strong>ViewController</strong>里重写如下方法：</p>
+<pre><code>override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+    if motion == UIEventSubtype.MotionShake {
+        addButton.enabled = true
+    }
+}
+</code></pre><p>当摇晃手机的时候，“+” bar button item就变成可用的。接下来我们就要实现添加商品的方法：</p>
+<pre><code>@IBAction func add(sender: AnyObject) {
+    var alert = UIAlertController(title: &quot;添加商品&quot;, message: &quot;新增商品&quot;, preferredStyle: UIAlertControllerStyle.Alert)
+
+    alert.addTextFieldWithConfigurationHandler {
+        (textField: UITextField!) in
+        textField.placeholder = &quot;名字&quot;
+    }
+    alert.addTextFieldWithConfigurationHandler {
+        (textField: UITextField!) in
+        textField.placeholder = &quot;数量&quot;
+    }
+    alert.addTextFieldWithConfigurationHandler {
+        (textField: UITextField!) in
+        textField.placeholder = &quot;类型&quot;
+    }
+
+    alert.addAction(UIAlertAction(title: &quot;保存&quot;, style: .Default, handler: {
+        (action: UIAlertAction!) -&gt; Void in
+            let nameTextField = alert.textFields![0] as! UITextField
+            let numberTextField = alert.textFields![1] as! UITextField
+            let categoryTextField = alert.textFields![2] as! UITextField
+
+            let entity = NSEntityDescription.entityForName(&quot;Good&quot;, inManagedObjectContext: self.managedContext)!
+            let good = Good(entity: entity, insertIntoManagedObjectContext: self.managedContext)
+            good.name = nameTextField.text
+            good.number = NSNumber(int: Int32(NSString(string: numberTextField.text).integerValue))
+            good.category = categoryTextField.text
+
+            self.managedContext.save(nil)
+    }))
+
+    alert.addAction(UIAlertAction(title: &quot;取消&quot;, style: .Default, handler: {
+        (action: UIAlertAction!) -&gt; Void in
+            println(&quot;Cancel&quot;)
+    }))
+
+    presentViewController(alert, animated: true, completion: nil)
+}
+</code></pre><p>代码很简单，这里就不讲解了。运行之后<strong>Command+Control+Z</strong>来模拟摇晃事件来让“+” bar button item可用：</p>
+<p><img src="/img/CoreDataNSFetchedResultsController/5.png" alt="alt text"></p>
+<p>我新添加了一种类型的商品，最后效果如下所示：</p>
+<p><img src="/img/CoreDataNSFetchedResultsController/6.png" alt="alt text"></p>
+<h1 id="Deleting-data"><a href="#Deleting-data" class="headerlink" title="Deleting data"></a>Deleting data</h1><p>现在让我们来删除数据，添加或者修改如下方法：</p>
+<pre><code>func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if editingStyle == UITableViewCellEditingStyle.Delete {
+        let good = fetchedResultsController.objectAtIndexPath(indexPath) as! Good
+        managedContext.deleteObject(good)
+
+        var error: NSError?
+        if !managedContext.save(&amp;error) {
+            println(&quot;Could not save: \(error)&quot;)
+        }
+    }
+}
+</code></pre><p>代码也很简单，不讲解了。运行后最后效果如下图所示：</p>
+<p><img src="/img/CoreDataNSFetchedResultsController/7.png" alt="alt text"></p>
+<p>如图所示，我删除了卫衣这个商品，由于服装只有一个商品，所以这个section也被删除了，如下所示：</p>
+<p><img src="/img/CoreDataNSFetchedResultsController/8.png" alt="alt text"></p>
+<p><a href="https://github.com/LynchWong/OwnCoreDataStack/tree/NSFetchedResultsController" target="_blank" rel="external"> 完整源码 </a>。</p>
+<p>这些源码由之前的Demo修改而来，也上传到了之前Demo的NSFetchedResultsController分支。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CoreData/" rel="tag">#CoreData</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/22/CoreData-Fetching/" rel="next" title="CoreData: Fetching">
+                <i class="fa fa-chevron-left"></i> CoreData: Fetching
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/24/CoreData-Versioning-and-Migration/" rel="prev" title="CoreData: Versioning and Migration">
+                CoreData: Versioning and Migration <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/23/CoreData-NSFetchedResultsController/"
+           data-title="CoreData: NSFetchedResultsController" data-url="http://lynchwong.com/2015/07/23/CoreData-NSFetchedResultsController/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#begins"><span class="nav-number">1.</span> <span class="nav-text">begins</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Grouping-results-into-sections"><span class="nav-number">2.</span> <span class="nav-text">Grouping results into sections</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cache"><span class="nav-number">3.</span> <span class="nav-text">Cache</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Modifying-data"><span class="nav-number">4.</span> <span class="nav-text">Modifying data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Monitoring-changes"><span class="nav-number">5.</span> <span class="nav-text">Monitoring changes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Inserting-data"><span class="nav-number">6.</span> <span class="nav-text">Inserting data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Deleting-data"><span class="nav-number">7.</span> <span class="nav-text">Deleting data</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

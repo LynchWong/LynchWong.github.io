@@ -1,0 +1,695 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ReactiveCocoa,FRP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="说明ReactiveCocoa是iOS里面一个函数响应式编程的框架，在自己的项目里经常使用，对这个框架特别感兴趣，也一直想做些记录，所以现在就开始了。现在这个框架已经是4.0版本了，完全支持Swift，源码看起来很漂亮，但是跟之前的版本有了很大的变化。
+接下来的一些博文就是讲解一些基础的概念或者文档，本篇是讲解FRP的一篇译文。
+ 原文地址：Input and Output 。
+正文Input a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Input and Output">
+<meta property="og:url" content="http://lynchwong.com/2015/10/28/Input-and-Output/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="说明ReactiveCocoa是iOS里面一个函数响应式编程的框架，在自己的项目里经常使用，对这个框架特别感兴趣，也一直想做些记录，所以现在就开始了。现在这个框架已经是4.0版本了，完全支持Swift，源码看起来很漂亮，但是跟之前的版本有了很大的变化。
+接下来的一些博文就是讲解一些基础的概念或者文档，本篇是讲解FRP的一篇译文。
+ 原文地址：Input and Output 。
+正文Input a">
+<meta property="og:updated_time" content="2016-06-01T11:51:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Input and Output">
+<meta name="twitter:description" content="说明ReactiveCocoa是iOS里面一个函数响应式编程的框架，在自己的项目里经常使用，对这个框架特别感兴趣，也一直想做些记录，所以现在就开始了。现在这个框架已经是4.0版本了，完全支持Swift，源码看起来很漂亮，但是跟之前的版本有了很大的变化。
+接下来的一些博文就是讲解一些基础的概念或者文档，本篇是讲解FRP的一篇译文。
+ 原文地址：Input and Output 。
+正文Input a">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Input and Output | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Input and Output
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-10-28T08:49:25+08:00" content="2015-10-28">
+              2015-10-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/28/Input-and-Output/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/28/Input-and-Output/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>ReactiveCocoa是iOS里面一个函数响应式编程的框架，在自己的项目里经常使用，对这个框架特别感兴趣，也一直想做些记录，所以现在就开始了。现在这个框架已经是4.0版本了，完全支持Swift，源码看起来很漂亮，但是跟之前的版本有了很大的变化。</p>
+<p>接下来的一些博文就是讲解一些基础的概念或者文档，本篇是讲解FRP的一篇译文。</p>
+<p><a href="http://blog.maybeapps.com/post/42894317939/input-and-output" target="_blank" rel="external"> 原文地址：Input and Output </a>。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="Input-and-Output"><a href="#Input-and-Output" class="headerlink" title="Input and Output"></a>Input and Output</h2><p>应用程序接受输入然后产生输出。这里的输出就是使用输入进行一些加工后的结果。输入，转换，输出，完成。</p>
+<p>当应用程序是<strong>UNIX</strong>工具的时候这种模式就很明显。接收一个字符串，统计单词，输出结果。但是当我们在开发一个有界面UI、大量不同功能、不定时的任务的iOS应用程序时就很难看出这种模式。</p>
+<p>在iOS应用程序中什么是输入，什么是输出？</p>
+<p>输入就是对应用程序的所有的动作。触摸、键盘事件。定时器触发，GPS定位事件，网络请求响应。这些事情都是输入。这些事情都出现在应用程序中，然后应用程序结合这些所有的输入以某种方式得到一个结果：输出。</p>
+<p>在应用程序中输出通常是界面UI的改变。一个开关的拨动或者一个列表获得了新的行。或者更多，比如文件写入磁盘，或者API请求。这些事情都是应用程序的输出。</p>
+<p>但是不同于经典的输入／输出模式，这些输入和输出不止发生一次。不是单一的输入-&gt;处理-&gt;输出，只要应用程序在运行就会继续循环这个过程。实际上应用程序一直都在消费这些输入，然后基于这些输入产出输出。</p>
+<p>换句话说，输出就是在那个时间点结合所有输入产生的结果。输出就是在那个时间点所有输入的一个函数。</p>
+<p>那么我们为什么要关心这些？因为新的视角具有价值，也是必要的。在当前这种情形中，给了我们一个新的极好的工具。</p>
+<h3 id="STATE"><a href="#STATE" class="headerlink" title="STATE"></a>STATE</h3><p>从现在这个视角来看，没有任何关于状态的想法在里面。仅仅是输入的改变导向一个新的输出。状态也许是应用程序处理输入的一个实现细节，但是不是必须的。这并不是我们思想的本质。</p>
+<p>大多数问题最佳的解决方案都有一些内在的状态。状态可以是本质上的。但是我们并不一定要处理状态。我们做任何事情都是处理状态。因为我们对待我们应用程序的所有输入都是不同的事情－触摸事件，网络响应－我们不能用某种有意义的方式让他们结合起来。不能用统一的方法来转换它们。所以我们处理这些所有不同东西的唯一工具就是状态。当我们的唯一工具就是状态的时候，每一个问题看起来好像都是有状态的。</p>
+<p>状态并不好。状态将复杂性引入了进来。更糟的是，复杂性的增长远比我们应用程序的代码量增长。我们习惯于不断的向我们的应用程序引入更多的状态。新功能？新状态。新的复杂性。新的Bugs。</p>
+<p>但是普天同庆的是基于我们应用程序的输出是持续时间中所有输入的一个函数的新视角给了我们一个新的工具：函数式响应编程（Functional Reactive Programming）。函数式响应编程（FRP）是基于时变函数产生时变值这种思想而建立的编程范式。</p>
+<h3 id="TIME"><a href="#TIME" class="headerlink" title="TIME"></a>TIME</h3><p>时变值也许听起来很空洞。难道不是状态的另一种说话吗？他们都捕捉到了相同的思想－只要程序在运行就会有东西在改变。但是通过形式化和具体化的时间变化，我们可以确定改变的理由是很安全的。</p>
+<p>时变值可以来自于其他的时变值，这些时变值来自于应用程序的输入。所以当传统的状态卸下保证我们应用程序是在我们熟知状态的重担时，FRP让我们依据时变值来定义我们的应用程序并且保证改变是必需的。</p>
+<p>以前，状态是离散的，都是独立的。但是时变值就像是适合一个档位的所有的齿轮。当一个齿轮运转时，就带动了所有与它链接的齿轮，然后一起运转，最后整个机制就靠它们自己运行了起来。</p>
+<p>FRP太美了。</p>
+<p>有很多事情的行为就像是时变值。异步任务就是时变值，只有完成工作才会有值。或者UI元素的值也可以看做是时变值，当用户交互时才会改变。如果我的应用程序运行在手机设备上，设备的GPS定位系统也是时变值，</p>
+<p>所有的事情都是时变值，所有的方式。状态，输入和输出。</p>
+<h3 id="FUNCTIONAL-REACTIVE-PROGRAMMING"><a href="#FUNCTIONAL-REACTIVE-PROGRAMMING" class="headerlink" title="FUNCTIONAL REACTIVE PROGRAMMING"></a>FUNCTIONAL REACTIVE PROGRAMMING</h3><p>函数式响应编程来自于函数式编程语言。</p>
+<p>Haskell有<a href="https://wiki.haskell.org/Functional_Reactive_Programming" target="_blank" rel="external"> number of implementations </a>，具有不同程度的完整性和可用性。</p>
+<p>Racket，一门Lisp-y语言，有<a href="http://docs.racket-lang.org/frtime/" target="_blank" rel="external"> FrTime </a>。</p>
+<p>对于命令式语言也有大量的实现。来自于微软的900磅大猩猩<a href="https://msdn.microsoft.com/en-us/data/gg577609.aspx" target="_blank" rel="external"> Reactive Extensions(Rx) </a>。是第一个令人信服的将FRP原则带入到命令式语言的例子。</p>
+<p>在JVM上Netflix的<a href="http://techblog.netflix.com/2013/02/rxjava-netflix-api.html" target="_blank" rel="external"> re-implemented Rx </a>。Clojure, Scala, Groovy, and JRuby有<a href="https://github.com/ReactiveX/RxJava/tree/master/language-adaptors" target="_blank" rel="external"> adapters </a>。</p>
+<p>Javascript还有一些不同的FRP库。微软的<a href="https://github.com/Reactive-Extensions/RxJS" target="_blank" rel="external"> RxJS </a>，其他的如<a href="http://www.flapjax-lang.org" target="_blank" rel="external"> Flapjax </a>，<a href="https://github.com/baconjs/bacon.js" target="_blank" rel="external"> BacomJS </a>。</p>
+<p><a href="http://elm-lang.org" target="_blank" rel="external"> Elm </a>是一门类Haskell语言，可以编译为JavaScript。它是我见过的最漂亮，最实用的FRP实现。</p>
+<p>最后但并非最不重要，我们将Rx带入了Objective-C：<a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" rel="external"> ReactiveCocoa </a>。</p>
+<h3 id="EXAMPLE"><a href="#EXAMPLE" class="headerlink" title="EXAMPLE"></a>EXAMPLE</h3><p>让我们看看FRP在实际中是如何实现的。FRP在函数式语言中很美丽，但是悲哀的是我们并不是时时刻刻都在使用函数式的语言。</p>
+<p>假设我们在开发一个iOS的应用。我们使用ReactiveCocoa来实现我们创建账户的视图。用户将会输入姓名，邮箱（输入两次），还有一个创建的按钮给它们点击。</p>
+<p>我们依据输入和输出来思考。对于这些视图来说什么是输入？显而易见的是用户会输入他们的信息。然后会点击创建按钮。就是这些了。对于我们的视图来说这些就是所有的输入了。我们的输出会根据这些输入来定义。</p>
+<p>将会有大量的用户界面改变的输出。这个创建按钮只有用户在输入了通过验证（两次邮箱相同，用户名合法）的用户名，邮箱之后才可用。</p>
+<p>如果我们按照传统的编程来实现，我们需要检测我们的输入，然后根据输入手动改变创建按钮是否可用：</p>
+<p><a href="https://gist.github.com/joshaber/35c68f23e935bff4afd5" target="_blank" rel="external">https://gist.github.com/joshaber/35c68f23e935bff4afd5</a></p>
+<p>但是，其实我们真正想做的就是声明表单验证和创建按钮是否可用之间的关系（在视图整个生命周期中）。</p>
+<p>我们想用输入来驱动输出，ReactiveCocoa可以让我们这样做；</p>
+<p><a href="https://gist.github.com/joshaber/11f13b2d3b58141d085e" target="_blank" rel="external">https://gist.github.com/joshaber/11f13b2d3b58141d085e</a></p>
+<p>现在不管用户名，邮箱改变，我们都会将这些改变的值减少成为一个布尔值来指示这些表单是否通过了验证然后来指示点击按钮是否可用。</p>
+<p>注意例子中的最后一行。不同于一次赋值，实际上建立的是一种关系。不只赋值一次，随着时间的变化我们在一直赋值。这个按钮是否可用来自于表单是否通过验证。输出就是输入的函数。</p>
+<p>当创建执行时，我们想要禁用掉输入框然后将颜色变为灰色：</p>
+<p><a href="https://gist.github.com/joshaber/f59759d1674f82837b8d" target="_blank" rel="external">https://gist.github.com/joshaber/f59759d1674f82837b8d</a></p>
+<p>我们可以将剩下的输出像这样类似的连接起来。输出就是我们输入的组合或者转换。</p>
+<h3 id="FIN"><a href="#FIN" class="headerlink" title="FIN"></a>FIN</h3><p>这是一个在命令式语言中实现FRP原则的简短、实用的例子。完整例子代码：<a href="https://github.com/joshaber/RACSignupDemo" target="_blank" rel="external"> RACSignupDemo </a>。</p>
+<p>函数式响应编程提供了一种方式，这种方式让我们又一次将编程视为简单的输入和输出。我们最小化了状态并且统一了我们应用程序做的事情。所有的就是输入和输出。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>翻译的不好，没有信雅达，见谅。<br>文中很多链接不可用，还是按照原文放在这里了。</p>
+<p>以上。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ReactiveCocoa/" rel="tag">#ReactiveCocoa</a>
+          
+            <a href="/tags/FRP/" rel="tag">#FRP</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/27/iOS提交App包/" rel="next" title="iOS提交App包">
+                <i class="fa fa-chevron-left"></i> iOS提交App包
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/29/ReactiveCocoa/" rel="prev" title="ReactiveCocoa">
+                ReactiveCocoa <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/10/28/Input-and-Output/"
+           data-title="Input and Output" data-url="http://lynchwong.com/2015/10/28/Input-and-Output/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Input-and-Output"><span class="nav-number">2.1.</span> <span class="nav-text">Input and Output</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#STATE"><span class="nav-number">2.1.1.</span> <span class="nav-text">STATE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TIME"><span class="nav-number">2.1.2.</span> <span class="nav-text">TIME</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FUNCTIONAL-REACTIVE-PROGRAMMING"><span class="nav-number">2.1.3.</span> <span class="nav-text">FUNCTIONAL REACTIVE PROGRAMMING</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EXAMPLE"><span class="nav-number">2.1.4.</span> <span class="nav-text">EXAMPLE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FIN"><span class="nav-number">2.1.5.</span> <span class="nav-text">FIN</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,932 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS自定义控件," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="刚开始学习iOS开发的时候接触了很多Cocoa Touch的标准控件，那时就觉得这些控件好用是好用，但是可定制性不高。往往我们的需求又比较变态，特别是控件外观方面基本达不到需求，所以很多时候我们需要自己做控件。
+不过很多需求我们可以通过组合已经存在的原生控件来达到，但是还是有一些需求不能实现。比如我们要实现一个类似汽车驾驶室的界面，这个界面的功能不要太复杂：
+
+能控制汽车的方向，我们可以做一个方向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义iOS控件">
+<meta property="og:url" content="http://lynchwong.com/2014/12/17/自定义iOS控件/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="刚开始学习iOS开发的时候接触了很多Cocoa Touch的标准控件，那时就觉得这些控件好用是好用，但是可定制性不高。往往我们的需求又比较变态，特别是控件外观方面基本达不到需求，所以很多时候我们需要自己做控件。
+不过很多需求我们可以通过组合已经存在的原生控件来达到，但是还是有一些需求不能实现。比如我们要实现一个类似汽车驾驶室的界面，这个界面的功能不要太复杂：
+
+能控制汽车的方向，我们可以做一个方向">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/1.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/2.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/3.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/4.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/5.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/6.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/7.png">
+<meta property="og:image" content="http://lynchwong.com/img/iOSSelfDefine/8.png">
+<meta property="og:updated_time" content="2016-06-01T12:53:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义iOS控件">
+<meta name="twitter:description" content="刚开始学习iOS开发的时候接触了很多Cocoa Touch的标准控件，那时就觉得这些控件好用是好用，但是可定制性不高。往往我们的需求又比较变态，特别是控件外观方面基本达不到需求，所以很多时候我们需要自己做控件。
+不过很多需求我们可以通过组合已经存在的原生控件来达到，但是还是有一些需求不能实现。比如我们要实现一个类似汽车驾驶室的界面，这个界面的功能不要太复杂：
+
+能控制汽车的方向，我们可以做一个方向">
+<meta name="twitter:image" content="http://lynchwong.com/img/iOSSelfDefine/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> 自定义iOS控件 | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                自定义iOS控件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-12-17T11:40:47+08:00" content="2014-12-17">
+              2014-12-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/17/自定义iOS控件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/17/自定义iOS控件/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>刚开始学习iOS开发的时候接触了很多Cocoa Touch的标准控件，那时就觉得这些控件好用是好用，但是可定制性不高。往往我们的需求又比较变态，特别是控件外观方面基本达不到需求，所以很多时候我们需要自己做控件。</p>
+<p>不过很多需求我们可以通过组合已经存在的原生控件来达到，但是还是有一些需求不能实现。比如我们要实现一个类似汽车驾驶室的界面，这个界面的功能不要太复杂：</p>
+<ul>
+<li>能控制汽车的方向，我们可以做一个方向盘的控件；</li>
+<li>能控制汽车前进、后退、停止，我们还需要一个油门的控件；这个我们可以把油门和变速器用一个控件实现。</li>
+</ul>
+<p>这个界面的实现思路：</p>
+<ul>
+<li>首先可以给这个界面一个汽车驾驶室的图片，当作背景，图片内容主要就是驾驶室方向盘那部分，可以让美工设计下；</li>
+<li>其次我们把方向盘放在界面右边，如果背景图片有仪表盘，最好方向盘和仪表盘有对应。界面右边我们放油门这个空间；</li>
+<li>操作方式可以这样来设定，油门上有个按钮，往前拖就是前进，越拖到上面速度越快；然后有个N档，拖到这里就是停止；有个R档，拖到这里就后退。方向盘就是根据手指在控件上的滑动来计算出角度，然后根角度进行旋转，我们还可以给方向盘加上重力感应来控制方向盘。</li>
+</ul>
+<p>思路大概就是上面这样，具体的实现和细节还要再讨论。这里我只做“油门”这个控件的自定义，接下来我们就一步一步的来实现。方向盘这个控件大家可以自行实现一下，后面可能会贴出源码（可能贴出来）。</p>
+<p>这里有一篇很好的<a href="http://beyondvincent.com/blog/2014/01/20/how-to-build-a-custom-control-in-ios/" target="_blank" rel="external">博文</a>，就是讲解怎么在iOS中自定义控件的，所以我们根据这篇博文来实现我们的“油门”控件。</p>
+<p>现在我们就一步一步的开始实现“油门”控件，OS X是10.10.1，Xcode是6.6.1。我们新建一个项目，名字叫做“AcceleratorView”，我们使用OC开发。建好后的项目截图如下所示：</p>
+<p><img src="/img/iOSSelfDefine/1.png" alt="alt text"></p>
+<p>新建一个文件<code>Accelerator</code>，继承自<code>UIControl</code>。</p>
+<p>然后我们打开<code>Main.storyboard</code>文件，拖拽一个<code>View</code>控件到<code>View Controller</code>里面。如下图所示：</p>
+<p><img src="/img/iOSSelfDefine/2.png" alt="alt text"></p>
+<p>然后我们将<code>Class</code>属性改成我们刚创建的，如下图所示：</p>
+<p><img src="/img/iOSSelfDefine/3.png" alt="alt text"></p>
+<p>接下来就是为<code>View</code>控件添加约束，我们大小设置为200 x 580，x 和 y分别是5 和 20。首先设置长宽的约束，如下图所示：</p>
+<p><img src="/img/iOSSelfDefine/4.png" alt="alt text"></p>
+<p>设置完成之后Xcode会有红色的警示线，表示添加的约束无法确定<code>View</code>的位置，如下图所示：</p>
+<p><img src="/img/iOSSelfDefine/5.png" alt="alt text"></p>
+<p>所以我们还要继续添加约束，添加x和y的约束，如下图所示：</p>
+<p><img src="/img/iOSSelfDefine/6.png" alt="alt text"></p>
+<p>添加完成后红色的虚线消失，如下图所示：</p>
+<p><img src="/img/iOSSelfDefine/7.png" alt="alt text"></p>
+<p>大家可以试下不为<code>View</code>添加约束，然后运行会发现视图错乱，那是因为iOS8、Xcode6新建的项目使用了<code>Size Classes</code>，是为多种设备做适配用的。iOS的设备越来越多，所以适配是必须要做的，所以<code>AutoLayout</code>和<code>Size Classes</code>是必备技能了。这里就不说了，以后有时间也要搞一篇。这时候运行模拟器还没有什么东西，让我们继续。</p>
+<p>在<code>ViewController.m</code>文件里面添加如下三个方法：</p>
+<pre><code>- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES; //返回NO表示要显示，返回YES将hiden
+}
+</code></pre><p>前两个方法会让当前显示的Controller支持横屏显示。若我要跳转到下一个Controller，而下一个Controller要求竖屏显示，那么我们同样实现上述两个方法，只不过<code>- (NSUInteger)supportedInterfaceOrientations</code>方法返回<code>UIInterfaceOrientationMaskPortrait</code>。或者完全不实现这两个方法，默认就会竖屏显示。第三个方法会隐藏状态栏。</p>
+<p>接下来我们的主要工作就是实现<code>Accelerator</code>。</p>
+<pre><code>@property (strong, nonatomic) UIImage *accButtonImage;
+@property (assign, nonatomic) CGPoint accButtonPosition;
+</code></pre><p>新建两个属性，第一个属性表示按钮图片，第二个属性就是按钮的位置。至于为什么要有这两个属性，一开始我做的时候也不是就想好了要有这两个属性，一开始做的时候只有个大概的思路，很多东西和细节都是在做的过程中想到或者遇到的，经过不断修改而来的。所以有时候最重要的就是要动手开始做，去做了才知道。</p>
+<p>这个“油门”控件要做成什么样的，大家都没看过，所以说有思路是不可能的，所以我们先看下效果图，然后来分析分析，应该怎么做，有个大体的思路。</p>
+<p><img src="/img/iOSSelfDefine/8.png" alt="alt text"></p>
+<p>上图就是完成后的效果图，当然不是很美观，跟我项目里完整的还是有很大的差别，这里我们只实现这一部分。首先控件的按钮是一张图片，其他的部分全都是在<code>- (void)drawRect:(CGRect)rect</code>方法中绘图绘上去的。N、和R分别标示不同的档位，即空档和倒档，效果分别是制动和后退。上面的档位表示前进，档位越高表示速度越快。拖动按钮来变换档位，而且标示档位的线的颜色也会改变。需求就是这些了，看到效果图，实现也应该是比较简单的。</p>
+<ul>
+<li>所以在控件里面应该有监测手指在控件上触摸和滑动的方法。</li>
+<li>当手指在控件上滑动时，按钮要不停的改变位置，而且我们还要计算按钮的位置来判断是否要给标示档位的档位线上色。而且按钮这张图片，不是<code>addSubview:</code>到控件里面的，而是在<code>- (void)drawRect:(CGRect)rect</code>方法里面使用<code>UIKit</code> <code>UIImage</code>自带的方法<code>[self.accButtonImage drawAtPoint:self.accButtonPosition];</code>绘制到屏幕上的。同理，档位线的R、N字幕也是用<code>NSString</code>的<code>drawAtPoint:withFont:</code>绘制的。</li>
+<li>当方法检测到控件上有手指滑动时，每次都需要重绘，大家都知道不能直接调用<code>- (void)drawRect:(CGRect)rect</code>方法，所以要调用<code>setNeedsDisplay</code>方法来重绘。</li>
+</ul>
+<p>下面我们就直接上代码了。</p>
+<pre><code>- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if ((self = [super initWithCoder:aDecoder])) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)initialize
+{
+    self.backgroundColor = [UIColor clearColor];
+    self.accButtonImage = [UIImage imageNamed:@&quot;accelerator_but&quot;];
+    self.accButtonPosition = CGPointMake((self.bounds.size.width - 54.0f) / 2, 224.0f);
+}
+</code></pre><p>这是控件初始化的代码，很简单，就不讲解了。控件大小是固定的，所以我很多位置的代码都是写固定位置的，简单一点。</p>
+<pre><code>- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    [super beginTrackingWithTouch:touch withEvent:event];
+
+    CGPoint touchLocation = [touch locationInView:self];
+
+    if (CGRectContainsPoint(CGRectMake(self.accButtonPosition.x - 73.0f, self.accButtonPosition.y, 200.0f, 32.0f), touchLocation)) {
+        NSLog(@&quot;YES&quot;);
+        return YES;
+    } else {
+        NSLog(@&quot;NO&quot;);
+        [self calculatorButtonPosition:touchLocation];
+        return YES;
+    }
+}
+
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    [super continueTrackingWithTouch:touch withEvent:event];
+    CGPoint touchLocation = [touch locationInView:self];
+    [self calculatorButtonPosition:touchLocation];
+    return YES;
+}
+
+- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+{
+}
+</code></pre><p>上面三个方法就是用来检测触摸和滑动的，只有前面的方法返回<code>YES</code>的时候才会调用下一个方法。方法首先调用父类的方法，然后获取手指当前在控件上的位置。第一个方法中<code>if</code>和<code>else</code>分支，一开始只有<code>if</code>分支，即手指在按钮内滑动的时候才会返回<code>YES</code>，然后调用<code>continueTrackingWithTouch</code>方法，既而计算按钮的位置，在<code>calculatorButtonPosition:touchLocation</code>中，我们计算出位置后，然后再调用<code>setNeedsDisplay</code>方法来重绘。<code>else</code>分支是为了满足项目需求加上的，即当手指接触到控件，即使没有在按钮内，也会马上计算出按钮位置，然后重绘。下面我们就来看看<code>calculatorButtonPosition:touchLocation</code>方法。</p>
+<pre><code>- (void)calculatorButtonPosition:(CGPoint)touchLocation
+{
+    CGFloat y = touchLocation.y;
+
+    if (y &lt;= 30.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 4.0f);
+    } else if (y &gt; 30.0f &amp;&amp; y &lt;= 50.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 24.0f);
+    } else if (y &gt; 50.0f &amp;&amp; y &lt;= 70.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 44.0f);
+    } else if (y &gt; 70.0f &amp;&amp; y &lt;= 90.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 64.0f);
+    } else if (y &gt; 90.0f &amp;&amp; y &lt;= 110.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 84.0f);
+    } else if (y &gt; 110.0f &amp;&amp; y &lt;= 130.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 104.0f);
+    } else if (y &gt; 130.0f &amp;&amp; y &lt;= 150.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 124.0f);
+    } else if (y &gt; 150.0f &amp;&amp; y &lt;= 170.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 144.0f);
+    } else if (y &gt; 170.0f &amp;&amp; y &lt;= 190.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 164.0f);
+    } else if (y &gt; 190.0f &amp;&amp; y &lt;= 210.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 184.0f);
+    } else if (y &gt; 210.0f &amp;&amp; y &lt;= 270.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 224.0f);
+    } else if (y &gt; 270.0f) {
+        self.accButtonPosition = CGPointMake(self.accButtonPosition.x, 264.0f);
+    }
+
+    [self setNeedsDisplay];
+}
+</code></pre><p>这个方法也很简单，主要就是根据手指触摸的位置的y值和档位线的y值比较来计算按钮的位置。</p>
+<pre><code>- (int)calculatorLineIndex:(CGPoint)buttonPosition
+{
+    CGFloat y = buttonPosition.y + 16.0f;
+    int index = 0;
+
+    if (y &lt;= 30.0f) {
+        index = 0;
+    } else if (y &gt; 30.0f &amp;&amp; y &lt;= 50.0f) {
+        index = 1;
+    } else if (y &gt; 50.0f &amp;&amp; y &lt;= 70.0f) {
+        index = 2;
+    } else if (y &gt; 70.0f &amp;&amp; y &lt;= 90.0f) {
+        index = 3;
+    } else if (y &gt; 90.0f &amp;&amp; y &lt;= 110.0f) {
+        index = 4;
+    } else if (y &gt; 110.0f &amp;&amp; y &lt;= 130.0f) {
+        index = 5;
+    } else if (y &gt; 130.0f &amp;&amp; y &lt;= 150.0f) {
+        index = 6;
+    } else if (y &gt; 150.0f &amp;&amp; y &lt;= 170.0f) {
+        index = 7;
+    } else if (y &gt; 170.0f &amp;&amp; y &lt;= 190.0f) {
+        index = 8;
+    } else if (y &gt; 190.0f &amp;&amp; y &lt;= 210.0f) {
+        index = 9;
+    } else if (y &gt; 210.0f &amp;&amp; y &lt;= 270.0f) {
+        index = 10;
+    } else if (y &gt; 270.0f) {
+        index = 11;
+    }
+
+    return index;
+}
+</code></pre><p>类似的，上面的方法是用来计算当前按钮在哪个档位线，然后在重绘方法里面决定那些档位线需要上色。</p>
+<pre><code>- (void)drawRect:(CGRect)rect
+{
+    [super drawRect:rect];
+    NSLog(@&quot;drawRect&quot;);
+    int buttonIndex = [self calculatorLineIndex:self.accButtonPosition];
+    //NSLog(@&quot;buttonIndex : %d&quot;, buttonIndex);
+
+    [[UIColor whiteColor] set];
+    CGContextRef currentContext = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(currentContext, 1.0f);
+
+    for (int i = 0; i &lt; 12; i++) {
+
+        if (i &lt; 10) {
+
+            if (i &gt;= buttonIndex) {
+                if (i == 0) {
+                    [[UIColor colorWithHexString:@&quot;#ff0000&quot;] set];
+                } else if (i == 1) {
+                    [[UIColor colorWithHexString:@&quot;#ed5002&quot;] set];
+                } else if (i == 2) {
+                    [[UIColor colorWithHexString:@&quot;#f25102&quot;] set];
+                } else if (i == 3) {
+                    [[UIColor colorWithHexString:@&quot;#ed5d03&quot;] set];
+                } else if (i == 4) {
+                    [[UIColor colorWithHexString:@&quot;#f27202&quot;] set];
+                } else if (i == 5) {
+                    [[UIColor colorWithHexString:@&quot;#f18a02&quot;] set];
+                } else if (i == 6) {
+                    [[UIColor colorWithHexString:@&quot;#f2a102&quot;] set];
+                } else if (i == 7) {
+                    [[UIColor colorWithHexString:@&quot;#f2b702&quot;] set];
+                } else if (i == 8) {
+                    [[UIColor colorWithHexString:@&quot;#ecc202&quot;] set];
+                } else if (i == 9) {
+                    [[UIColor colorWithHexString:@&quot;#f2c602&quot;] set];
+                }
+            } else {
+                [[UIColor whiteColor] set];
+            }
+
+            CGFloat leftStartX = 0.0f;
+            CGFloat rightEndX = 0.0f;
+
+            if (i != 9) {
+                leftStartX = 42.5f;
+                rightEndX = 157.5f;
+            } else {
+                leftStartX = 2.5f;
+                rightEndX = 197.5f;
+            }
+
+            CGContextMoveToPoint(currentContext, leftStartX, 20.0f * (i + 1));
+            CGContextAddLineToPoint(currentContext, 87.5f, 20.0f * (i + 1));
+            CGContextStrokePath(currentContext);
+
+            CGContextMoveToPoint(currentContext, 112.5f, 20.0f * (i + 1));
+            CGContextAddLineToPoint(currentContext, rightEndX, 20.0f * (i + 1));
+            CGContextStrokePath(currentContext);
+        } else {
+            if (i == 10) {
+
+                if (i == buttonIndex) {
+                    [[UIColor colorWithHexString:@&quot;#ff0000&quot;] set];
+                } else {
+                    [[UIColor whiteColor] set];
+                }
+                NSString *string = @&quot;N&quot;;
+                [string drawAtPoint:CGPointMake(20.0f, 10.0f + 20.0f * (i  + 1)) withFont:[UIFont systemFontOfSize:20.0f]];
+                [string drawAtPoint:CGPointMake(165.5f, 10.0f + 20.0f * (i  + 1)) withFont:[UIFont systemFontOfSize:20.0f]];
+
+                CGContextMoveToPoint(currentContext, 42.5f, 20.0f * (i  + 2));
+                CGContextAddLineToPoint(currentContext, 87.5f, 20.0f * (i  + 2));
+                CGContextStrokePath(currentContext);
+
+                CGContextMoveToPoint(currentContext, 112.5f, 20.0f * (i  + 2));
+                CGContextAddLineToPoint(currentContext, 157.5f, 20.0f * (i  + 2));
+                CGContextStrokePath(currentContext);
+            }
+            if (i == 11) {
+
+                if (i == buttonIndex) {
+                    [[UIColor colorWithHexString:@&quot;#00ff00&quot;] set];
+                } else {
+                    [[UIColor whiteColor] set];
+                }
+
+                NSString *string = @&quot;R&quot;;
+                [string drawAtPoint:CGPointMake(20.0f, 10.0f + 20.0f * (i  + 2)) withFont:[UIFont systemFontOfSize:20.0f]];
+                [string drawAtPoint:CGPointMake(165.5f, 10.0f + 20.0f * (i  + 2)) withFont:[UIFont systemFontOfSize:20.0f]];
+
+                CGContextMoveToPoint(currentContext, 42.5f, 20.0f * (i  + 3));
+                CGContextAddLineToPoint(currentContext, 87.5f, 20.0f * (i  + 3));
+                CGContextStrokePath(currentContext);
+
+                CGContextMoveToPoint(currentContext, 112.5f, 20.0f * (i  + 3));
+                CGContextAddLineToPoint(currentContext, 157.5f, 20.0f * (i  + 3));
+                CGContextStrokePath(currentContext);
+            }
+        }
+    }
+    [self.accButtonImage drawAtPoint:self.accButtonPosition];
+}
+</code></pre><p><code>- (void)drawRect:(CGRect)rect</code>方法也很简单，主要复杂的就是业务逻辑，也没多大好讲解的。这里有个比较坑的地方就是<code>- (void)drawRect:(CGRect)rect</code>方法何时调用的问题。之前有个需求，需要重绘控件，调用<code>setNeedsDisplay</code>方法后并没有立即重绘。而且我在一个10次循环里面调用了10次<code>setNeedsDisplay</code>方法，但是最终只调用了一次<code>- (void)drawRect:(CGRect)rect</code>方法。最后在Stack Overflow上找到了方法：</p>
+<pre><code>[self setNeedsDisplay];
+[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate date]];
+</code></pre><p>上面的方法会立即重绘。</p>
+<p>项目代码：<a href="https://github.com/LynchWong/AcceleratorView" target="_blank" rel="external">AcceleratorView</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS自定义控件/" rel="tag">#iOS自定义控件</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/12/15/iOS蓝牙，CoreBluetooth框架简介及入门使用/" rel="next" title="iOS蓝牙，CoreBluetooth框架简介及入门使用">
+                <i class="fa fa-chevron-left"></i> iOS蓝牙，CoreBluetooth框架简介及入门使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/01/24/Swift之初见/" rel="prev" title="Swift之初见">
+                Swift之初见 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/12/17/自定义iOS控件/"
+           data-title="自定义iOS控件" data-url="http://lynchwong.com/2014/12/17/自定义iOS控件/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
