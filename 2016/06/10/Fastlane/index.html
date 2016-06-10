@@ -1,0 +1,765 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Fastlane,Automate," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近一直在研究持续集成、单元测试、自动化的东西。这些东西是明显能够提高我们工作效率、保证我们编码质量的工具。对我们的编码工作有很大的帮助，而且一次配置，一直受用的。
+持续集成Travis CI这个我想大家都了解，对于开源项目的持续集成是免费的，但是对于私有的是收费的，而且价格还蛮高的。去了解了下，发现使用还是蛮简单的，跟GitHub搭配的很好，适合开源项目。
+但是公司的代码都是托管在自己的服务器上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastlane">
+<meta property="og:url" content="http://lynchwong.com/2016/06/10/Fastlane/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="最近一直在研究持续集成、单元测试、自动化的东西。这些东西是明显能够提高我们工作效率、保证我们编码质量的工具。对我们的编码工作有很大的帮助，而且一次配置，一直受用的。
+持续集成Travis CI这个我想大家都了解，对于开源项目的持续集成是免费的，但是对于私有的是收费的，而且价格还蛮高的。去了解了下，发现使用还是蛮简单的，跟GitHub搭配的很好，适合开源项目。
+但是公司的代码都是托管在自己的服务器上">
+<meta property="og:image" content="http://lynchwong.com/img/Fastlane/fastlane_text.png">
+<meta property="og:updated_time" content="2016-06-10T10:56:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fastlane">
+<meta name="twitter:description" content="最近一直在研究持续集成、单元测试、自动化的东西。这些东西是明显能够提高我们工作效率、保证我们编码质量的工具。对我们的编码工作有很大的帮助，而且一次配置，一直受用的。
+持续集成Travis CI这个我想大家都了解，对于开源项目的持续集成是免费的，但是对于私有的是收费的，而且价格还蛮高的。去了解了下，发现使用还是蛮简单的，跟GitHub搭配的很好，适合开源项目。
+但是公司的代码都是托管在自己的服务器上">
+<meta name="twitter:image" content="http://lynchwong.com/img/Fastlane/fastlane_text.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Fastlane | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Fastlane
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-06-10T10:08:51+08:00" content="2016-06-10">
+              2016-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/10/Fastlane/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/10/Fastlane/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近一直在研究持续集成、单元测试、自动化的东西。这些东西是明显能够提高我们工作效率、保证我们编码质量的工具。对我们的编码工作有很大的帮助，而且一次配置，一直受用的。</p>
+<h1 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h1><h2 id="Travis-CI"><a href="#Travis-CI" class="headerlink" title="Travis CI"></a>Travis CI</h2><p>这个我想大家都了解，对于开源项目的持续集成是免费的，但是对于私有的是收费的，而且价格还蛮高的。去了解了下，发现使用还是蛮简单的，跟GitHub搭配的很好，适合开源项目。</p>
+<p>但是公司的代码都是托管在自己的服务器上的，如果要使用Travis CI。首先必须在GitHub上建私有的仓库，然后到Travis CI上付费才能使用。所以对于这一笔开销其实是不必要的，而且还有其它的持续集成的工具可以选择。</p>
+<h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><p>估计很多公司都在用Jenkins，我司也是使用的Jenkins。我司Jenkins的安装、配置都是测试组的同事完成的，每天会定时打包，所以不会每一次提交代码都进行持续集成。而且我们项目里面没有测试的代码，所以我们把Jenkins基本就是当作一个打包工具在使用而已。</p>
+<p>Jenkins的安装、配置、使用我就不啰嗦了，我也没去了解。</p>
+<h1 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h1><p>单元测试这一块了解的不多，反正我自己的项目是很少写测试代码的。TDD、BDD类型的测试框架很多，没有研究过，之后空了单开一篇做下记录。</p>
+<h1 id="自动化"><a href="#自动化" class="headerlink" title="自动化"></a>自动化</h1><p>自动化工具也有很多，这里主要介绍<code>fastlane</code>。</p>
+<p><img src="/img/Fastlane/fastlane_text.png" alt="alt text"></p>
+<p><code>fastlane</code>是一个为iOS，Mac，Android开发人员做自动化任务的工具，比如生成截图、处理Provisioning Profiles，发布你的应用程序。准确的说，<code>fastlane</code>一个工具集合，整合了其它很多自动化工具。</p>
+<p>你可以使用<code>lane</code>来定义你的处理步骤：</p>
+<pre><code>lane :beta do
+    increment_build_number
+    cocoapods
+    match
+    testflight
+    sh &quot;./customScript.sh&quot;
+    slack
+end
+</code></pre><p>然后你只需要运行<code>fastlane beta</code>就能为你的应用程序部署一个新的’beta’版本。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>sudo gem install fastlane --verbose
+</code></pre><p>确保你已经安装了最新版本的Xcode command line tools：</p>
+<pre><code>xcode-select --install
+</code></pre><p>如果你觉得fastlane启动缓慢，尝试运行：</p>
+<pre><code>gem cleanup
+</code></pre><p><strong>系统要求</strong>：fastlane要求Mac OS X 或者 Linux使用Ruby2.0.0及以 上版本。</p>
+<p>如果你想要查看已经使用了<code>fastlane</code>的项目，点击<a href="https://github.com/fastlane/examples" target="_blank" rel="external"> fastlane-examples </a>，包括已经设置好<code>fastlane</code>的Wikipedia、Product Hunt、MindNode等项目。</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><p><code>fastlane</code>的设置助理会在你开始使用前创建所有必需的文件，使用从iTunes Connect或者Google Play上已经存在的App元数据。</p>
+<ul>
+<li>cd [your_project_folder]</li>
+<li><code>fastlane init</code></li>
+<li>跟着设置助理来配置你的应用程序</li>
+<li>使用额外的<a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md" target="_blank" rel="external"> actions </a>来自定义<code>Fastfile</code>(基于Ruby)</li>
+</ul>
+<p>更多细节，查看<a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Guide.md" target="_blank" rel="external"> fastlane guide </a>。</p>
+<h2 id="可用命令"><a href="#可用命令" class="headerlink" title="可用命令"></a>可用命令</h2><p>通常你会使用<code>fastlane</code>命令来触发个人的lane：</p>
+<pre><code>fastlane [lane_name]
+</code></pre><h3 id="其它命令"><a href="#其它命令" class="headerlink" title="其它命令"></a>其它命令</h3><ul>
+<li><code>fastlane actions</code>：列出所有可用的<code>fastlane</code>的actions</li>
+<li><code>fastlane action [action_name]</code>：显示action的更多细节的描述</li>
+<li><code>fastlane lanes</code>：列出所有可用的lane，附带描述</li>
+<li><code>fastlane list</code>：列出所有可用的lane，没有描述</li>
+<li><code>fastlane new_action</code>：为fastlane创建新的action</li>
+</ul>
+<h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><p>除了<code>fastlane</code>的命令，你还可以连接<code>fastlane</code>的工具：</p>
+<ul>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：上传截图、数据、App到 App Store</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> <code>snapshot</code> </a>：将你iOS应用在每一种设备上进行本地化自动截图</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>：自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> <code>sigh</code> </a>：管理你的 provisioning profiles</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> <code>produce</code> </a>：使用命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>：自动创建和维护iOS的 code signing certificates</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> <code>pilot</code> </a>：管理你TestFlight测试人员的最好方式，使用终端构建</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> <code>gym</code> </a>：构建你iOS应用程序</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-image.png" alt="Lynch Wong WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-image.png" alt="Lynch Wong Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Fastlane/" rel="tag">#Fastlane</a>
+          
+            <a href="/tags/Automate/" rel="tag">#Automate</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/09/iOS企业帐号InHouse证书打包IPA/" rel="next" title="iOS企业帐号InHouse证书打包IPA">
+                <i class="fa fa-chevron-left"></i> iOS企业帐号InHouse证书打包IPA
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/10/Fastlane/"
+     data-title="Fastlane"
+     data-content=""
+     data-url="http://lynchwong.com/2016/06/10/Fastlane/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/10/Fastlane/"
+           data-title="Fastlane" data-url="http://lynchwong.com/2016/06/10/Fastlane/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#持续集成"><span class="nav-number">1.</span> <span class="nav-text">持续集成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Travis-CI"><span class="nav-number">1.1.</span> <span class="nav-text">Travis CI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jenkins"><span class="nav-number">1.2.</span> <span class="nav-text">Jenkins</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单元测试"><span class="nav-number">2.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动化"><span class="nav-number">3.</span> <span class="nav-text">自动化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">3.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速开始"><span class="nav-number">3.2.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可用命令"><span class="nav-number">3.3.</span> <span class="nav-text">可用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#其它命令"><span class="nav-number">3.3.1.</span> <span class="nav-text">其它命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">3.4.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
