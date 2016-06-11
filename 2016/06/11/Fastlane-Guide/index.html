@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Swift,播放器,VLC,MobileVLCKit," />
+  <meta name="keywords" content="Fastlane,Automate," />
 
 
 
@@ -84,28 +84,49 @@
 
 
 
-<meta name="description" content="这三个小项目其实已经完成蛮久了，差不多一个多月的时间了。有发在Cocoachina的代码里面，我的 GitHub 上面也有源码。这里也只是作下记录，不做详细的讲解。
-仿 爱范儿 客户端仿 爱范儿 客户端，使用UIViewController容器、UIScrollView实现，使用 SnapKit 布局。
-实现左右滚动，顶部标题滚动，缩小视图，下拉刷新(上拉加载未实现)。
-说明：由于水平和思路的差异">
+<meta name="description" content="说明：翻译的 Fastlane 的指南， 原文地址 。
+
+安装要求：
+
+Mac OS 10.9 或者更新
+Ruby 2.0 或者更新(ruby -v)
+Xcode
+
+除了安装Xcode之外，还需要安装Xcode command line tools：
+xcode-select --install
+如果你之前没有使用过command line tools，你需要接受服务条款：
+sudo xcode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="最近的代码">
-<meta property="og:url" content="http://lynchwong.com/2016/06/02/最近的代码/index.html">
+<meta property="og:title" content="Fastlane - Guide">
+<meta property="og:url" content="http://lynchwong.com/2016/06/11/Fastlane-Guide/index.html">
 <meta property="og:site_name" content="Nobodyknows+ 2.0">
-<meta property="og:description" content="这三个小项目其实已经完成蛮久了，差不多一个多月的时间了。有发在Cocoachina的代码里面，我的 GitHub 上面也有源码。这里也只是作下记录，不做详细的讲解。
-仿 爱范儿 客户端仿 爱范儿 客户端，使用UIViewController容器、UIScrollView实现，使用 SnapKit 布局。
-实现左右滚动，顶部标题滚动，缩小视图，下拉刷新(上拉加载未实现)。
-说明：由于水平和思路的差异">
-<meta property="og:image" content="http://lynchwong.com/img/RecentCoding/demo.gif">
-<meta property="og:image" content="http://lynchwong.com/img/RecentCoding/intro.gif">
-<meta property="og:updated_time" content="2016-06-02T04:20:43.000Z">
+<meta property="og:description" content="说明：翻译的 Fastlane 的指南， 原文地址 。
+
+安装要求：
+
+Mac OS 10.9 或者更新
+Ruby 2.0 或者更新(ruby -v)
+Xcode
+
+除了安装Xcode之外，还需要安装Xcode command line tools：
+xcode-select --install
+如果你之前没有使用过command line tools，你需要接受服务条款：
+sudo xcode">
+<meta property="og:updated_time" content="2016-06-11T12:57:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="最近的代码">
-<meta name="twitter:description" content="这三个小项目其实已经完成蛮久了，差不多一个多月的时间了。有发在Cocoachina的代码里面，我的 GitHub 上面也有源码。这里也只是作下记录，不做详细的讲解。
-仿 爱范儿 客户端仿 爱范儿 客户端，使用UIViewController容器、UIScrollView实现，使用 SnapKit 布局。
-实现左右滚动，顶部标题滚动，缩小视图，下拉刷新(上拉加载未实现)。
-说明：由于水平和思路的差异">
-<meta name="twitter:image" content="http://lynchwong.com/img/RecentCoding/demo.gif">
+<meta name="twitter:title" content="Fastlane - Guide">
+<meta name="twitter:description" content="说明：翻译的 Fastlane 的指南， 原文地址 。
+
+安装要求：
+
+Mac OS 10.9 或者更新
+Ruby 2.0 或者更新(ruby -v)
+Xcode
+
+除了安装Xcode之外，还需要安装Xcode command line tools：
+xcode-select --install
+如果你之前没有使用过command line tools，你需要接受服务条款：
+sudo xcode">
 
 
 
@@ -123,7 +144,7 @@
   };
 </script>
 
-  <title> 最近的代码 | Nobodyknows+ 2.0 </title>
+  <title> Fastlane - Guide | Nobodyknows+ 2.0 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -263,7 +284,7 @@
             
             
               
-                最近的代码
+                Fastlane - Guide
               
             
           </h1>
@@ -275,8 +296,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T11:35:40+08:00" content="2016-06-02">
-              2016-06-02
+            <time itemprop="dateCreated" datetime="2016-06-11T19:42:14+08:00" content="2016-06-11">
+              2016-06-11
             </time>
           </span>
 
@@ -305,8 +326,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/02/最近的代码/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/最近的代码/" itemprop="commentsCount"></span>
+                <a href="/2016/06/11/Fastlane-Guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/11/Fastlane-Guide/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -334,29 +355,98 @@
       
 
       
-        <p>这三个小项目其实已经完成蛮久了，差不多一个多月的时间了。有发在Cocoachina的代码里面，我的<a href="https://github.com/LynchWong" target="_blank" rel="external"> GitHub </a>上面也有源码。这里也只是作下记录，不做详细的讲解。</p>
-<h1 id="仿-爱范儿-客户端"><a href="#仿-爱范儿-客户端" class="headerlink" title="仿 爱范儿 客户端"></a>仿 爱范儿 客户端</h1><p>仿 爱范儿 客户端，使用UIViewController容器、UIScrollView实现，使用 SnapKit 布局。</p>
-<p>实现左右滚动，顶部标题滚动，缩小视图，下拉刷新(上拉加载未实现)。</p>
-<p>说明：由于水平和思路的差异导致视觉效果上有些差异，除此之外还有些功能未实现(如 更多栏目)，请使用CocoaPods添加依赖库。</p>
-<p><a href="https://github.com/LynchWong/mifanr" target="_blank" rel="external"> 源码 </a></p>
-<h1 id="圆圈按钮"><a href="#圆圈按钮" class="headerlink" title="圆圈按钮"></a>圆圈按钮</h1><p>自动布局，随意配制按钮个数和外观。</p>
-<p><a href="https://github.com/LynchWong/CircleMenu" target="_blank" rel="external"> 源码 </a></p>
-<p>效果图：</p>
-<p><img src="/img/RecentCoding/demo.gif" alt="alt text"></p>
-<h1 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h1><p>这个播放器是基于VLC的MobileVLCKit开发的，使用Swift。是我自己做的一个App，去年就上架到App Store了，最近空闲就小更新了下。</p>
-<p>MobileVLCKit功能强大，这个App只用到皮毛。实现了一些基本的功能：</p>
+        <blockquote>
+<p>说明：翻译的 <code>Fastlane</code> 的指南，<a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Guide.md" target="_blank" rel="external"> 原文地址 </a>。</p>
+</blockquote>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>要求：</p>
 <ul>
-<li>使用<a href="https://github.com/swisspol/GCDWebServer" target="_blank" rel="external"> GCDWebServer </a>来进行本地视频上传到播放器。</li>
-<li><p>实现简单的播放、暂停、快进、后退、左侧上下滑动屏幕调节亮度、右侧上下滑动屏幕调节音量、左右扫动进度调节。</p>
-</li>
-<li><p>没有支持播放远程视频，不支持外挂字幕，不支持截屏等其他功能。</p>
-</li>
+<li>Mac OS 10.9 或者更新</li>
+<li>Ruby 2.0 或者更新(ruby -v)</li>
+<li>Xcode</li>
 </ul>
-<p>后续可能会添加这些功能的支持。</p>
-<p>项目App Store地址：<br><a href="https://itunes.apple.com/us/app/jian-yi-bo-fang-qi-ji-jian/id1059131009?ls=1&amp;mt=8" target="_blank" rel="external">简易播放器 - 极简播放器</a></p>
-<p><a href="https://github.com/LynchWong/ePlayer" target="_blank" rel="external"> 源码 </a></p>
-<p>效果图：</p>
-<p><img src="/img/RecentCoding/intro.gif" alt="alt text"></p>
+<p>除了安装Xcode之外，还需要安装Xcode command line tools：</p>
+<pre><code>xcode-select --install
+</code></pre><p>如果你之前没有使用过command line tools，你需要接受服务条款：</p>
+<pre><code>sudo xcodebuild -license accept
+</code></pre><h3 id="fastlane"><a href="#fastlane" class="headerlink" title="fastlane"></a>fastlane</h3><p>安装gem和所有依赖(可能要花几分钟)：</p>
+<pre><code>sudo gem install fastlane --verbose
+</code></pre><h2 id="设置fastlane"><a href="#设置fastlane" class="headerlink" title="设置fastlane"></a>设置<code>fastlane</code></h2><p>在修改你项目之前，建议你在当前的目录中已经使用Git提交过了。</p>
+<p>当你运行设置命令时，请阅读终端中的说明，它们出现在那里通常是有原因的。</p>
+<p>使用如下命令时<code>fastlane</code>将会为你创建所有必需的文件和文件夹。将会使用从项目工作目录检测到的变量。</p>
+<pre><code>fastlane init
+</code></pre><p>将会提示你需要你的Apple ID，为了验证已经存在在iTunes Connect和Apple Developer Portal上的应用程序。如果没有，<code>fastlane</code>会问你是否需要自动创建。</p>
+<p>然后应该会接收安装成功的信息。</p>
+<p>这些设置会做什么工作？</p>
+<ul>
+<li>创建一个<code>fastlane</code>文件夹。</li>
+<li>将已经存在的 deliver 和 snapshot 的配置文件移动到<code>fastlane</code>文件夹(如果存在)。</li>
+<li>创建<code>fastlane/Appfile</code>，保存你的Apple ID 和 Bundle Identifier。</li>
+<li>创建<code>fastlane/Fastfile</code>，保存你的lanes。</li>
+</ul>
+<p>这个设置会自动检测你使用的什么工具(比如deliver，CocoaPods等等)。</p>
+<h3 id="独立工具"><a href="#独立工具" class="headerlink" title="独立工具"></a>独立工具</h3><p>在运行<code>fastlane</code>命令前，确保所有的工具都被正确设置了。</p>
+<p>比如，尝试运行如下工具(取决于你的计划)：</p>
+<ul>
+<li>deliver</li>
+<li>snapshot</li>
+<li>sigh</li>
+</ul>
+<p>所有这些工具都有如何设置它们的详细说明，很容易设置。你可以现在或者之后再设置。</p>
+<h3 id="配置Fastfile"><a href="#配置Fastfile" class="headerlink" title="配置Fastfile"></a>配置<code>Fastfile</code></h3><p>首先，思考你到底需要构建什么。一些想法：</p>
+<ul>
+<li>新的App Store发布版本</li>
+<li>为 TestFlight 或者<a href="https://www.hockeyapp.net/features/" target="_blank" rel="external"> HockeyApp </a></li>
+<li>运行测试</li>
+<li>InHouse发布</li>
+</ul>
+<p>使用你喜欢的文本编辑器打开<code>fastlane/Fastfile</code>，然后将语法高亮改为Ruby。</p>
+<p>取决于你已经存在的一些设置，看起来类似如下：</p>
+<pre><code>before_all do
+  # increment_build_number
+  cocoapods
+end
+
+lane :test do
+  snapshot
+end
+
+lane :beta do
+  sigh
+  gym
+  pilot
+  # sh &quot;your_script.sh&quot;
+end
+
+lane :deploy do
+  snapshot
+  sigh
+  gym
+  deliver(force: true)
+  # frameit
+end
+
+after_all do |lane|
+  # This block is called, only if the executed lane was successful
+end
+
+error do |lane, exception|
+  # Something bad happened
+end
+</code></pre><p>你可以将如下文本复制粘贴到你的<code>fastlane/Fastfile</code>文件，然后使用<code>fastlane</code>命令运行：</p>
+<pre><code>lane :example do
+  say &quot;It works&quot;
+end
+</code></pre><p>然后在你的终端中运行：</p>
+<pre><code>fastlane example
+</code></pre><p>如果成功，你应该听见你的电脑对你说话！</p>
+<p>可用的actions列表，参见<a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md" target="_blank" rel="external"> Actions documentation </a>。</p>
+<p>接下来，自动化部署流程是很重大的一步。你应该使用<code>increment_build_number</code>action，当你想上传构建的包到iTunes Connect时(<a href="https://developer.apple.com/library/ios/qa/qa1827/_index.html" target="_blank" rel="external"> Activate incrementing build numbers </a>)。</p>
+<h3 id="使用你已经存在的构建脚本"><a href="#使用你已经存在的构建脚本" class="headerlink" title="使用你已经存在的构建脚本"></a>使用你已经存在的构建脚本</h3><pre><code>sh &quot;./script.sh&quot;
+</code></pre><p>这会执行你已经存在的构建脚本。所有在<code>&quot;</code>里的都会在shell里执行。</p>
+<h3 id="创建你自己的actions-构建脚本"><a href="#创建你自己的actions-构建脚本" class="headerlink" title="创建你自己的actions(构建脚本)"></a>创建你自己的actions(构建脚本)</h3><p>如果你想使用花哨的命令(就像snapshot拥有的那样)，你可以使用<a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/README.md#extensions" target="_blank" rel="external"> fastlane new_action </a>很简单的构建你自己的拓展。</p>
+<h1 id="示例项目"><a href="#示例项目" class="headerlink" title="示例项目"></a>示例项目</h1><p>参见<a href="https://github.com/fastlane/examples#wikipedia-by-wikimedia-foundation" target="_blank" rel="external"> Wikipedia </a>，<a href="https://github.com/fastlane/examples#product-hunt" target="_blank" rel="external"> Product Hunt </a>，<a href="https://github.com/fastlane/examples#mindnode" target="_blank" rel="external"> MindNode </a>如何使用<code>fastlane</code>来自动化他们iOS应用的处理流程。</p>
+<p>参见<a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md" target="_blank" rel="external"> Actions documentation </a>查看可用的集成和选项。</p>
+<h1 id="Help"><a href="#Help" class="headerlink" title="Help"></a>Help</h1><p>如果还有什么不清楚或者你需要帮助，开个<a href="https://github.com/fastlane/fastlane/issues/new" target="_blank" rel="external"> issue </a>。</p>
 
       
     </div>
@@ -399,13 +489,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Swift/" rel="tag">#Swift</a>
+            <a href="/tags/Fastlane/" rel="tag">#Fastlane</a>
           
-            <a href="/tags/播放器/" rel="tag">#播放器</a>
-          
-            <a href="/tags/VLC/" rel="tag">#VLC</a>
-          
-            <a href="/tags/MobileVLCKit/" rel="tag">#MobileVLCKit</a>
+            <a href="/tags/Automate/" rel="tag">#Automate</a>
           
         </div>
       
@@ -414,17 +500,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/02/博客迁移后续/" rel="next" title="博客迁移后续">
-                <i class="fa fa-chevron-left"></i> 博客迁移后续
+              <a href="/2016/06/10/Fastlane/" rel="next" title="Fastlane">
+                <i class="fa fa-chevron-left"></i> Fastlane
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/06/ABC360/" rel="prev" title="ABC360">
-                ABC360 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -439,10 +521,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/06/02/最近的代码/"
-     data-title="最近的代码"
+        <div class="ds-share flat" data-thread-key="2016/06/11/Fastlane-Guide/"
+     data-title="Fastlane - Guide"
      data-content=""
-     data-url="http://lynchwong.com/2016/06/02/最近的代码/">
+     data-url="http://lynchwong.com/2016/06/11/Fastlane-Guide/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -469,8 +551,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/06/02/最近的代码/"
-           data-title="最近的代码" data-url="http://lynchwong.com/2016/06/02/最近的代码/">
+      <div class="ds-thread" data-thread-key="2016/06/11/Fastlane-Guide/"
+           data-title="Fastlane - Guide" data-url="http://lynchwong.com/2016/06/11/Fastlane-Guide/">
       </div>
     
   </div>
@@ -572,7 +654,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#仿-爱范儿-客户端"><span class="nav-number">1.</span> <span class="nav-text">仿 爱范儿 客户端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#圆圈按钮"><span class="nav-number">2.</span> <span class="nav-text">圆圈按钮</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#播放器"><span class="nav-number">3.</span> <span class="nav-text">播放器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fastlane"><span class="nav-number">1.1.</span> <span class="nav-text">fastlane</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置fastlane"><span class="nav-number">2.</span> <span class="nav-text">设置fastlane</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#独立工具"><span class="nav-number">2.1.</span> <span class="nav-text">独立工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Fastfile"><span class="nav-number">2.2.</span> <span class="nav-text">配置Fastfile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用你已经存在的构建脚本"><span class="nav-number">2.3.</span> <span class="nav-text">使用你已经存在的构建脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建你自己的actions-构建脚本"><span class="nav-number">2.4.</span> <span class="nav-text">创建你自己的actions(构建脚本)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例项目"><span class="nav-number"></span> <span class="nav-text">示例项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Help"><span class="nav-number"></span> <span class="nav-text">Help</span></a></div>
             
           </div>
         </section>
