@@ -1,0 +1,825 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Fastlane,Automate,Deliver," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="deliver使用简单的指令就能将你的应用、截图、元数据上传到App Store。
+deliver可以使用命令行工具上传 ipa 或者 pkg 文件，截图以及更多的数据到 iTunes Connect。
+功能
+自动化上传上百张本地化的截图
+不需要使用任何一台 Mac 的 Xcode 就可以上传新的 ipa/pkg 文件到 iTunes Connect
+在本地维你应用的元数据，然后将改变推送回 i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastlane - Deliver">
+<meta property="og:url" content="http://lynchwong.com/2016/06/18/Fastlane-Deliver/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="deliver使用简单的指令就能将你的应用、截图、元数据上传到App Store。
+deliver可以使用命令行工具上传 ipa 或者 pkg 文件，截图以及更多的数据到 iTunes Connect。
+功能
+自动化上传上百张本地化的截图
+不需要使用任何一台 Mac 的 Xcode 就可以上传新的 ipa/pkg 文件到 iTunes Connect
+在本地维你应用的元数据，然后将改变推送回 i">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneDeliver/deliver.png">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneDeliver/metadata.png">
+<meta property="og:updated_time" content="2016-06-18T09:08:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fastlane - Deliver">
+<meta name="twitter:description" content="deliver使用简单的指令就能将你的应用、截图、元数据上传到App Store。
+deliver可以使用命令行工具上传 ipa 或者 pkg 文件，截图以及更多的数据到 iTunes Connect。
+功能
+自动化上传上百张本地化的截图
+不需要使用任何一台 Mac 的 Xcode 就可以上传新的 ipa/pkg 文件到 iTunes Connect
+在本地维你应用的元数据，然后将改变推送回 i">
+<meta name="twitter:image" content="http://lynchwong.com/img/FastlaneDeliver/deliver.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Fastlane - Deliver | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Fastlane - Deliver
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-06-18T12:49:42+08:00" content="2016-06-18">
+              2016-06-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/18/Fastlane-Deliver/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/18/Fastlane-Deliver/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/img/FastlaneDeliver/deliver.png" alt="alt text"></p>
+<h1 id="deliver"><a href="#deliver" class="headerlink" title="deliver"></a>deliver</h1><p>使用简单的指令就能将你的应用、截图、元数据上传到App Store。</p>
+<p><code>deliver</code>可以使用命令行工具上传 ipa 或者 pkg 文件，截图以及更多的数据到 iTunes Connect。</p>
+<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><ul>
+<li>自动化上传上百张本地化的截图</li>
+<li>不需要使用任何一台 Mac 的 Xcode 就可以上传新的 ipa/pkg 文件到 iTunes Connect</li>
+<li>在本地维你应用的元数据，然后将改变推送回 iTunes Connect</li>
+<li>使用 fastlane 能够简单的实现真正的持续化的部署流程</li>
+<li>使用 Git 管理配置文件，可以在任务一台 Mac 上部署，包括你持续集成的服务器</li>
+<li>在将 App 元数据和截图上传到 iTC 之前会生成一个 HTML 的元数据预览</li>
+</ul>
+<p>将构建的 App 上传到 TestFlight 查看 <a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> pilot </a>。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装 gem</p>
+<pre><code>sudo gem install deliver
+</code></pre><p>确保你已经安装了最新版本的 Xcode 命令行工具：</p>
+<pre><code>xcode-select --install
+</code></pre><h1 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h1><p>指引会使用 iTunes Connect 上已经存在的 App 元数据为你创建所有必需的文件。</p>
+<ul>
+<li><code>cd [your_project_folder]</code></li>
+<li><code>deliver init</code></li>
+<li>输入 iTunes Connect Credentials</li>
+<li>输入 App Identifier</li>
+<li>在电脑为你做好所有工作之前，可以去先去来一发</li>
+</ul>
+<p>从现在起，你可以使用 <code>deliver</code> 来部署一个新的版本更新，或者上传新的 App 元数据和截图。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>查看你本地 <code>./fastlane/metadata</code> 和 <code>./fastlane/screenshots</code>文件夹(如果你没有使用fastlane，<code>./metadata</code>替换)。</p>
+<p><img src="/img/FastlaneDeliver/metadata.png" alt="alt text"></p>
+<p>你将会看见从 iTunes Connect 获取的元数据。你可以在本地修改这些数据，然后推送回 iTunes Connect。</p>
+<p>运行 <code>deliver</code> 将你本地机器的元数据上传。</p>
+<pre><code>deliver
+</code></pre><p>提供 ipa 文件的路径，然后上传你的 App 进行审核：</p>
+<pre><code>deliver --ipa &quot;App.ipa&quot; --submit_for_review
+</code></pre><p>你页可以为 Mac OS X 的 apps 指定 pkg 文件的路径：</p>
+<pre><code>deliver --pkg &quot;MacApp.pkg&quot;
+</code></pre><p>如果你使用 fastlane，你不需要手动指定 ipa/pkg 文件的路径。</p>
+<p>这些只是 <code>deliver</code> 能做的一小部分，查看完整文档<a href="https://github.com/fastlane/fastlane/blob/master/deliver/Deliverfile.md" target="_blank" rel="external"> Deliverfile.md </a>。</p>
+<p>从 iTunes Connect 下载已经存在的截图：</p>
+<pre><code>deliver download_screenshots
+</code></pre><p>获取可用的运行选项：</p>
+<pre><code>deliver --help
+</code></pre><p>选择之前上传的构建，然后提交审核：</p>
+<pre><code>deliver submit_build --build_number 830
+</code></pre><p>查看<a href="https://github.com/fastlane/fastlane/blob/master/deliver/Deliverfile.md" target="_blank" rel="external"> Deliverfile.md </a>获取更多选项。</p>
+<h2 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h2><p>关于你证书是如何处理的，在<a href="https://github.com/fastlane/fastlane/tree/master/credentials_manager" target="_blank" rel="external"> credentials_manager </a>中可以得到详细的描述。</p>
+<p>这些东西是如何工作的？是使用的魔法吗？</p>
+<p>你的密码会存储在Mac OS X 的 keychain 中，但是也可以传递使用环境变量。(<a href="https://github.com/fastlane/fastlane/tree/master/credentials_manager" target="_blank" rel="external"> CredentialsManager </a>中有更多信息)</p>
+<p>其实在上传任何东西到 iTunes 之前，<code>deliver</code> 会使用收集来的数据的摘要生成一个HTML。</p>
+<p><code>deliver</code>在底层使用如下技术：</p>
+<ul>
+<li>使用 iTMSTransporter 工具来上传二进制文件到 iTunes Connect。iTMSTransporter 是 Apple 提供的一个命令行工具。</li>
+<li>与所有actions相关的元数据，<code>deliver</code>使用的是<a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> spaceship </a>。</li>
+</ul>
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> <code>snapshot</code> </a>：将你iOS应用在每一种设备上进行本地化自动截图</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>：自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> <code>sigh</code> </a>：管理你的 provisioning profiles</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> <code>produce</code> </a>：使用命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>：自动创建和维护iOS的 code signing certificates</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> <code>pilot</code> </a>：管理你TestFlight测试人员的最好方式，使用终端构建</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> <code>gym</code> </a>：构建你iOS应用程序</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+</ul>
+<h2 id="可用的语言码"><a href="#可用的语言码" class="headerlink" title="可用的语言码"></a>可用的语言码</h2><pre><code>no, en-US, en-CA, fi, ru, zh-Hans, nl-NL, zh-Hant, en-AU, id, de-DE, sv, ko, ms, pt-BR, el, es-ES, it, fr-CA, es-MX, pt-PT, vi, th, ja, fr-FR, da, tr, en-GB
+</code></pre><h2 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h2><p>Deliver 有指定的 <code>default</code> 语言码，允许你提供不是本地化的值，如果你没有提供本地化的值，将会使用默认值。</p>
+<p>你可以在deliverfile中使用json设置，也可以在metadata文件夹中设置。</p>
+<p>假如你有<code>en-US, de-DE, el, it</code>语言码的本地化数据。</p>
+<p>你可以在deliverfile文件中如下设置：</p>
+<pre><code>release_notes({
+    &apos;default&apos; =&gt; &quot;Shiny and new”,
+    &apos;de-DE&apos; =&gt; &quot;glänzend und neu&quot;
+})
+</code></pre><p>Deliver会为 en-US, el 和 it 使用 “Shiny and new”。</p>
+<p>为 de-DE 使用 “glänzend und neu”。</p>
+<p>你也可以使用文件夹达到同样目的：</p>
+<pre><code>default
+  keywords.txt
+  marketing_url.txt
+  name.txt
+  privacy_url.txt
+  support_url.txt
+  release_notes.txt
+en-US
+  description.txt
+de-DE
+  description.txt
+el
+  description.txt
+it
+  description.txt
+</code></pre><p>在这种情况下，keywords, urls, name 和 release notes 所有的本地化都会使用默认值，但是每一种语言都有完整的本地化描述。</p>
+<h2 id="自动创建截图"><a href="#自动创建截图" class="headerlink" title="自动创建截图"></a>自动创建截图</h2><p>如果你想 <code>deliver</code> 集成<a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> snapshot </a>，查看<a href="https://fastlane.tools" target="_blank" rel="external"> fastlane！ </a>。</p>
+<h2 id="Jenkins集成"><a href="#Jenkins集成" class="headerlink" title="Jenkins集成"></a>Jenkins集成</h2><p>关于如何在 <code>Jenkins</code> 中设置 <code>deliver</code> 和 <code>fastlane</code> 的详细说明，参见<a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Jenkins.md" target="_blank" rel="external"> fastlane README </a>。</p>
+<h2 id="防火墙问题"><a href="#防火墙问题" class="headerlink" title="防火墙问题"></a>防火墙问题</h2><p><code>deliver</code> 使用 iTunes Transporter 来上传元数据和二进制。为了防止被防火墙阻挡，你可以指定不同的传输协议，使用方法如下：</p>
+<pre><code>DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS=&quot;-t DAV&quot; deliver
+</code></pre><h2 id="HTTP代理"><a href="#HTTP代理" class="headerlink" title="HTTP代理"></a>HTTP代理</h2><p>iTunes Transporter 是一个 Java 应用程序，与 Xcode 绑定在一起。为了利用<code>DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS=&quot;-t DAV&quot;</code>，你需要配置 iTunes Transporter 使用独立于系统代理和任何环境代理的代理设置。你可以使用 Xcode 找到配置文件：</p>
+<pre><code>TOOLS_PATH=$( xcode-select -p )
+REL_PATH=&apos;../Applications/Application Loader.app/Contents/itms/java/lib/net.properties&apos;
+echo &quot;$TOOLS_PATH/$REL_PATH&quot;
+</code></pre><p>根据<a href="http://docs.oracle.com/javase/8/docs/technotes/guides/net/proxies.html" target="_blank" rel="external"> Java Proxy Configuration </a>为<code>net.properties</code>增加必需的代理配置值。</p>
+<h2 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h2><p>Apple 限制每天只能上传150个二进制文件。</p>
+<h2 id="编辑Deliverfile文件"><a href="#编辑Deliverfile文件" class="headerlink" title="编辑Deliverfile文件"></a>编辑<code>Deliverfile</code>文件</h2><p>将语法高亮改为Ruby。</p>
+<h1 id="需要帮助？"><a href="#需要帮助？" class="headerlink" title="需要帮助？"></a>需要帮助？</h1><p>请在 GitHub 上提交 issue 并提供关于你设置的信息。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-image.png" alt="Lynch Wong WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-image.png" alt="Lynch Wong Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Fastlane/" rel="tag">#Fastlane</a>
+          
+            <a href="/tags/Automate/" rel="tag">#Automate</a>
+          
+            <a href="/tags/Deliver/" rel="tag">#Deliver</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/11/Fastlane-Guide/" rel="next" title="Fastlane - Guide">
+                <i class="fa fa-chevron-left"></i> Fastlane - Guide
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/18/Fastlane-Deliver/"
+     data-title="Fastlane - Deliver"
+     data-content=""
+     data-url="http://lynchwong.com/2016/06/18/Fastlane-Deliver/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/18/Fastlane-Deliver/"
+           data-title="Fastlane - Deliver" data-url="http://lynchwong.com/2016/06/18/Fastlane-Deliver/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">136</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#deliver"><span class="nav-number">1.</span> <span class="nav-text">deliver</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">2.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">4.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">5.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#证书"><span class="nav-number">5.1.</span> <span class="nav-text">证书</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">6.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">6.1.</span> <span class="nav-text">fastlane工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可用的语言码"><span class="nav-number">6.2.</span> <span class="nav-text">可用的语言码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认值"><span class="nav-number">6.3.</span> <span class="nav-text">默认值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动创建截图"><span class="nav-number">6.4.</span> <span class="nav-text">自动创建截图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jenkins集成"><span class="nav-number">6.5.</span> <span class="nav-text">Jenkins集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防火墙问题"><span class="nav-number">6.6.</span> <span class="nav-text">防火墙问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP代理"><span class="nav-number">6.7.</span> <span class="nav-text">HTTP代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制"><span class="nav-number">6.8.</span> <span class="nav-text">限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑Deliverfile文件"><span class="nav-number">6.9.</span> <span class="nav-text">编辑Deliverfile文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#需要帮助？"><span class="nav-number">7.</span> <span class="nav-text">需要帮助？</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
