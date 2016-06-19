@@ -1,0 +1,786 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Fastlane,Automate,Snapshot," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="说明：翻译的 Snapshot 的指南， 原文地址 。
+
+
+snapshot对你的 iOS 应用程序在每一种设备上自动截取本地化截图。
+你必需手动创建 20 (语言) x 6 (设备) x 5 (截图) = 600 张截图。
+很难保证所有的事情都是正确的！
+
+所有更新的截图
+没有加载提示
+屏幕中相同的内容
+干净的状态栏
+上传截图 ( deliver )
+
+更多关于 创建完美截图的信息 。
+sna">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastlane - Snapshot">
+<meta property="og:url" content="http://lynchwong.com/2016/06/19/Fastlane-Snapshot/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="说明：翻译的 Snapshot 的指南， 原文地址 。
+
+
+snapshot对你的 iOS 应用程序在每一种设备上自动截取本地化截图。
+你必需手动创建 20 (语言) x 6 (设备) x 5 (截图) = 600 张截图。
+很难保证所有的事情都是正确的！
+
+所有更新的截图
+没有加载提示
+屏幕中相同的内容
+干净的状态栏
+上传截图 ( deliver )
+
+更多关于 创建完美截图的信息 。
+sna">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/snapshot.png">
+<meta property="og:updated_time" content="2016-06-19T08:06:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fastlane - Snapshot">
+<meta name="twitter:description" content="说明：翻译的 Snapshot 的指南， 原文地址 。
+
+
+snapshot对你的 iOS 应用程序在每一种设备上自动截取本地化截图。
+你必需手动创建 20 (语言) x 6 (设备) x 5 (截图) = 600 张截图。
+很难保证所有的事情都是正确的！
+
+所有更新的截图
+没有加载提示
+屏幕中相同的内容
+干净的状态栏
+上传截图 ( deliver )
+
+更多关于 创建完美截图的信息 。
+sna">
+<meta name="twitter:image" content="http://lynchwong.com/img/FastlaneSnapshot/snapshot.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Fastlane - Snapshot | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Fastlane - Snapshot
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-06-19T13:52:28+08:00" content="2016-06-19">
+              2016-06-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/19/Fastlane-Snapshot/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/19/Fastlane-Snapshot/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>说明：翻译的 <code>Snapshot</code> 的指南，<a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> 原文地址 </a>。</p>
+</blockquote>
+<p><img src="/img/FastlaneSnapshot/snapshot.png" alt="alt text"></p>
+<h1 id="snapshot"><a href="#snapshot" class="headerlink" title="snapshot"></a>snapshot</h1><p>对你的 iOS 应用程序在每一种设备上自动截取本地化截图。</p>
+<p>你必需手动创建 20 (语言) x 6 (设备) x 5 (截图) = 600 张截图。</p>
+<p>很难保证所有的事情都是正确的！</p>
+<ul>
+<li>所有更新的截图</li>
+<li>没有加载提示</li>
+<li>屏幕中相同的内容</li>
+<li>干净的状态栏</li>
+<li>上传截图 (<a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>)</li>
+</ul>
+<p>更多关于<a href="https://krausefx.com/blog/creating-perfect-app-store-screenshots-of-your-ios-app" target="_blank" rel="external"> 创建完美截图的信息 </a>。</p>
+<p><code>snapshot</code>完全运行在后台，当电脑在为你截图时，你可以做其它的事情。</p>
+<h1 id="注意：新的snapshot使用UI-Tests-in-Xcode-7"><a href="#注意：新的snapshot使用UI-Tests-in-Xcode-7" class="headerlink" title="注意：新的snapshot使用UI Tests in Xcode 7"></a>注意：新的<code>snapshot</code>使用UI Tests in Xcode 7</h1><p>苹果发布的新的 Xcode 版本内建支持了 UI Tests。这项技术使得<code>snapshot</code>比之前更好：不必再处理 UI Automation Javascript 代码，现在你可以使用 Swift 或者 Objective C 来编写截图的代码，并且允许你断点调试。</p>
+<p>所以，<code>snapshot</code>从底层重写了代码，但是没有改变公共 API。</p>
+<p>详见<a href="https://github.com/fastlane/fastlane/blob/master/snapshot/MigrationGuide.md" target="_blank" rel="external"> MigrationGuide to 1.0 </a>。</p>
+<p>为什么改为 UI Tests ？</p>
+<ul>
+<li>UI Automation 过时了</li>
+<li>UI Tests 在未来将会进化支持更多功能</li>
+<li>UI Tests 更容易调试</li>
+<li>UI Tests 使用 Swift 或者 Objective C 编写</li>
+<li>UI Tests 可以使用更干净更好的方式执行</li>
+</ul>
+<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h1 id="UI-Tests"><a href="#UI-Tests" class="headerlink" title="UI Tests"></a>UI Tests</h1><h1 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h1><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>：自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> <code>sigh</code> </a>：管理你的 provisioning profiles</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> <code>produce</code> </a>：使用命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>：自动创建和维护iOS的 code signing certificates</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> <code>pilot</code> </a>：管理你TestFlight测试人员的最好方式，使用终端构建</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> <code>gym</code> </a>：构建你iOS应用程序</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+</ul>
+<h1 id="How？"><a href="#How？" class="headerlink" title="How？"></a>How？</h1><h1 id="帮助？"><a href="#帮助？" class="headerlink" title="帮助？"></a>帮助？</h1>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-image.png" alt="Lynch Wong WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-image.png" alt="Lynch Wong Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Fastlane/" rel="tag">#Fastlane</a>
+          
+            <a href="/tags/Automate/" rel="tag">#Automate</a>
+          
+            <a href="/tags/Snapshot/" rel="tag">#Snapshot</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/18/Fastlane-Deliver/" rel="next" title="Fastlane - Deliver">
+                <i class="fa fa-chevron-left"></i> Fastlane - Deliver
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/19/Fastlane-Snapshot/"
+     data-title="Fastlane - Snapshot"
+     data-content=""
+     data-url="http://lynchwong.com/2016/06/19/Fastlane-Snapshot/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/19/Fastlane-Snapshot/"
+           data-title="Fastlane - Snapshot" data-url="http://lynchwong.com/2016/06/19/Fastlane-Snapshot/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">137</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#snapshot"><span class="nav-number">1.</span> <span class="nav-text">snapshot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意：新的snapshot使用UI-Tests-in-Xcode-7"><span class="nav-number">2.</span> <span class="nav-text">注意：新的snapshot使用UI Tests in Xcode 7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI-Tests"><span class="nav-number">5.</span> <span class="nav-text">UI Tests</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">6.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">8.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">8.1.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How？"><span class="nav-number">9.</span> <span class="nav-text">How？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">10.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
