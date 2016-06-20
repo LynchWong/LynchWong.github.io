@@ -119,7 +119,8 @@ snapshot对你的 iOS 应用程序在每一种设备上自动截取本地化截�
 更多关于 创建完美截图的信息 。
 sna">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/snapshot.png">
-<meta property="og:updated_time" content="2016-06-19T08:06:22.000Z">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/htmlPagePreviewFade.jpg">
+<meta property="og:updated_time" content="2016-06-20T12:08:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Snapshot">
 <meta name="twitter:description" content="说明：翻译的 Snapshot 的指南， 原文地址 。
@@ -393,7 +394,41 @@ sna">
 <li>UI Tests 使用 Swift 或者 Objective C 编写</li>
 <li>UI Tests 可以使用更干净更好的方式执行</li>
 </ul>
-<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h1 id="UI-Tests"><a href="#UI-Tests" class="headerlink" title="UI Tests"></a>UI Tests</h1><h1 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h1><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><ul>
+<li>根据所有的模拟器，不同的语言，创建几百张截图</li>
+<li>只需配置一次，存储在 Git 中</li>
+<li>当电脑在为你截图的时候，你可以做其它的事情</li>
+<li>集成<a href="https://fastlane.tools" target="_blank" rel="external"> fastlane </a> 和 <a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> deliver </a></li>
+<li>生成漂亮的 Web 页面，展示所有设备的截图。最棒的是你可以发送给 Q&amp;A 或者市场的团队</li>
+<li><code>snapshot</code>在截图前会自动等待所有的网络请求结束(我们不想在App Store里有网络加载的截图)</li>
+</ul>
+<p>在<code>snapshot</code>成功创建新的截图后，会生成一个漂亮的HTML文件来展示所有的截图，让你能够快速浏览所有截图：</p>
+<p><img src="/img/FastlaneSnapshot/htmlPagePreviewFade.jpg" alt="alt text"></p>
+<h2 id="为什使用？"><a href="#为什使用？" class="headerlink" title="为什使用？"></a>为什使用？</h2><p>该工具会自动切换语言，设备类型和运行每一个组合的UI测试。</p>
+<h2 id="为什么要自动化这个过程？"><a href="#为什么要自动化这个过程？" class="headerlink" title="为什么要自动化这个过程？"></a>为什么要自动化这个过程？</h2><ul>
+<li>要花费很多时间来截图</li>
+<li>能够浏览你所有的截图，运行所有可用的模拟器，不需要手动启动上百次</li>
+<li>翻译人员非常容易验证的翻译，这些翻译在应用上下文中是有意义的</li>
+<li>很容易验证本地化的标签是否在所有设备上合适</li>
+<li>可以集成测试：你可以在脚本中测试UI元素</li>
+<li>为每一次应用更新提供新的截图，你客户应得的</li>
+<li>如果截图有个小错误？只需要修正然后从新运行脚本</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装 gem</p>
+<pre><code>sudo gem install snapshot
+</code></pre><p>确保你已经安装了 Xcode 最新版本的命令行工具：</p>
+<pre><code>xcode-select --install
+</code></pre><h1 id="UI-Tests"><a href="#UI-Tests" class="headerlink" title="UI Tests"></a>UI Tests</h1><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>这个项目使用苹果新发布的 UIUI Tests。这里不会讲解如何编写脚本的细节。</p>
+<p>可以从如下几个链接开始；</p>
+<ul>
+<li><a href="https://developer.apple.com/videos/play/wwdc2015/406/" target="_blank" rel="external">WWDC 2015 Introduction to UI Tests</a></li>
+<li><a href="http://www.mokacoding.com/blog/xcode-7-ui-testing/" target="_blank" rel="external">A first look into UI Tests</a></li>
+<li><a href="http://masilotti.com/ui-testing-xcode-7/" target="_blank" rel="external">UI Testing in Xcode 7</a></li>
+<li><a href="https://github.com/ConfusedVorlon/HSTestingBackchannel" target="_blank" rel="external">HSTestingBackchannel : ‘Cheat’ by communicating directly with your app</a></li>
+<li><a href="https://tisunov.github.io/2015/11/06/automating-app-store-screenshots-generation-with-fastlane-snapshot-and-sketch.html" target="_blank" rel="external">Automating App Store screenshots using fastlane snapshot and frameit</a></li>
+</ul>
+<p>注意：由于没有从 UI Tests 触发截图的官方方法，<code>snapshot</code>使用了一种解决方法(在<a href="https://github.com/fastlane/fastlane/tree/master/snapshot#how-does-it-work" target="_blank" rel="external"> How Does It Work? </a>中描述)来触发截图。如果你觉得应该是这样的权利，请复制雷达<a href="https://openradar.appspot.com/radar?id=5056366381105152" target="_blank" rel="external"> 23062925 </a>。(不知道后面一句话是什么鬼意思)</p>
+<h1 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h1><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
 <li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
 <li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
 <li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
@@ -619,7 +654,7 @@ sna">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#snapshot"><span class="nav-number">1.</span> <span class="nav-text">snapshot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意：新的snapshot使用UI-Tests-in-Xcode-7"><span class="nav-number">2.</span> <span class="nav-text">注意：新的snapshot使用UI Tests in Xcode 7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI-Tests"><span class="nav-number">5.</span> <span class="nav-text">UI Tests</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">6.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">8.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">8.1.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How？"><span class="nav-number">9.</span> <span class="nav-text">How？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">10.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#snapshot"><span class="nav-number">1.</span> <span class="nav-text">snapshot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意：新的snapshot使用UI-Tests-in-Xcode-7"><span class="nav-number">2.</span> <span class="nav-text">注意：新的snapshot使用UI Tests in Xcode 7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什使用？"><span class="nav-number">3.1.</span> <span class="nav-text">为什使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要自动化这个过程？"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要自动化这个过程？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI-Tests"><span class="nav-number">5.</span> <span class="nav-text">UI Tests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">5.1.</span> <span class="nav-text">开始</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">6.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">8.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">8.1.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How？"><span class="nav-number">9.</span> <span class="nav-text">How？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">10.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
             
           </div>
         </section>
