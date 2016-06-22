@@ -121,7 +121,8 @@ sna">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/snapshot.png">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/htmlPagePreviewFade.jpg">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/snapshot.gif">
-<meta property="og:updated_time" content="2016-06-21T01:15:07.000Z">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/testSummary.png">
+<meta property="og:updated_time" content="2016-06-22T15:10:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Snapshot">
 <meta name="twitter:description" content="说明：翻译的 Snapshot 的指南， 原文地址 。
@@ -456,7 +457,56 @@ app.launch()
 [app launch];
 </code></pre><p><img src="/img/FastlaneSnapshot/snapshot.gif" alt="alt text"></p>
 <p>你可以看下项目里面的例子，然后把玩一下。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code>snapshot
+</code></pre><p>你的截图会默认存储在<code>./screenshots/</code>文件夹。(如果你使用 fastlane 的话，存储在<code>./screenshots/</code>文件夹)</p>
+<p>如果在一个设备上运行截图脚本的时候发生了错误，那么那个设备就没有任何截图，然后<code>snapshot</code>会继续下一个设备或者下一种语言。在第一错误发生后停止流程，运行</p>
+<pre><code>snapshot --stop_after_first_error
+</code></pre><p>默认情况下，<code>snapshot</code>在完成所有工作后会打开 html 。这个步骤可以使用如下命令跳过：</p>
+<pre><code>snapshot --stop_after_first_error --skip_open_summary
+</code></pre><p>有许多可用的选项来定义如何构建你的应用，比如：</p>
+<pre><code>snapshot --scheme &quot;UITests&quot; --configuration &quot;Release&quot;  --sdk &quot;iphonesimulator&quot;
+</code></pre><p>在运行<code>snapshot</code>前重新安装应用</p>
+<pre><code>snapshot --reinstall_app --app_identifier &quot;tools.fastlane.app&quot;
+</code></pre><p>默认情况下，如果 UI Tests 失败了，<code>snapshot</code>会自动尝试运行。这是因为 UI Tests 随机失败(e.g.<a href="https://github.com/fastlane-old/snapshot/issues/372" target="_blank" rel="external">#372</a>)。你可以使用如下命令来改写这个数字</p>
+<pre><code>snapshot --number_of_retries 3
+</code></pre><p>在运行<code>snapshot</code>之前添加照片和(或者)视频到模拟器</p>
+<pre><code>snapshot --add_photos MyTestApp/Assets/demo.jpg --add_videos MyTestApp/Assets/demo.mp4
+</code></pre><p>列出所有可用的选项：</p>
+<pre><code>snapshot --help
+</code></pre><p>在运行完<code>snapshot</code>，你会得到一个非常漂亮的概要：</p>
+<p><img src="/img/FastlaneSnapshot/testSummary.png" alt="alt text"></p>
+<h2 id="Snapfile"><a href="#Snapfile" class="headerlink" title="Snapfile"></a>Snapfile</h2><p>所有可用的选项可以存储在一个叫做<code>Snapfile</code>的配置文件里面。由于你项目的大部分的值都不会改变，所以推荐存储在这个文件里：</p>
+<p>首先确定有<code>Snapfile</code>文件(你可以运行<code>snapshot init</code>得到这个文件)</p>
+<p><code>Snapfile</code>文件可以包含所有<code>snapshot --help</code>的可用选项：</p>
+<pre><code>scheme &quot;UITests&quot;
+
+devices([
+    &quot;iPhone 6&quot;,
+    &quot;iPhone 6 Plus&quot;,
+    &quot;iPhone 5&quot;,
+    &quot;iPhone 4s&quot;
+])
+
+languages([
+    &quot;en-US&quot;,
+    &quot;de-DE&quot;,
+    &quot;es-ES&quot;,
+    [&quot;pt&quot;, &quot;pt_BR&quot;] # Portuguese with Brazilian locale
+])
+
+launch_arguments([&quot;-username Felix&quot;])
+
+# The directory in which the screenshots should be stored
+output_directory &apos;./screenshots&apos;
+
+clear_previous_screenshots true
+
+add_photos [&quot;MyTestApp/Assets/demo.jpg&quot;]
+</code></pre><h2 id="完全重置所有模拟器"><a href="#完全重置所有模拟器" class="headerlink" title="完全重置所有模拟器"></a>完全重置所有模拟器</h2><p>你可以在终端中使用下面的命令来删除和重新创建所有iOS模拟器：</p>
+<pre><code>snapshot reset_simulators
+</code></pre><p><strong>警告：</strong>这会删除你所有的模拟器然后使用新的替换！当你运行<code>snapshot</code>遇到非常奇怪的问题时，这非常有用。</p>
+<p>你可以使用环境变量<code>SNAPSHOT_FORCE_DELETE</code>来取消删除前要求确认的信息。</p>
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
 <li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
 <li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
 <li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
@@ -682,7 +732,7 @@ app.launch()
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#snapshot"><span class="nav-number">1.</span> <span class="nav-text">snapshot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意：新的snapshot使用UI-Tests-in-Xcode-7"><span class="nav-number">2.</span> <span class="nav-text">注意：新的snapshot使用UI Tests in Xcode 7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什使用？"><span class="nav-number">3.1.</span> <span class="nav-text">为什使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要自动化这个过程？"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要自动化这个过程？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI-Tests"><span class="nav-number">5.</span> <span class="nav-text">UI Tests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">5.1.</span> <span class="nav-text">开始</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">6.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">8.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">8.1.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How？"><span class="nav-number">9.</span> <span class="nav-text">How？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">10.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#snapshot"><span class="nav-number">1.</span> <span class="nav-text">snapshot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意：新的snapshot使用UI-Tests-in-Xcode-7"><span class="nav-number">2.</span> <span class="nav-text">注意：新的snapshot使用UI Tests in Xcode 7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什使用？"><span class="nav-number">3.1.</span> <span class="nav-text">为什使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要自动化这个过程？"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要自动化这个过程？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI-Tests"><span class="nav-number">5.</span> <span class="nav-text">UI Tests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">5.1.</span> <span class="nav-text">开始</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">6.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Snapfile"><span class="nav-number">7.1.</span> <span class="nav-text">Snapfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完全重置所有模拟器"><span class="nav-number">7.2.</span> <span class="nav-text">完全重置所有模拟器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">8.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">8.1.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How？"><span class="nav-number">9.</span> <span class="nav-text">How？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">10.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
             
           </div>
         </section>
