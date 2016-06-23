@@ -122,7 +122,7 @@ sna">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/htmlPagePreviewFade.jpg">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/snapshot.gif">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSnapshot/testSummary.png">
-<meta property="og:updated_time" content="2016-06-22T15:10:46.000Z">
+<meta property="og:updated_time" content="2016-06-23T02:27:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Snapshot">
 <meta name="twitter:description" content="说明：翻译的 Snapshot 的指南， 原文地址 。
@@ -506,6 +506,41 @@ add_photos [&quot;MyTestApp/Assets/demo.jpg&quot;]
 <pre><code>snapshot reset_simulators
 </code></pre><p><strong>警告：</strong>这会删除你所有的模拟器然后使用新的替换！当你运行<code>snapshot</code>遇到非常奇怪的问题时，这非常有用。</p>
 <p>你可以使用环境变量<code>SNAPSHOT_FORCE_DELETE</code>来取消删除前要求确认的信息。</p>
+<h2 id="更新-snapshot-的-helpers"><a href="#更新-snapshot-的-helpers" class="headerlink" title="更新 snapshot 的 helpers"></a>更新 snapshot 的 helpers</h2><p>一些更新要求 helper 的文件更新。<code>snapshot</code>会自动警告你，然后告诉你怎么升级。</p>
+<p>基本的你可以运行</p>
+<pre><code>snapshot update
+</code></pre><p>为了更新<code>SnapshotHelper.swift</code>文件。如果你修改了你的<code>SnapshotHelper.swift</code>文件，然后想要手动更新文件，查看<a href="https://github.com/fastlane/fastlane/blob/master/snapshot/lib/assets/SnapshotHelper.swift" target="_blank" rel="external"> SnapshotHelper.swift </a>。</p>
+<h2 id="启动参数"><a href="#启动参数" class="headerlink" title="启动参数"></a>启动参数</h2><p>你可以在你应用启动的时候提供额外的参数。这些字符串通过<code>NSProcessInfo.processInfo().arguments</code>在你的应用中(eg.不是在 testing target 中)将会可用。另外使用 user-default 语法(<code>-key value</code>)，它们将会在<code>NSUserDefaults.standardUserDefaults()</code>中当作键值对可用。</p>
+<pre><code>launch_arguments([
+    &quot;-firstName Felix -lastName Krause&quot;
+])
+
+name.text = NSUserDefaults.standardUserDefaults().stringForKey(&quot;firstName&quot;)
+// name.text = &quot;Felix&quot;
+</code></pre><p><code>snapshot</code>包含<code>-FASTLANE_SNAPSHOT YES</code>，会为 user default 设置一个临时的健<code>FASTLANE_SNAPSHOT</code>，你可以使用这个来检测<code>snapshot</code>何时运行你的应用。</p>
+<pre><code>if NSUserDefaults.standardUserDefaults().boolForKey(&quot;FASTLANE_SNAPSHOT&quot;) {
+    // runtime check that we are in snapshot mode
+}
+</code></pre><p>指定多个字符串参数，<code>snapshot</code>会为每种参数、设备、语言的组合截图。当你需要比较相同截图不同功能标识、动态文本大小、不懂数据集时非常有用。</p>
+<pre><code># Snapfile for A/B Test Comparison
+launch_arguments([
+    &quot;-secretFeatureEnabled YES&quot;,
+    &quot;-secretFeatureEnabled NO&quot;
+])
+</code></pre><h2 id="如何工作的？"><a href="#如何工作的？" class="headerlink" title="如何工作的？"></a>如何工作的？</h2><p>最简单的解决方法就是在文件里面呈现 UIWindow。但那是不可能的，因为 UI Tests 并不运行在主线程上。所以<code>snapshot</code>使用了不同的方法：</p>
+<p>当你在 Xcode 中运行单元测试时，会生成一个 plist 文件，记录测试过程中(<a href="http://michele.io/test-logs-in-xcode" target="_blank" rel="external"> 详细信息 </a>)发生的所有事件。Xcode 会在这些事件之前，之后以及运行时都会生成截图。没有办法手动触发截图事件。这些截图和plist文件存储在 DerivedData 目录，<code>snapshot</code>存储在临时文件夹。</p>
+<p>当用户在 UI Tests(Swift 或者 Objective C)中调用<code>snapshot(...)</code>时，脚本实际上只是执行了一次旋转到.Unknown，实际上对应用没有任何影响，但是足够来触发截图了。这对应用程序没有任何影响，在你的测试中也不会做任何事情。目标就是找出一些用户永远不会触发的事件，所以这样我们就能知道是来自<code>snapshot</code>了。</p>
+<p><code>snapshot</code>然后就会迭代所有的测试的事件，然后检查我们在哪里做了这个奇怪的旋转。一旦<code>snapshot</code>找到了所有由<code>snapshot</code>触发的事件，它会收集应用所有实际截图的文件名的有序序列。</p>
+<p>在测试的输出中，Swift的<code>snapshot</code>函数会打印如下格式的输出：</p>
+<pre><code>snapshot: [some random text here]
+</code></pre><p><code>snapshot</code>使用正则表达式找到这些条目。在终端中<code>snapshot</code>输出的数目和plist文件中<code>snapshot</code>的事件数目应该是一样的。知道了这些，<code>snapshot</code>会自动匹配这两个序列来分辨所有这些截图的名字。然后它们会被复制到输出目录然后根据语言和设备分开。</p>
+<p>两样东西必需从<code>snapshot</code>传递给<code>xcodebuild</code>命令行工具：</p>
+<ul>
+<li>设备类型通过<code>xcodebuild</code>参数的<code>destination</code>参数传递</li>
+<li>语言通过一个临时文件传递，这个文件在运行测试之前由<code>snapshot</code>写入。然后在 UI Tests 启动应用前读入。</li>
+</ul>
+<p>如果你找到了更好的方法来做所有这里列出的工作，请提交一个 issue 到 GitHub 或者甚至是 pull request。</p>
+<p>同样，feel free to duplicate radar <a href="https://openradar.appspot.com/radar?id=5056366381105152" target="_blank" rel="external">23062925</a>。</p>
 <h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
 <li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
 <li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
@@ -523,7 +558,20 @@ add_photos [&quot;MyTestApp/Assets/demo.jpg&quot;]
 <li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
 <li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
 </ul>
-<h1 id="How？"><a href="#How？" class="headerlink" title="How？"></a>How？</h1><h1 id="帮助？"><a href="#帮助？" class="headerlink" title="帮助？"></a>帮助？</h1>
+<h2 id="将截图框起来"><a href="#将截图框起来" class="headerlink" title="将截图框起来"></a>将截图框起来</h2><p>如果你想给截图周围加一个边框，甚至是在顶部添加一个标题，查看<a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> frameit </a>。</p>
+<h2 id="可用的语言代码"><a href="#可用的语言代码" class="headerlink" title="可用的语言代码"></a>可用的语言代码</h2><pre><code>ALL_LANGUAGES = [&quot;da&quot;, &quot;de-DE&quot;, &quot;el&quot;, &quot;en-AU&quot;, &quot;en-CA&quot;, &quot;en-GB&quot;, &quot;en-US&quot;, &quot;es-ES&quot;, &quot;es-MX&quot;, &quot;fi&quot;, &quot;fr-CA&quot;, &quot;fr-FR&quot;, &quot;id&quot;, &quot;it&quot;, &quot;ja&quot;, &quot;ko&quot;, &quot;ms&quot;, &quot;nl&quot;, &quot;no&quot;, &quot;pt-BR&quot;, &quot;pt-PT&quot;, &quot;ru&quot;, &quot;sv&quot;, &quot;th&quot;, &quot;tr&quot;, &quot;vi&quot;, &quot;zh-Hans&quot;, &quot;zh-Hant&quot;]
+</code></pre><p>获取更多关于语言和本地代码的信息，参阅<a href="https://developer.apple.com/library/ios/documentation/MacOSX/Conceptual/BPInternational/LanguageandLocaleIDs/LanguageandLocaleIDs.html" target="_blank" rel="external"> Internationalization and Localization Guide </a>。</p>
+<h2 id="使用干净的状态栏"><a href="#使用干净的状态栏" class="headerlink" title="使用干净的状态栏"></a>使用干净的状态栏</h2><p>你可以使用<a href="https://github.com/shinydevelopment/SimulatorStatusMagic" target="_blank" rel="external"> SimulatorStatusMagic </a>来清理状态栏。</p>
+<h2 id="编辑Snapfile"><a href="#编辑Snapfile" class="headerlink" title="编辑Snapfile"></a>编辑<code>Snapfile</code></h2><p>将语法高亮改为Ruby。</p>
+<h2 id="模拟器没有启动应用"><a href="#模拟器没有启动应用" class="headerlink" title="模拟器没有启动应用"></a>模拟器没有启动应用</h2><p>当应用程序启动后，App直接死掉。可能有两个问题：</p>
+<ul>
+<li>模拟器处于损坏的状态，你需要重新创建。你可以使用<code>snapshot reset_simulators</code>来重置所有的模拟器(这将会删除所有安装的App)</li>
+<li>重启往往非常有用</li>
+</ul>
+<h2 id="检测语言"><a href="#检测语言" class="headerlink" title="检测语言"></a>检测语言</h2><p>使用如下代码可以检测你当前测试使用的本地化：</p>
+<pre><code>You can access the language using the `deviceLanguage` variable.
+</code></pre><h1 id="帮助？"><a href="#帮助？" class="headerlink" title="帮助？"></a>帮助？</h1><p>请提交 issue 到 GitHub，并提供你关于设置的信息。</p>
+
       
     </div>
 
@@ -732,7 +780,7 @@ add_photos [&quot;MyTestApp/Assets/demo.jpg&quot;]
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#snapshot"><span class="nav-number">1.</span> <span class="nav-text">snapshot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意：新的snapshot使用UI-Tests-in-Xcode-7"><span class="nav-number">2.</span> <span class="nav-text">注意：新的snapshot使用UI Tests in Xcode 7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什使用？"><span class="nav-number">3.1.</span> <span class="nav-text">为什使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要自动化这个过程？"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要自动化这个过程？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI-Tests"><span class="nav-number">5.</span> <span class="nav-text">UI Tests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">5.1.</span> <span class="nav-text">开始</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">6.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Snapfile"><span class="nav-number">7.1.</span> <span class="nav-text">Snapfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完全重置所有模拟器"><span class="nav-number">7.2.</span> <span class="nav-text">完全重置所有模拟器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">8.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">8.1.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How？"><span class="nav-number">9.</span> <span class="nav-text">How？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">10.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#snapshot"><span class="nav-number">1.</span> <span class="nav-text">snapshot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意：新的snapshot使用UI-Tests-in-Xcode-7"><span class="nav-number">2.</span> <span class="nav-text">注意：新的snapshot使用UI Tests in Xcode 7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">3.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什使用？"><span class="nav-number">3.1.</span> <span class="nav-text">为什使用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要自动化这个过程？"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要自动化这个过程？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI-Tests"><span class="nav-number">5.</span> <span class="nav-text">UI Tests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">5.1.</span> <span class="nav-text">开始</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速开始"><span class="nav-number">6.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Snapfile"><span class="nav-number">7.1.</span> <span class="nav-text">Snapfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完全重置所有模拟器"><span class="nav-number">7.2.</span> <span class="nav-text">完全重置所有模拟器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新-snapshot-的-helpers"><span class="nav-number">7.3.</span> <span class="nav-text">更新 snapshot 的 helpers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动参数"><span class="nav-number">7.4.</span> <span class="nav-text">启动参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何工作的？"><span class="nav-number">7.5.</span> <span class="nav-text">如何工作的？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">8.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">8.1.</span> <span class="nav-text">fastlane工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将截图框起来"><span class="nav-number">8.2.</span> <span class="nav-text">将截图框起来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可用的语言代码"><span class="nav-number">8.3.</span> <span class="nav-text">可用的语言代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用干净的状态栏"><span class="nav-number">8.4.</span> <span class="nav-text">使用干净的状态栏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑Snapfile"><span class="nav-number">8.5.</span> <span class="nav-text">编辑Snapfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟器没有启动应用"><span class="nav-number">8.6.</span> <span class="nav-text">模拟器没有启动应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检测语言"><span class="nav-number">8.7.</span> <span class="nav-text">检测语言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">9.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
             
           </div>
         </section>
