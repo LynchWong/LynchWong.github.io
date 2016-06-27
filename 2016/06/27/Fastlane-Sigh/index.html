@@ -1,0 +1,817 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Fastlane,Automate,Sigh," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="说明：翻译的 Sigh 的指南， 原文地址 。
+
+
+sigh因为你宁愿把时间花在其它方面，也不要花在和 Provisioning 文件作斗争上。
+sigh可以创建、更新、下载和修复 Provisioning Profiles(只需一条命令)。它支持 App Store，Ad Hoc，Development 和 Enterprise Profiles 以及一些很棒的功能，比如自动添加所有的测试设备">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastlane - Sigh">
+<meta property="og:url" content="http://lynchwong.com/2016/06/27/Fastlane-Sigh/index.html">
+<meta property="og:site_name" content="Nobodyknows+ 2.0">
+<meta property="og:description" content="说明：翻译的 Sigh 的指南， 原文地址 。
+
+
+sigh因为你宁愿把时间花在其它方面，也不要花在和 Provisioning 文件作斗争上。
+sigh可以创建、更新、下载和修复 Provisioning Profiles(只需一条命令)。它支持 App Store，Ad Hoc，Development 和 Enterprise Profiles 以及一些很棒的功能，比如自动添加所有的测试设备">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSigh/sigh.png">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSigh/sighRecording.gif">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSigh/QuickLookScreenshot.png">
+<meta property="og:updated_time" content="2016-06-27T07:10:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fastlane - Sigh">
+<meta name="twitter:description" content="说明：翻译的 Sigh 的指南， 原文地址 。
+
+
+sigh因为你宁愿把时间花在其它方面，也不要花在和 Provisioning 文件作斗争上。
+sigh可以创建、更新、下载和修复 Provisioning Profiles(只需一条命令)。它支持 App Store，Ad Hoc，Development 和 Enterprise Profiles 以及一些很棒的功能，比如自动添加所有的测试设备">
+<meta name="twitter:image" content="http://lynchwong.com/img/FastlaneSigh/sigh.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> Fastlane - Sigh | Nobodyknows+ 2.0 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Nobodyknows+ 2.0</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">iOS、Go</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Fastlane - Sigh
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-06-27T12:39:46+08:00" content="2016-06-27">
+              2016-06-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/27/Fastlane-Sigh/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/27/Fastlane-Sigh/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>说明：翻译的 <code>Sigh</code> 的指南，<a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> 原文地址 </a>。</p>
+</blockquote>
+<p><img src="/img/FastlaneSigh/sigh.png" alt="alt text"></p>
+<h1 id="sigh"><a href="#sigh" class="headerlink" title="sigh"></a>sigh</h1><p>因为你宁愿把时间花在其它方面，也不要花在和 Provisioning 文件作斗争上。</p>
+<p><code>sigh</code>可以创建、更新、下载和修复 Provisioning Profiles(只需一条命令)。它支持 App Store，Ad Hoc，Development 和 Enterprise Profiles 以及一些很棒的功能，比如自动添加所有的测试设备。</p>
+<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><ul>
+<li>为你的应用程序 <strong>下载</strong> 最新的 Provisioning Profile</li>
+<li>当 Provisioning Profile 过期的时候会 <strong>更新</strong></li>
+<li>当 Provisioning Profile 损坏的时候会 <strong>修复</strong></li>
+<li>如果不存在 Provisioning Profile 就会 <strong>创建</strong> 一个新的</li>
+<li>支持 <strong>App Store</strong>，<strong>Ad Hoc</strong> 和 <strong>Development</strong> Profiles</li>
+<li>支持 <strong>多个苹果账户</strong>，你的证书(Credentials)安装的存储在Keychain中</li>
+<li>支持 <strong>多个团队</strong></li>
+<li>支持 <strong>Enterprise Profiles</strong></li>
+</ul>
+<p>自动管理iOS的推送证书，你可以使用<a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> pem </a>。</p>
+<h2 id="为什么不让-Xcode-做这些工作？"><a href="#为什么不让-Xcode-做这些工作？" class="headerlink" title="为什么不让 Xcode 做这些工作？"></a>为什么不让 Xcode 做这些工作？</h2><ul>
+<li><code>sigh</code>可以很容易的集成到你的 CI-server(e.g. Jenkins)</li>
+<li>Xcode 有时会让 <a href="https://github.com/fastlane/fastlane/blob/master/sigh/assets/SignErrors.png" target="_blank" rel="external">所有存在的 Profiles</a> 失效</li>
+<li>你可以对发生的事情进行控制</li>
+<li>你仍然可以获取到 Signing Files，可用于你的脚本文件或者存储在Git中</li>
+</ul>
+<p>参见<code>sigh</code>的执行：</p>
+<p><img src="/img/FastlaneSigh/sighRecording.gif" alt="alt text"></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><strong>注意:</strong>根据 <a href="https://codesigning.guide" target="_blank" rel="external">codesigning.guide</a>，生成和维护你的 Provisioning Profiles，我们推荐使用 <a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external">match</a>。如果你想完整的控制要发生的事情以及知道Codesigning的更多知识，可以直接使用<code>sigh</code>。</p>
+<pre><code>sudo gem install sigh
+</code></pre><p>确保你已经安装了 Xcode 最新版本的命令行工具：</p>
+<pre><code>xcode-select --install
+</code></pre><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code>sigh
+</code></pre><p>是的，这就是所有的命令！</p>
+<p><code>sigh</code>默认会为 App Store 创建、修复和下载 Profiles。</p>
+<p>你可以像如下这样传递 Bundle identifier 和 username：</p>
+<pre><code>sigh -a com.krausefx.app -u username
+</code></pre><p>如果你想生成 <strong>Ad Hoc</strong> 的Profile 替代 App Store 的Profile：</p>
+<pre><code>sigh --adhoc
+</code></pre><p><strong>Development</strong> Profile：</p>
+<pre><code>sigh --development
+</code></pre><p>在指定的目录生成 Profile：</p>
+<pre><code>sigh -o &quot;~/Certificates/&quot;
+</code></pre><p>下载你所有的 Provisioning Profiles：</p>
+<pre><code>sigh download_all
+</code></pre><p>列出所有可用的参数和命令：</p>
+<pre><code>sigh --help
+</code></pre><h2 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h2><p>默认 <code>sigh</code> 会在你的机器上安装下载的 Profile。如果你只想生成 Profile 跳过安装，使用如下标志：</p>
+<pre><code>sigh --skip_install
+</code></pre><p>使用指定的名字保存 Provisioning Profile，使用 -q 选项：</p>
+<pre><code>sigh -a com.krausefx.app -u username -q &quot;myProfile.mobileprovision&quot;
+</code></pre><p>出于某些原因，你不想 <code>sigh</code> 验证安装在你本地机器上的 Code Signing identity：</p>
+<pre><code>sigh --skip_certificate_verification
+</code></pre><p>如果你需要 Provisioning Profile 更新，而不管是什么状态，使用 <code>--force</code> 选项。这会给你的 Profile 最大的生命周期。<code>--force</code> 也会将所有可用的设备添加到这个Profile。</p>
+<pre><code>sigh --force
+</code></pre><p>默认情况下，<code>sigh</code>会在 Development Profiles 上包含所有的 Certificates，第一个 Certificate 是其它类型的。如果你需要指定使用哪一个 Certificate ，你可以使用环境变量 <code>SIGH_CERTIFICATE</code>，或者传递 Certificate 的 name 或者 expiry date 当做参数：</p>
+<pre><code>sigh -c &quot;SunApps GmbH&quot;
+</code></pre><p>列出可用的参数和命令：</p>
+<pre><code>sigh --help
+</code></pre><h2 id="和-fastlane-一起使用"><a href="#和-fastlane-一起使用" class="headerlink" title="和 fastlane 一起使用"></a>和<a href="https://github.com/fastlane/fastlane/tree/master/fastlane" target="_blank" rel="external"> <code>fastlane</code> </a>一起使用</h2><p>当和<a href="https://github.com/fastlane/fastlane/tree/master/fastlane" target="_blank" rel="external"> <code>fastlane</code> </a>中的<a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>一起使用时 <code>sigh</code> 就变的很有趣了。</p>
+<p>更新你的 <code>Fastfile</code> 文件包含如下代码：</p>
+<pre><code>lane :beta do
+    cert
+    sigh(force: true)
+end
+</code></pre><p><code>force: true</code> 会确保在每次运行的时候都会重新生成 Provisioning Profile 。这会保证 <code>sigh</code> 始终使用正确的 Signing Certificate ，会安装在本地机器上。</p>
+<h2 id="修复-Repair"><a href="#修复-Repair" class="headerlink" title="修复(Repair)"></a>修复(Repair)</h2><p><code>sigh</code> 会自动修复你那些已经存在并且过期或者无效的所有 Provisioning Profiles 。</p>
+<pre><code>sigh repair
+</code></pre><h1 id="重新签名-Resign"><a href="#重新签名-Resign" class="headerlink" title="重新签名(Resign)"></a>重新签名(Resign)</h1><p>如果你生成了 <code>ipa</code> 文件，但是想给 ipa 文件应用不同的 Code Signing，你可以使用 <code>sigh resign</code>：</p>
+<pre><code>sigh resign
+</code></pre><p>如果 ipa 文件和 Provisioning Profile 位于当前文件夹，<code>sigh</code> 会为你找到它们。</p>
+<p>你可以使用命令行传递更多的信息：</p>
+<pre><code>sigh resign ./path/app.ipa --signing_identity &quot;iPhone Distribution: Felix Krause&quot; -n &quot;my.mobileprovision&quot;
+</code></pre><h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><p>使用 <code>sigh manage</code> ，会列出所有本地安装的 Provisioning Profiles ：</p>
+<pre><code>sigh manage
+</code></pre><p>删除所有过期的 Provisioning Profiles ：</p>
+<pre><code>sigh manage -e
+</code></pre><p>或者使用正则表达式删除所有的 <code>iOS Team Provisioning Profile</code> ：</p>
+<pre><code>sigh manage -p &quot;iOS\ ?Team Provisioning Profile:&quot;
+</code></pre><h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>运行 <code>sigh --help</code> 列出所有可用的环境变量的列表。</p>
+<p>如果你使用 <a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external">cert</a> 与 <a href="https://github.com/fastlane/fastlane/tree/master/fastlane" target="_blank" rel="external">fastlane</a>的组合，会自动为你选择 Signing Certificate。(确保在 <code>sigh</code> 之前运行 <code>cert</code>)</p>
+<h1 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h1><p><code>sigh</code> 会访问 <code>iOS Dev Center</code> 下载、更新或者生成 <code>.mobileprovision</code>文件。它使用 <a href="https://spaceship.airforce" target="_blank" rel="external">spaceship</a> 和 Apple’s web services 通信。</p>
+<h2 id="如何存储我的密码？"><a href="#如何存储我的密码？" class="headerlink" title="如何存储我的密码？"></a>如何存储我的密码？</h2><p><code>sigh</code> 使用来自 <code>fastlane</code> 的 <a href="https://github.com/fastlane/fastlane/tree/master/credentials_manager" target="_blank" rel="external">CredentialsManager</a>。</p>
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> <code>snapshot</code> </a>：将你iOS应用在每一种设备上进行本地化自动截图</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>：自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> <code>produce</code> </a>：使用命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>：自动创建和维护iOS的 code signing certificates</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> <code>pilot</code> </a>：管理你TestFlight测试人员的最好方式，使用终端构建</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> <code>gym</code> </a>：构建你iOS应用程序</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+</ul>
+<h2 id="使用’Provisioning-Quicklook-plugin’"><a href="#使用’Provisioning-Quicklook-plugin’" class="headerlink" title="使用’Provisioning Quicklook plugin’"></a>使用’Provisioning Quicklook plugin’</h2><p>下载然后安装 <a href="https://github.com/chockenberry/Provisioning" target="_blank" rel="external">Provisioning Plugin</a>。</p>
+<p>它会像下图这样向你展示 <code>mobileprovision</code> 文件：</p>
+<p><img src="/img/FastlaneSigh/QuickLookScreenshot.png" alt="alt text"></p>
+<h2 id="找不到-App-Identifier"><a href="#找不到-App-Identifier" class="headerlink" title="找不到 App Identifier"></a>找不到 App Identifier</h2><p>如果你也想在 Apple Developer Portal 上创建一个新的 App Identifier，查看 <a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external">produce</a>，它就是做这个的。</p>
+<h2 id="对-Xcode-管理的-Profiles-有什么影响？"><a href="#对-Xcode-管理的-Profiles-有什么影响？" class="headerlink" title="对 Xcode 管理的 Profiles 有什么影响？"></a>对 Xcode 管理的 Profiles 有什么影响？</h2><p><code>sigh</code> 永远不会触碰或者使用被 Xcode 创建、管理的 Profiles。相反， <code>sigh</code> 只会管理自己的 Provisioning Profiles 集合。</p>
+<h1 id="帮助？"><a href="#帮助？" class="headerlink" title="帮助？"></a>帮助？</h1><p>请提交 issue 到 GitHub，并提供你关于设置的信息。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-image.png" alt="Lynch Wong WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-image.png" alt="Lynch Wong Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Fastlane/" rel="tag">#Fastlane</a>
+          
+            <a href="/tags/Automate/" rel="tag">#Automate</a>
+          
+            <a href="/tags/Sigh/" rel="tag">#Sigh</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/27/Fastlane-Pem/" rel="next" title="Fastlane - Pem">
+                <i class="fa fa-chevron-left"></i> Fastlane - Pem
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/27/Fastlane-Sigh/"
+     data-title="Fastlane - Sigh"
+     data-content=""
+     data-url="http://lynchwong.com/2016/06/27/Fastlane-Sigh/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/27/Fastlane-Sigh/"
+           data-title="Fastlane - Sigh" data-url="http://lynchwong.com/2016/06/27/Fastlane-Sigh/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Lynch Wong" />
+          <p class="site-author-name" itemprop="name">Lynch Wong</p>
+          <p class="site-description motion-element" itemprop="description">I WILL.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">140</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LynchWong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#sigh"><span class="nav-number">1.</span> <span class="nav-text">sigh</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">2.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么不让-Xcode-做这些工作？"><span class="nav-number">2.1.</span> <span class="nav-text">为什么不让 Xcode 做这些工作？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#高级"><span class="nav-number">4.1.</span> <span class="nav-text">高级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#和-fastlane-一起使用"><span class="nav-number">4.2.</span> <span class="nav-text">和 fastlane 一起使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复-Repair"><span class="nav-number">4.3.</span> <span class="nav-text">修复(Repair)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重新签名-Resign"><span class="nav-number">5.</span> <span class="nav-text">重新签名(Resign)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#管理"><span class="nav-number">5.1.</span> <span class="nav-text">管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量"><span class="nav-number">5.2.</span> <span class="nav-text">环境变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何工作？"><span class="nav-number">6.</span> <span class="nav-text">如何工作？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何存储我的密码？"><span class="nav-number">6.1.</span> <span class="nav-text">如何存储我的密码？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">7.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">7.1.</span> <span class="nav-text">fastlane工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用’Provisioning-Quicklook-plugin’"><span class="nav-number">7.2.</span> <span class="nav-text">使用’Provisioning Quicklook plugin’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#找不到-App-Identifier"><span class="nav-number">7.3.</span> <span class="nav-text">找不到 App Identifier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对-Xcode-管理的-Profiles-有什么影响？"><span class="nav-number">7.4.</span> <span class="nav-text">对 Xcode 管理的 Profiles 有什么影响？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助？"><span class="nav-number">8.</span> <span class="nav-text">帮助？</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lynch Wong</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"nobodyknows"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
