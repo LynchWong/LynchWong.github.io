@@ -101,8 +101,8 @@ cert自动创建维护 iOS 的 Code Signing Certificates 。
 cert 只专注于 Code Signing 。你可以为不同的环境(development 和 distribution)创建新的 Code Signing identities 然后使用任何已经存在的有效的 Certificates 替换本地的。
 安装注">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneCert/cert.png">
-<meta property="og:image" content="http://lynchwong.com/img/FastlaneCert/cert.png">
-<meta property="og:updated_time" content="2016-06-29T08:18:10.000Z">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneCert/cert.gif">
+<meta property="og:updated_time" content="2016-06-29T08:51:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Cert">
 <meta name="twitter:description" content="说明：翻译的 Cert 的指南， 原文地址 。
@@ -353,8 +353,11 @@ cert 只专注于 Code Signing 。你可以为不同的环境(development 和 di
 <pre><code>xcode-select --install
 </code></pre><h1 id="为什么使用？"><a href="#为什么使用？" class="headerlink" title="为什么使用？"></a>为什么使用？</h1><p>请查看 <a href="https://github.com/fastlane/fastlane/blob/master/cert/ManualSteps.md" target="_blank" rel="external">this guide</a> ，向你演示了如何使用 Apple Developer Portal 手动创建 iOS Code Signing Profile 和 Provisioning Profile 。</p>
 <p>查看完成<strong>之后</strong>，再看 <code>cert</code> 和 <a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"><code>sigh</code></a> 如何为你做这些工作。</p>
-<p><img src="/img/FastlaneCert/cert.png" alt="alt text"></p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h1 id="如何工作"><a href="#如何工作" class="headerlink" title="如何工作"></a>如何工作</h1><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1>
+<p><img src="/img/FastlaneCert/cert.gif" alt="alt text"></p>
+<p>如上所示，我使用了 <code>cert &amp;&amp; sigh</code> ，首先会创建 iOS Code Signing Certificate ，如果 <code>cert</code> 成功，然后会为你的 App 创建 Provisioning Profile 。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code>cert
+</code></pre><p>这个会检查</p>
+<h1 id="如何工作"><a href="#如何工作" class="headerlink" title="如何工作"></a>如何工作</h1><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1>
       
     </div>
 
