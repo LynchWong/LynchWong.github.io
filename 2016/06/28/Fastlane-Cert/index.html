@@ -102,7 +102,7 @@ cert 只专注于 Code Signing 。你可以为不同的环境(development 和 di
 安装注">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneCert/cert.png">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneCert/cert.gif">
-<meta property="og:updated_time" content="2016-06-29T08:51:37.000Z">
+<meta property="og:updated_time" content="2016-06-29T09:59:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Cert">
 <meta name="twitter:description" content="说明：翻译的 Cert 的指南， 原文地址 。
@@ -356,8 +356,49 @@ cert 只专注于 Code Signing 。你可以为不同的环境(development 和 di
 <p><img src="/img/FastlaneCert/cert.gif" alt="alt text"></p>
 <p>如上所示，我使用了 <code>cert &amp;&amp; sigh</code> ，首先会创建 iOS Code Signing Certificate ，如果 <code>cert</code> 成功，然后会为你的 App 创建 Provisioning Profile 。</p>
 <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code>cert
-</code></pre><p>这个会检查</p>
-<h1 id="如何工作"><a href="#如何工作" class="headerlink" title="如何工作"></a>如何工作</h1><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1>
+</code></pre><p>这个会检测你本地机器是否已经安装了可用的 Signing Certificates 。</p>
+<p>如果需要创建新的 Certificate ，<code>cert</code> 会做如下事情：</p>
+<ul>
+<li>创建新的 Private Key</li>
+<li>创建新的 Signing Request</li>
+<li>生成、下载、安装 Certificate</li>
+<li>导入所有生成的文件到你的 Keychain</li>
+</ul>
+<p><code>cert</code> 永远不会废除(revoke)你已经存在的 Certificates 。如果不能再创建任何新的 Certificates，<code>cert</code> 会产生一个异常，意味着你必需废除(revoke)一个已经存在的 Certificates 给新的腾出空间。</p>
+<p>你可以传递你的 Apple ID：</p>
+<pre><code>cert -u cert@krausefx.com
+</code></pre><p>可用的命令：</p>
+<pre><code>cert --help
+</code></pre><p>记住，<code>cert</code> 没有办法从 Apple Develop Portal 下载已经存在的 Certificates 和 Private Keys ，因为 Private Key 永远不会离开?(leaves)你的电脑。</p>
+<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>运行 <code>cert --help</code> 列出所有可用的环境变量的列表。</p>
+<h2 id="和-sigh-一起使用"><a href="#和-sigh-一起使用" class="headerlink" title="和 sigh 一起使用"></a>和 <a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"><code>sigh</code></a> 一起使用</h2><p>当 <code>cert</code> 和 <a href="https://github.com/fastlane/fastlane/tree/master/fastlane" target="_blank" rel="external"><code>fastlane</code></a> 中的 <a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"><code>sigh</code></a> 组合使用时就变的很有趣了。</p>
+<p>更新你的 <code>Fastfile</code> 包含如下代码：</p>
+<pre><code>lane :beta do
+    cert
+    sigh(force: true)
+end
+</code></pre><p><code>force: true</code> 会确保在每次运行的时候都会重新生成 Provisioning Profile 。这会导致 <code>sigh</code> 始终使用的是对的 Signing Certificate，会安装在本地机器上。</p>
+<h2 id="如何存储我的密码？"><a href="#如何存储我的密码？" class="headerlink" title="如何存储我的密码？"></a>如何存储我的密码？</h2><p><code>cert</code> 使用来自 <code>fastlane</code> 的 <a href="https://github.com/fastlane/fastlane/tree/master/credentials_manager" target="_blank" rel="external">password manager</a>。查看 <a href="https://github.com/fastlane/fastlane/blob/master/credentials_manager/README.md" target="_blank" rel="external">CredentialsManager README</a>获取更多信息。</p>
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> <code>snapshot</code> </a>：将你iOS应用在每一种设备上进行本地化自动截图</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> <code>sigh</code> </a>：管理你的 provisioning profiles</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> <code>produce</code> </a>：使用命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> <code>pilot</code> </a>：管理你TestFlight测试人员的最好方式，使用终端构建</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> <code>gym</code> </a>：构建你iOS应用程序</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+</ul>
+<h2 id="使用’Provisioning-Quicklook-plugin’"><a href="#使用’Provisioning-Quicklook-plugin’" class="headerlink" title="使用’Provisioning Quicklook plugin’"></a>使用’Provisioning Quicklook plugin’</h2><p>下载安装 <a href="https://github.com/chockenberry/Provisioning" target="_blank" rel="external">Provisioning Plugin</a> ，方便查看 Provisioning Profile files 和 Certificates 。</p>
+<h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1><p>请提交 issue 到 GitHub，并提供你关于设置的信息。</p>
+
       
     </div>
 
@@ -570,7 +611,7 @@ cert 只专注于 Code Signing 。你可以为不同的环境(development 和 di
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cert"><span class="nav-number">1.</span> <span class="nav-text">cert</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么使用？"><span class="nav-number">3.</span> <span class="nav-text">为什么使用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何工作"><span class="nav-number">5.</span> <span class="nav-text">如何工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">6.</span> <span class="nav-text">提示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助"><span class="nav-number">7.</span> <span class="nav-text">帮助</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cert"><span class="nav-number">1.</span> <span class="nav-text">cert</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么使用？"><span class="nav-number">3.</span> <span class="nav-text">为什么使用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量"><span class="nav-number">4.1.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#和-sigh-一起使用"><span class="nav-number">4.2.</span> <span class="nav-text">和 sigh 一起使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何存储我的密码？"><span class="nav-number">4.3.</span> <span class="nav-text">如何存储我的密码？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">5.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">5.1.</span> <span class="nav-text">fastlane工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用’Provisioning-Quicklook-plugin’"><span class="nav-number">5.2.</span> <span class="nav-text">使用’Provisioning Quicklook plugin’</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助"><span class="nav-number">6.</span> <span class="nav-text">帮助</span></a></li></ol></div>
             
           </div>
         </section>
