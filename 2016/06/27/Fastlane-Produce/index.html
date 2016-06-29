@@ -87,7 +87,11 @@
 <meta name="description" content="说明：翻译的 Produce 的指南， 原文地址 。
 
 
-produce">
+produce使用你的命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用。
+produce 会使用最少的信息在 Apple Developer Portal 和 iTunes Connect 上创建新的iOS应用。
+功能
+在 iTunes Connect 和 Dev Portal 上创建新的应用
+修">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fastlane - Produce">
 <meta property="og:url" content="http://lynchwong.com/2016/06/27/Fastlane-Produce/index.html">
@@ -95,15 +99,23 @@ produce">
 <meta property="og:description" content="说明：翻译的 Produce 的指南， 原文地址 。
 
 
-produce">
+produce使用你的命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用。
+produce 会使用最少的信息在 Apple Developer Portal 和 iTunes Connect 上创建新的iOS应用。
+功能
+在 iTunes Connect 和 Dev Portal 上创建新的应用
+修">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneProduce/produce.png">
-<meta property="og:updated_time" content="2016-06-28T00:59:25.000Z">
+<meta property="og:updated_time" content="2016-06-29T02:05:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Produce">
 <meta name="twitter:description" content="说明：翻译的 Produce 的指南， 原文地址 。
 
 
-produce">
+produce使用你的命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用。
+produce 会使用最少的信息在 Apple Developer Portal 和 iTunes Connect 上创建新的iOS应用。
+功能
+在 iTunes Connect 和 Dev Portal 上创建新的应用
+修">
 <meta name="twitter:image" content="http://lynchwong.com/img/FastlaneProduce/produce.png">
 
 
@@ -337,7 +349,118 @@ produce">
 <p>说明：翻译的 <code>Produce</code> 的指南，<a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> 原文地址 </a>。</p>
 </blockquote>
 <p><img src="/img/FastlaneProduce/produce.png" alt="alt text"></p>
-<h1 id="produce"><a href="#produce" class="headerlink" title="produce"></a>produce</h1>
+<h1 id="produce"><a href="#produce" class="headerlink" title="produce"></a>produce</h1><p>使用你的命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用。</p>
+<p><code>produce</code> 会使用最少的信息在 Apple Developer Portal 和 iTunes Connect 上创建新的iOS应用。</p>
+<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><ul>
+<li>在 iTunes Connect 和 Dev Portal 上<strong>创建</strong>新的应用</li>
+<li><strong>修改</strong> Apple Developer Portal 上的应用服务</li>
+<li>在 Apple Developer Portal 上<strong>创建</strong> App Groups</li>
+<li><strong>关联</strong> Apple Developer Portal 上的应用和 App Groups</li>
+<li>支持<strong>多个苹果帐号</strong>，你的证书安全的存储在 Keychain 中</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>sudo gem install produce
+</code></pre><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="创建新的应用程序"><a href="#创建新的应用程序" class="headerlink" title="创建新的应用程序"></a>创建新的应用程序</h2><pre><code>produce
+</code></pre><p>列出可用的参数列表：</p>
+<pre><code>produce --help
+
+Commands:
+    associate_group  Associate with a group, which is create if needed or simply located otherwise
+    create           Creates a new app on iTunes Connect and the Apple Developer Portal
+    disable_services Disable specific Application Services for a specific app on the Apple Developer Portal
+    enable_services  Enable specific Application Services for a specific app on the Apple Developer Portal
+    group            Ensure that a specific App Group exists
+    help             Display global or [command] help documentation
+
+Global Options:
+    -u, --username STRING Your Apple ID Username (PRODUCE_USERNAME)
+    -a, --app_identifier STRING App Identifier (Bundle ID, e.g. com.krausefx.app) (PRODUCE_APP_IDENTIFIER)
+    -e, --bundle_identifier_suffix STRING App Identifier Suffix (Ignored if App Identifier does not ends with .*) (PRODUCE_APP_IDENTIFIER_SUFFIX)
+    -q, --app_name STRING App Name (PRODUCE_APP_NAME)
+    -z, --app_version STRING Initial version number (e.g. &apos;1.0&apos;) (PRODUCE_VERSION)
+    -y, --sku STRING     SKU Number (e.g. &apos;1234&apos;) (PRODUCE_SKU)
+    -m, --language STRING Primary Language (e.g. &apos;English&apos;, &apos;German&apos;) (PRODUCE_LANGUAGE)
+    -c, --company_name STRING The name of your company. Only required if it&apos;s the first app you create (PRODUCE_COMPANY_NAME)
+    -i, --skip_itc       Skip the creation of the app on iTunes Connect (PRODUCE_SKIP_ITC)
+    -d, --skip_devcenter  Skip the creation of the app on the Apple Developer Portal (PRODUCE_SKIP_DEVCENTER)
+    -b, --team_id STRING The ID of your team if you&apos;re in multiple teams (PRODUCE_TEAM_ID)
+    -l, --team_name STRING The name of your team if you&apos;re in multiple teams (PRODUCE_TEAM_NAME)
+    -h, --help           Display help documentation
+    -v, --version        Display version information
+</code></pre><h2 id="启用／禁用应用程序服务"><a href="#启用／禁用应用程序服务" class="headerlink" title="启用／禁用应用程序服务"></a>启用／禁用应用程序服务</h2><p>如果你想要为一个 App ID 启用应用程序服务(Application Services)，这个例子中是 HomeKit 和 HealthKit：</p>
+<pre><code>produce enable_services --homekit --healthkit
+</code></pre><p>如果你想为一个 App ID 禁用应用程序服务，这个例子中是 iCloud：</p>
+<pre><code>produce disable_service --icloud
+</code></pre><p>如果你想创建新的 App Group：</p>
+<pre><code>produce group -g group.krausefx -n &quot;Example App Group&quot;
+</code></pre><p>如果你想关联应用和 App Group：</p>
+<pre><code>produce associate_group -a com.krausefx.app group.krausefx
+</code></pre><h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>获取可使用的选项列表：</p>
+<pre><code>produce enable_services --help
+
+--app-group          Enable App Groups
+--associated-domains Enable Associated Domains
+--data-protection STRING Enable Data Protection, suitable values are &quot;complete&quot;, &quot;unlessopen&quot; and &quot;untilfirstauth&quot;
+--healthkit          Enable HealthKit
+--homekit            Enable HomeKit
+--wireless-conf      Enable Wireless Accessory Configuration
+--icloud STRING      Enable iCloud, suitable values are &quot;legacy&quot; and &quot;cloudkit&quot;
+--inter-app-audio    Enable Inter-App-Audio
+--passbook           Enable Passbook
+--push-notification  Enable Push notification (only enables the service, does not configure certificates)
+--vpn-conf           Enable VPN Configuration
+
+produce disable_services --help
+
+--app-group          Disable App Groups
+--associated-domains Disable Associated Domains
+--data-protection    Disable Data Protection
+--healthkit          Disable HealthKit
+--homekit            Disable HomeKit
+--wireless-conf      Disable Wireless Accessory Configuration
+--icloud             Disable iCloud
+--inter-app-audio    Disable Inter-App-Audio
+--passbook           Disable Passbook
+--push-notification  Disable Push notifications
+--vpn-conf           Disable VPN Configuration
+</code></pre><h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>所有可用的值也可以使用环境变量传递，运行 <code>produce --help</code> 来获取所有可用参数的列表。</p>
+<h2 id="fastlane-https-github-com-fastlane-fastlane-tree-master-fastlane-整合"><a href="#fastlane-https-github-com-fastlane-fastlane-tree-master-fastlane-整合" class="headerlink" title="[fastlane](https://github.com/fastlane/fastlane/tree/master/fastlane) 整合"></a><code>[fastlane](https://github.com/fastlane/fastlane/tree/master/fastlane)</code> 整合</h2><p>你的 <code>fastlane</code> 看起来应该是这样的：</p>
+<pre><code>lane :appstore do
+    produce(
+        username: &apos;felix@krausefx.com&apos;,
+        app_identifier: &apos;com.krausefx.app&apos;,
+        app_name: &apos;MyApp&apos;,
+        language: &apos;English&apos;,
+        app_version: &apos;1.0&apos;,
+        sku: &apos;123&apos;,
+        team_name: &apos;SunApps GmbH&apos; # only necessary when in multiple teams
+    )
+
+    deliver
+end
+</code></pre><p>为了在 <code>deliver</code> 中使用你新生成的应用，你需要将下面的代码添加到 <code>Deliverfile</code> 文件中：</p>
+<pre><code>apple_id ENV[&apos;PRODUCE_APPLE_ID&apos;]
+</code></pre><p>当应用程序还在 App Store 中不可用的时候，这会告诉 <code>deliver</code> 使用哪一个 App ID 。</p>
+<p>你仍然必需填写剩余的信息(比如截图，应用描述及价格)。你可以使用 <a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external">deliver</a> 和 CLI 上传应用的元数据。</p>
+<h2 id="如何存储我的密码？"><a href="#如何存储我的密码？" class="headerlink" title="如何存储我的密码？"></a>如何存储我的密码？</h2><p><code>produce</code> 使用来自 <code>fastlane</code> 的 <a href="https://github.com/fastlane/fastlane/tree/master/credentials_manager" target="_blank" rel="external">password manager</a>。查看 <a href="https://github.com/fastlane/fastlane/tree/master/credentials_manager" target="_blank" rel="external">CredentialsManager README</a> 获取更多信息。</p>
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> <code>snapshot</code> </a>：将你iOS应用在每一种设备上进行本地化自动截图</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>：自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> <code>sigh</code> </a>：管理你的 provisioning profiles</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>：自动创建和维护iOS的 code signing certificates</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> <code>pilot</code> </a>：管理你TestFlight测试人员的最好方式，使用终端构建</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> <code>gym</code> </a>：构建你iOS应用程序</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+</ul>
+<h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1><p>请提交 issue 到 GitHub，并提供你关于设置的信息。</p>
+
       
     </div>
 
@@ -550,7 +673,7 @@ produce">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#produce"><span class="nav-number">1.</span> <span class="nav-text">produce</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#produce"><span class="nav-number">1.</span> <span class="nav-text">produce</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能"><span class="nav-number">2.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建新的应用程序"><span class="nav-number">4.1.</span> <span class="nav-text">创建新的应用程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用／禁用应用程序服务"><span class="nav-number">4.2.</span> <span class="nav-text">启用／禁用应用程序服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">4.3.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量"><span class="nav-number">4.4.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane-https-github-com-fastlane-fastlane-tree-master-fastlane-整合"><span class="nav-number">4.5.</span> <span class="nav-text">[fastlane](https://github.com/fastlane/fastlane/tree/master/fastlane) 整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何存储我的密码？"><span class="nav-number">4.6.</span> <span class="nav-text">如何存储我的密码？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">5.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">5.1.</span> <span class="nav-text">fastlane工具链</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助"><span class="nav-number">6.</span> <span class="nav-text">帮助</span></a></li></ol></div>
             
           </div>
         </section>
