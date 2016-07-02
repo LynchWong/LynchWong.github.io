@@ -84,17 +84,37 @@
 
 
 
-<meta name="description" content="说明：翻译的 Gym 的指南， 原文地址 。">
+<meta name="description" content="说明：翻译的 Gym 的指南， 原文地址 。
+
+
+gym构建你的应用程序从未如此简单。
+gym 是什么？gym 构建然后打包你的 iOS 和 OS X 应用程序。为你处理了很多繁重的事情，能够非常简单的生成签名的 ipa 或者 app 文件。
+gym 是 shenzhen 的替代。
+gym 之前xcodebuild clean archive -archivePath build/MyApp \">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fastlane - Gym">
 <meta property="og:url" content="http://lynchwong.com/2016/06/28/Fastlane-Gym/index.html">
 <meta property="og:site_name" content="Nobodyknows+ 2.0">
-<meta property="og:description" content="说明：翻译的 Gym 的指南， 原文地址 。">
+<meta property="og:description" content="说明：翻译的 Gym 的指南， 原文地址 。
+
+
+gym构建你的应用程序从未如此简单。
+gym 是什么？gym 构建然后打包你的 iOS 和 OS X 应用程序。为你处理了很多繁重的事情，能够非常简单的生成签名的 ipa 或者 app 文件。
+gym 是 shenzhen 的替代。
+gym 之前xcodebuild clean archive -archivePath build/MyApp \">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneGym/gym.png">
-<meta property="og:updated_time" content="2016-06-28T01:30:17.000Z">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneGym/gymScreenshot.png">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneGym/gym.gif">
+<meta property="og:updated_time" content="2016-07-02T13:29:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Gym">
-<meta name="twitter:description" content="说明：翻译的 Gym 的指南， 原文地址 。">
+<meta name="twitter:description" content="说明：翻译的 Gym 的指南， 原文地址 。
+
+
+gym构建你的应用程序从未如此简单。
+gym 是什么？gym 构建然后打包你的 iOS 和 OS X 应用程序。为你处理了很多繁重的事情，能够非常简单的生成签名的 ipa 或者 app 文件。
+gym 是 shenzhen 的替代。
+gym 之前xcodebuild clean archive -archivePath build/MyApp \">
 <meta name="twitter:image" content="http://lynchwong.com/img/FastlaneGym/gym.png">
 
 
@@ -328,6 +348,163 @@
 <p>说明：翻译的 <code>Gym</code> 的指南，<a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> 原文地址 </a>。</p>
 </blockquote>
 <p><img src="/img/FastlaneGym/gym.png" alt="alt text"></p>
+<h1 id="gym"><a href="#gym" class="headerlink" title="gym"></a>gym</h1><p>构建你的应用程序从未如此简单。</p>
+<h1 id="gym-是什么？"><a href="#gym-是什么？" class="headerlink" title="gym 是什么？"></a>gym 是什么？</h1><p><code>gym</code> 构建然后打包你的 iOS 和 OS X 应用程序。为你处理了很多繁重的事情，能够非常简单的生成签名的 <code>ipa</code> 或者 <code>app</code> 文件。</p>
+<p><code>gym</code> 是 <a href="https://github.com/nomad/shenzhen" target="_blank" rel="external">shenzhen</a> 的替代。</p>
+<h2 id="gym-之前"><a href="#gym-之前" class="headerlink" title="gym 之前"></a><code>gym</code> 之前</h2><pre><code>xcodebuild clean archive -archivePath build/MyApp \
+                         -scheme MyApp
+xcodebuild -exportArchive \
+           -exportFormat ipa \
+           -archivePath &quot;build/MyApp.xcarchive&quot; \
+           -exportPath &quot;build/MyApp.ipa&quot; \
+           -exportProvisioningProfile &quot;ProvisioningProfileName&quot;
+</code></pre><h2 id="使用-gym"><a href="#使用-gym" class="headerlink" title="使用 gym"></a>使用 <code>gym</code></h2><pre><code>gym
+</code></pre><h2 id="为什么使用-gym"><a href="#为什么使用-gym" class="headerlink" title="为什么使用 gym"></a>为什么使用 <code>gym</code></h2><p><code>gym</code> 使用最新的API来构建签名你的应用程序，会节省大量的构建时间。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Gym的功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>gym</code> 比其它构建工具，比如 <a href="https://github.com/nomad/shenzhen" target="_blank" rel="external">shenzhen</a> 要快30%</td>
+</tr>
+<tr>
+<td style="text-align:center">漂亮的输出</td>
+</tr>
+<tr>
+<td style="text-align:center">帮助你解决常见的构建错误，比如 Code Signing issues</td>
+</tr>
+<tr>
+<td style="text-align:center">合理的默认值：自动检测Project、Schemes等</td>
+</tr>
+<tr>
+<td style="text-align:center">与其它工具以及 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane</a> 完美配合</td>
+</tr>
+<tr>
+<td style="text-align:center">自动生成 <code>ipa</code> 和 压缩的 <code>dSYM</code> 文件</td>
+</tr>
+<tr>
+<td style="text-align:center">不需要记住任何复杂的命令，只有 <code>gym</code></td>
+</tr>
+<tr>
+<td style="text-align:center">使用参数和环境变量能够简单的动态配置</td>
+</tr>
+<tr>
+<td style="text-align:center">在 <code>Gymfile</code> 文件中存储常用的构建设置</td>
+</tr>
+<tr>
+<td style="text-align:center">所有的 Archives 存储了，可以在 Xcode Organizer 中访问</td>
+</tr>
+<tr>
+<td style="text-align:center">支持 iOS 和 Mac 应用程序</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/FastlaneGym/gymScreenshot.png" alt="alt text"></p>
+<p><img src="/img/FastlaneGym/gym.gif" alt="alt text"></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>sudo gem install gym
+</code></pre><p>确保你已经安装了最新版本的 Xcode 命令行工具：</p>
+<pre><code>xcode-select --install
+</code></pre><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre><code>gym
+</code></pre><p>这就是构建程序所需的所有命令。如果你需要更多的控制，这里有些可用的参数：</p>
+<pre><code>gym --workspace &quot;Example.xcworkspace&quot; --scheme &quot;AppName&quot; --clean
+</code></pre><p>如果你需要安装使用不同的 Xcode，使用 xcode-select 或者定义 DEVELOPER_DIR：</p>
+<pre><code>DEVELOPER_DIR=&quot;/Applications/Xcode6.2.app&quot; gym
+</code></pre><p>获取可用的参数列表：</p>
+<pre><code>gym --help
+</code></pre><p>如果你遇到任何问题，使用 <code>verbose</code> 模式获取更多的信息：</p>
+<pre><code>gym --verbose
+</code></pre><p>通常来说，当你在导出 Archive 时遇到问题，尝试运行：</p>
+<pre><code>gym --use_legacy_build_api
+</code></pre><p>如果你不需要上传到 App Store 或者 TestFlight 设置正确的导出方法：</p>
+<pre><code>gym --export_method ad-hoc
+</code></pre><p>传递布尔参数确保是否使用 <code>gym</code> ：</p>
+<pre><code>gym --include_bitcode true --include_symbols false
+</code></pre><p>访问原始的 <code>xcodebuild</code> 输出，打开 <code>~/Library/Logs/gym</code> 。</p>
+<h2 id="Gymfile"><a href="#Gymfile" class="headerlink" title="Gymfile"></a>Gymfile</h2><p>由于你可能想要手动触发一个新的构建而不想每次都指定所有的参数，你可以将默认值存储在 <code>Gymfile</code> 里。</p>
+<p>运行 <code>gym init</code> 创建一个新的配置文件，比如：</p>
+<pre><code>scheme &quot;Example&quot;
+
+sdk &quot;iphoneos9.0&quot;
+
+clean true
+
+output_directory &quot;./build&quot;    # store the ipa in this folder
+output_name &quot;MyApp&quot;           # the name of the ipa file
+</code></pre><h2 id="导出选项"><a href="#导出选项" class="headerlink" title="导出选项"></a>导出选项</h2><p>由于 Xcode7，<code>gym</code> 使用新的 Xcode API 允许我们使用 <code>plist</code> 文件指定导出选项。<code>gym</code> 会为你创建这个文件，然后你可以通过使用 <code>export_method</code>，<code>export_team_id</code>，<code>include_symbols</code> 或者 <code>include_bitcode</code> 来修改一些参数。如果你想要更多的选项，比如创建  manifest 文件 或者 app thinning，你可以提供你自己的 <code>plist</code> 文件：</p>
+<pre><code>export_options &quot;./ExportOptions.plist&quot;
+</code></pre><p>或者你可以在 <code>Gymfile</code> 文件里直接提供 hash 值：</p>
+<pre><code>export_options(
+    method: &quot;ad-hoc&quot;,
+    manifest: {
+        appURL: &quot;https://example.com/My App.ipa&quot;,
+    },
+    thinning: &quot;&lt;thin-for-all-variants&gt;&quot;
+)
+</code></pre><p>列出可用的选项运行 <code>xcodebuild -help</code>。</p>
+<h2 id="设置-Code-Signing"><a href="#设置-Code-Signing" class="headerlink" title="设置 Code Signing"></a>设置 Code Signing</h2><ul>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/fastlane/docs/Codesigning" target="_blank" rel="external">More information on how to get started with codesigning</a></li>
+<li><a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Codesigning/XcodeProject.md" target="_blank" rel="external">Docs on how to set up your Xcode project</a></li>
+</ul>
+<h2 id="自动处理所有过程"><a href="#自动处理所有过程" class="headerlink" title="自动处理所有过程"></a>自动处理所有过程</h2><p><code>gym</code> 与 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane</a> 工作的很好，将所有的发布工具整合到工作流里面。</p>
+<p>你可以像这样定义 <code>fastlane</code> 的配置：</p>
+<pre><code>lane :beta do
+    xctool
+    gym(scheme: &quot;MyApp&quot;)
+    crashlytics
+end
+</code></pre><p>然后你可以非常容易的在其它 <code>lane</code> 之间切换(比如 <code>testflight</code>，<code>hockey</code>，<code>s3</code> 等等)。</p>
+<p>更多信息，访问 <a href="https://github.com/fastlane/fastlane/tree/master/fastlane" target="_blank" rel="external">fastlane GitHub page</a>。</p>
+<h1 id="如何工作的？"><a href="#如何工作的？" class="headerlink" title="如何工作的？"></a>如何工作的？</h1><p><code>gym</code> 使用最新的API来构建签名你的应用程序。两个主要的控件：</p>
+<ul>
+<li><code>xcodebuild</code></li>
+<li><a href="https://github.com/supermarin/xcpretty" target="_blank" rel="external">xcpretty</a></li>
+</ul>
+<p>当你运行 <code>gym</code> ，没有使用 <code>--silent</code> 模式，将会打印每一个执行的命令。</p>
+<p>为了构建 Archive ，<code>gym</code> 使用如下命令：</p>
+<pre><code>set -o pipefail &amp;&amp; \
+xcodebuild -scheme &apos;Example&apos; \
+-project &apos;./Example.xcodeproj&apos; \
+-configuration &apos;Release&apos; \
+-destination &apos;generic/platform=iOS&apos; \
+-archivePath &apos;/Users/felixkrause/Library/Developer/Xcode/Archives/2015-08-11/ExampleProductName 2015-08-11 18.15.30.xcarchive&apos; \
+archive | xcpretty
+</code></pre><p>构建之后，<code>gym</code> 会检查。如果有效，就会签名打包到 <code>ipa</code> 文件里。</p>
+<p><code>gym</code> 会根据你当前使用的 Xcode 的版本选择不同的打包方法。</p>
+<h2 id="Xcode7-及以上"><a href="#Xcode7-及以上" class="headerlink" title="Xcode7 及以上"></a>Xcode7 及以上</h2><pre><code>/usr/bin/xcrun path/to/xcbuild-safe.sh -exportArchive \
+-exportOptionsPlist &apos;/tmp/gym_config_1442852529.plist&apos; \
+-archivePath &apos;/Users/fkrause/Library/Developer/Xcode/Archives/2015-09-21/App 2015-09-21 09.21.56.xcarchive&apos; \
+-exportPath &apos;/tmp/1442852529&apos;
+</code></pre><p><code>gym</code> 使用 Xcode7 最新的API，允许我们使用 <code>plist</code> 文件来执行导出选项。你可以运行 <code>xcodebuild --help</code> 获取更多可用选项的信息。</p>
+<p>Using this method there are no workarounds for WatchKit or Swift required, as it uses the same technique Xcode uses when exporting your binary.</p>
+<p>Note: the <a href="https://github.com/fastlane/fastlane/blob/master/gym/lib/assets/wrap_xcodebuild/xcbuild-safe.sh" target="_blank" rel="external">xcbuild-safe.sh script</a> wraps around xcodebuild to workaround some incompatibilities.</p>
+<h2 id="Xcode6-及以下"><a href="#Xcode6-及以下" class="headerlink" title="Xcode6 及以下"></a>Xcode6 及以下</h2><pre><code>/usr/bin/xcrun /path/to/PackageApplication4Gym -v \
+&apos;/Users/felixkrause/Library/Developer/Xcode/Archives/2015-08-11/ExampleProductName 2015-08-11 18.15.30.xcarchive/Products/Applications/name.app&apos; -o \
+&apos;/Users/felixkrause/Library/Developer/Xcode/Archives/2015-08-11/ExampleProductName.ipa&apos; \
+--sign &quot;identity&quot; --embed &quot;provProfile&quot;
+</code></pre><p>Note: the official PackageApplication script is replaced by a custom PackageApplication4Gym script. This script is obtained by applying a <a href="https://github.com/fastlane/fastlane/tree/master/gym/lib/assets/package_application_patches" target="_blank" rel="external">set of patches</a> on the fly to fix some known issues in the official Xcode PackageApplication script.</p>
+<p>Afterwards the ipa file is moved to the output folder. The dSYM file is compressed and moved to the output folder as well.</p>
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane工具链"><a href="#fastlane工具链" class="headerlink" title="fastlane工具链"></a><code>fastlane</code>工具链</h2><ul>
+<li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> <code>snapshot</code> </a>：将你iOS应用在每一种设备上进行本地化自动截图</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> <code>sigh</code> </a>：管理你的 provisioning profiles</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> <code>produce</code> </a>：使用命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>：自动创建和维护iOS的 code signing certificates</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pilot" target="_blank" rel="external"> <code>pilot</code> </a>：管理你TestFlight测试人员的最好方式，使用终端构建</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+</ul>
+<h2 id="使用-‘Provisioning-Quicklook-plugin’"><a href="#使用-‘Provisioning-Quicklook-plugin’" class="headerlink" title="使用 ‘Provisioning Quicklook plugin’"></a>使用 ‘Provisioning Quicklook plugin’</h2><p>下载安装 <a href="https://github.com/chockenberry/Provisioning" target="_blank" rel="external">Provisioning Plugin</a>。</p>
+<h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1><p>请提交 issue 到 GitHub，并提供你关于设置的信息。</p>
 
       
     </div>
@@ -541,7 +718,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gym"><span class="nav-number">1.</span> <span class="nav-text">gym</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gym-是什么？"><span class="nav-number">2.</span> <span class="nav-text">gym 是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gym-之前"><span class="nav-number">2.1.</span> <span class="nav-text">gym 之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-gym"><span class="nav-number">2.2.</span> <span class="nav-text">使用 gym</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用-gym"><span class="nav-number">2.3.</span> <span class="nav-text">为什么使用 gym</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gymfile"><span class="nav-number">4.1.</span> <span class="nav-text">Gymfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导出选项"><span class="nav-number">4.2.</span> <span class="nav-text">导出选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置-Code-Signing"><span class="nav-number">4.3.</span> <span class="nav-text">设置 Code Signing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动处理所有过程"><span class="nav-number">4.4.</span> <span class="nav-text">自动处理所有过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何工作的？"><span class="nav-number">5.</span> <span class="nav-text">如何工作的？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode7-及以上"><span class="nav-number">5.1.</span> <span class="nav-text">Xcode7 及以上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode6-及以下"><span class="nav-number">5.2.</span> <span class="nav-text">Xcode6 及以下</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">6.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane工具链"><span class="nav-number">6.1.</span> <span class="nav-text">fastlane工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-‘Provisioning-Quicklook-plugin’"><span class="nav-number">6.2.</span> <span class="nav-text">使用 ‘Provisioning Quicklook plugin’</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助"><span class="nav-number">7.</span> <span class="nav-text">帮助</span></a></li></ol></div>
             
           </div>
         </section>
