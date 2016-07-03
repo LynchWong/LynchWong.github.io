@@ -84,17 +84,34 @@
 
 
 
-<meta name="description" content="说明：翻译的 Boarding 的指南， 原文地址 。">
+<meta name="description" content="说明：翻译的 Boarding 的指南， 原文地址 。
+
+
+boarding 是什么？即时为 TestFlight beta 测试人员创建一个注册页面。
+
+Have you ever been to an airport, where you had to ask the manager of the airport if you can board now? Once the manager">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fastlane - Boarding">
 <meta property="og:url" content="http://lynchwong.com/2016/06/28/Fastlane-Boarding/index.html">
 <meta property="og:site_name" content="Nobodyknows+ 2.0">
-<meta property="og:description" content="说明：翻译的 Boarding 的指南， 原文地址 。">
+<meta property="og:description" content="说明：翻译的 Boarding 的指南， 原文地址 。
+
+
+boarding 是什么？即时为 TestFlight beta 测试人员创建一个注册页面。
+
+Have you ever been to an airport, where you had to ask the manager of the airport if you can board now? Once the manager">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneBoarding/BoardingHuge.png">
-<meta property="og:updated_time" content="2016-06-28T01:32:06.000Z">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneBoarding/BoardingScreenshot.png">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneBoarding/BoardingOverview.png">
+<meta property="og:updated_time" content="2016-07-03T10:22:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Boarding">
-<meta name="twitter:description" content="说明：翻译的 Boarding 的指南， 原文地址 。">
+<meta name="twitter:description" content="说明：翻译的 Boarding 的指南， 原文地址 。
+
+
+boarding 是什么？即时为 TestFlight beta 测试人员创建一个注册页面。
+
+Have you ever been to an airport, where you had to ask the manager of the airport if you can board now? Once the manager">
 <meta name="twitter:image" content="http://lynchwong.com/img/FastlaneBoarding/BoardingHuge.png">
 
 
@@ -328,6 +345,75 @@
 <p>说明：翻译的 <code>Boarding</code> 的指南，<a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> 原文地址 </a>。</p>
 </blockquote>
 <p><img src="/img/FastlaneBoarding/BoardingHuge.png" alt="alt text"></p>
+<h1 id="boarding-是什么？"><a href="#boarding-是什么？" class="headerlink" title="boarding 是什么？"></a>boarding 是什么？</h1><p>即时为 TestFlight beta 测试人员创建一个注册页面。</p>
+<blockquote>
+<p>Have you ever been to an airport, where you had to ask the manager of the airport if you can board now? Once the manager agrees, you’ll be carried from your check-in to your gate into your plane.</p>
+</blockquote>
+<p>做为一个开发人员，当你想添加一个新的测试人员时你就是这么做的： <a href="https://raw.githubusercontent.com/fastlane/boarding/master/assets/OldWay.jpg" target="_blank" rel="external">Open Screenshots</a></p>
+<p>你为什么不弄一个简单的网页，与你潜在的测试人员分享(比如邮件、Facebook、Twitter)，那些对你的新 App 感兴趣的人，然后让他们自己来 <code>board</code> ？</p>
+<p><img src="/img/FastlaneBoarding/BoardingScreenshot.png" alt="alt text"></p>
+<p>感谢 <a href="https://spaceship.airforce" target="_blank" rel="external">spaceship.airforce</a> ，现在可以自动为你的 TestFlight beta 测试人员 boarding process 。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>查看鲜活的例子页面： <a href="https://boarding.herokuapp.com" target="_blank" rel="external">boarding.herokuapp.com</a></p>
+<h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>将设你已经有 <a href="https://www.heroku.com" target="_blank" rel="external">Heroku</a> 账户，按照如下步骤：</p>
+<ul>
+<li>Deploy to Heroku</li>
+<li>输入你 iTunes Connect 的凭证和你 App 的 Bundle identifier。这些会被当做你自己 Heroku 实例的环境变量</li>
+<li>一旦设置完成，点击 <code>view</code> 然后开始分享 URL</li>
+</ul>
+<p><code>boarding</code> 已经为你做了所有神奇的工作，比如获取应用的名字和图标。</p>
+<p>对于标准的机器，Heroku 是免费的。如果你需要一个 Heroku 账户，如果你已经有了公司账户，询问你的支持团队。</p>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><p>为了确保你的网页的安全，你只需要为 <code>ITC_TOKEN</code> 环境变量设置任何密码。</p>
+<ul>
+<li>你可以给你的测试人员发送链接然后告诉他们密码</li>
+<li>你可以直接给他们发送包含 token 的链接，比如： <a href="https://url.com/?token=[password" target="_blank" rel="external">https://url.com/?token=[password</a>]</li>
+</ul>
+<h2 id="可用的环境变量"><a href="#可用的环境变量" class="headerlink" title="可用的环境变量"></a>可用的环境变量</h2><p>要求：</p>
+<ul>
+<li><code>ITC_USER</code>  iTunes Connect 用户名</li>
+<li><code>ITC_PASSWORD</code> iTunes Connect 密码</li>
+<li><code>ITC_APP_ID</code> 你 App 的 Apple ID 或者 Bundle Identifier</li>
+</ul>
+<p>可选：</p>
+<ul>
+<li><code>ITC_TOKEN</code> 设置一个密码来防止路人注册</li>
+<li><code>ITC_CLOSED_TEXT</code> 这只这个变量来临时禁用新的测试人员注册</li>
+<li><code>RESTRICTED_DOMAIN</code> 设置这个域名来限制用户使用来自另一个域名的邮件进行注册。使用这种格式 <code>domain1.com,domain2.com</code> 支持设置多个域名</li>
+<li><code>FASTLANE_ITC_TEAM_NAME</code> 如果你在多个团队中，在这里输入你 iTC 团队的名字。确保匹配</li>
+</ul>
+<h2 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h2><p>使用 Heroku ，你可以使用自己的域名，参见 <a href="https://devcenter.heroku.com/articles/custom-domains" target="_blank" rel="external">this guide</a>。</p>
+<h1 id="如何工作的？"><a href="#如何工作的？" class="headerlink" title="如何工作的？"></a>如何工作的？</h1><p><code>boarding</code> 是 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane</a> 的一部分，帮助你自动化一些需要开发人员手动完成的工作。</p>
+<p>使用 <a href="https://spaceship.airforce" target="_blank" rel="external">spaceship.airforce</a> 能够管理测试人员、构建、元数据、证书等等。</p>
+<p>这个 Repository 就是一个简单的 Rails 应用程序，大部分代码在如下文件中：</p>
+<ul>
+<li><a href="https://github.com/fastlane/boarding/blob/master/app/controllers/invite_controller.rb" target="_blank" rel="external">invite_controller.rb</a></li>
+<li><a href="https://github.com/fastlane/boarding/blob/master/app/views/invite/index.html.erb" target="_blank" rel="external">invite/index.html.erb</a></li>
+</ul>
+<p><img src="/img/FastlaneBoarding/BoardingOverview.png" alt="alt text"></p>
+<p>更多关于自动化过程的信息，参见 <a href="https://krausefx.com" target="_blank" rel="external">my blog</a> 。</p>
+<h1 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h1><p>如果你想要改变设计，布局，添加新的功能：</p>
+<ul>
+<li>安装 <a href="https://toolbelt.heroku.com" target="_blank" rel="external">Heroku toolbelt</a> 和 <code>heroku login</code></li>
+<li>Clone 你的应用程序，使用 <code>heroku git:clone --app [heroku_app_name]</code></li>
+<li><code>cd [heroku_app_name]</code></li>
+<li>修改上面描述到的文件的内容</li>
+<li>运行 <code>ITC_USER=&quot;email&quot; ITC_... rails s</code> 在本地测试，然后打开 <a href="http://127.0.0.1:3000" target="_blank" rel="external">http://127.0.0.1:3000</a></li>
+<li>提交改变</li>
+<li><code>git push</code></li>
+</ul>
+<p>除了 Heroku 之外，推荐你将版本信息也存储在你的 Git Repo 中。</p>
+<h2 id="更新到新的版本"><a href="#更新到新的版本" class="headerlink" title="更新到新的版本"></a>更新到新的版本</h2><p>随着时间的推移，<code>boarding</code> 会迎来更新。有两种方法来更新你的 Heroku 应用程序；</p>
+<h3 id="推荐：使用-Terminal"><a href="#推荐：使用-Terminal" class="headerlink" title="推荐：使用 Terminal"></a>推荐：使用 Terminal</h3><ul>
+<li>安装 <a href="https://toolbelt.heroku.com" target="_blank" rel="external">Heroku toolbelt</a> 和 <code>heroku login</code></li>
+<li>Clone 你的应用程序，使用 <code>heroku git:clone --app [heroku_app_name]</code></li>
+<li><code>cd [heroku_app_name]</code></li>
+<li><code>git pull https://github.com/fastlane/boarding</code></li>
+<li><code>git push</code></li>
+</ul>
+<h3 id="使用-Heroku-Website"><a href="#使用-Heroku-Website" class="headerlink" title="使用 Heroku Website"></a>使用 Heroku Website</h3><ul>
+<li>删除你在 <a href="https://www.heroku.com" target="_blank" rel="external">heroku.com</a> 上的应用程序</li>
+<li><a href="https://www.heroku.com/deploy?template=https://github.com/fastlane/boarding" target="_blank" rel="external">Create a new boarding application</a></li>
+<li>再次输入你的用户凭证</li>
+</ul>
 
       
     </div>
@@ -541,7 +627,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#boarding-是什么？"><span class="nav-number">1.</span> <span class="nav-text">boarding 是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">1.1.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始"><span class="nav-number">2.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-number">2.1.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可用的环境变量"><span class="nav-number">2.2.</span> <span class="nav-text">可用的环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义域名"><span class="nav-number">2.3.</span> <span class="nav-text">自定义域名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何工作的？"><span class="nav-number">3.</span> <span class="nav-text">如何工作的？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义"><span class="nav-number">4.</span> <span class="nav-text">自定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新到新的版本"><span class="nav-number">4.1.</span> <span class="nav-text">更新到新的版本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐：使用-Terminal"><span class="nav-number">4.1.1.</span> <span class="nav-text">推荐：使用 Terminal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Heroku-Website"><span class="nav-number">4.1.2.</span> <span class="nav-text">使用 Heroku Website</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
