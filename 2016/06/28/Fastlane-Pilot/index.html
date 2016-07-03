@@ -84,17 +84,50 @@
 
 
 
-<meta name="description" content="说明：翻译的 Pilot 的指南， 原文地址 。">
+<meta name="description" content="说明：翻译的 Pilot 的指南， 原文地址 。
+
+
+Pilot管理你 TestFlight 用户的最简单的方法。
+Pilot 让你能够非常容易的管理你应用的 Apple’s TestFlight。你可以：
+
+上传 &amp;amp; 分发 你构建的应用
+添加 &amp;amp; 移除 测试用户
+获取 测试用户 &amp;amp; 设备 的信息
+导出/导入 所有可用的测试用户
+
+pilot 使用 spaceship.a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fastlane - Pilot">
 <meta property="og:url" content="http://lynchwong.com/2016/06/28/Fastlane-Pilot/index.html">
 <meta property="og:site_name" content="Nobodyknows+ 2.0">
-<meta property="og:description" content="说明：翻译的 Pilot 的指南， 原文地址 。">
+<meta property="og:description" content="说明：翻译的 Pilot 的指南， 原文地址 。
+
+
+Pilot管理你 TestFlight 用户的最简单的方法。
+Pilot 让你能够非常容易的管理你应用的 Apple’s TestFlight。你可以：
+
+上传 &amp;amp; 分发 你构建的应用
+添加 &amp;amp; 移除 测试用户
+获取 测试用户 &amp;amp; 设备 的信息
+导出/导入 所有可用的测试用户
+
+pilot 使用 spaceship.a">
 <meta property="og:image" content="http://lynchwong.com/img/FastlanePilot/PilotTextTransparentSmall.png">
-<meta property="og:updated_time" content="2016-06-28T01:34:46.000Z">
+<meta property="og:updated_time" content="2016-07-03T08:15:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Pilot">
-<meta name="twitter:description" content="说明：翻译的 Pilot 的指南， 原文地址 。">
+<meta name="twitter:description" content="说明：翻译的 Pilot 的指南， 原文地址 。
+
+
+Pilot管理你 TestFlight 用户的最简单的方法。
+Pilot 让你能够非常容易的管理你应用的 Apple’s TestFlight。你可以：
+
+上传 &amp;amp; 分发 你构建的应用
+添加 &amp;amp; 移除 测试用户
+获取 测试用户 &amp;amp; 设备 的信息
+导出/导入 所有可用的测试用户
+
+pilot 使用 spaceship.a">
 <meta name="twitter:image" content="http://lynchwong.com/img/FastlanePilot/PilotTextTransparentSmall.png">
 
 
@@ -328,6 +361,119 @@
 <p>说明：翻译的 <code>Pilot</code> 的指南，<a href="https://github.com/fastlane-old/pilot" target="_blank" rel="external"> 原文地址 </a>。</p>
 </blockquote>
 <p><img src="/img/FastlanePilot/PilotTextTransparentSmall.png" alt="alt text"></p>
+<h1 id="Pilot"><a href="#Pilot" class="headerlink" title="Pilot"></a>Pilot</h1><p>管理你 TestFlight 用户的最简单的方法。</p>
+<p>Pilot 让你能够非常容易的管理你应用的 Apple’s TestFlight。你可以：</p>
+<ul>
+<li>上传 &amp; 分发 你构建的应用</li>
+<li>添加 &amp; 移除 测试用户</li>
+<li>获取 测试用户 &amp; 设备 的信息</li>
+<li>导出/导入 所有可用的测试用户</li>
+</ul>
+<p><code>pilot</code> 使用 <a href="https://spaceship.airforce" target="_blank" rel="external">spaceship.airforce</a> 和 iTunes Connect 交互。</p>
+<p><code>pilot</code> 现在是 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane</a> 的一部分：自动构建、发布你 iOS 和 Android 应用的最简单方法。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>sudo gem install pilot
+</code></pre><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>你可以使用 <code>-u felix@krausefx.com</code> 命令来指定 Apple ID。如果你的项目已经使用了 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane</a> ，用户名和 App identifier 会自动检测。</p>
+<h2 id="上传构建的应用"><a href="#上传构建的应用" class="headerlink" title="上传构建的应用"></a>上传构建的应用</h2><p>上传一个新的构建，只需运行：</p>
+<pre><code>pilot upload
+</code></pre><p>将会在你当前目录查找 <code>ipa</code> 文件，然后会尝试从 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane setup</a> 中获取登录凭证。</p>
+<p>然后会向你询问漏掉的信息。另外，你可以传递所有种类的参数：</p>
+<pre><code>pilot --help
+</code></pre><p>你可以使用下面的命令传递修改日志：</p>
+<pre><code>pilot upload --changelog &quot;Something that is new here&quot;
+</code></pre><p>你也可以跳过二进制的提交，这意味着，<code>ipa</code> 文件只会被上传，不会分发给测试用户：</p>
+<pre><code>pilot upload --skip_submission
+</code></pre><p><code>pilot</code> 为你做了所有神奇的工作：</p>
+<ul>
+<li>从你的 <code>ipa</code> 文件中自动检测 Bundle identifier</li>
+<li>基于 Bundle identifier，自动获取你 App 的 AppID</li>
+</ul>
+<p><code>pilot</code> 使用 <a href="https://spaceship.airforce" target="_blank" rel="external">spaceship</a> 来提交构建的元数据，然后使用 iTunes Transporter 来上传二进制。</p>
+<h2 id="列出构建的应用"><a href="#列出构建的应用" class="headerlink" title="列出构建的应用"></a>列出构建的应用</h2><p>列出指定应用程序的所有构建：</p>
+<pre><code>pilot builds
+</code></pre><p>会列出所有激活的构建和处理中的构建：</p>
+<pre><code>+-----------+---------+----------+----------+----------+
+|                   Great App Builds                   |
++-----------+---------+----------+----------+----------+
+| Version # | Build # | Testing  | Installs | Sessions |
++-----------+---------+----------+----------+----------+
+| 0.9.13    | 1       | Expired  | 1        | 0        |
+| 0.9.13    | 2       | Expired  | 0        | 0        |
+| 0.9.20    | 3       | Expired  | 0        | 0        |
+| 0.9.20    | 4       | Internal | 5        | 3        |
++-----------+---------+----------+----------+----------+
+</code></pre><h1 id="管理测试用户"><a href="#管理测试用户" class="headerlink" title="管理测试用户"></a>管理测试用户</h1><h2 id="列出所有的测试人员"><a href="#列出所有的测试人员" class="headerlink" title="列出所有的测试人员"></a>列出所有的测试人员</h2><p>这个命令会列出所有的测试人员，包括内部人员和外部人员。</p>
+<pre><code>pilot list
+</code></pre><p>输出如下：</p>
+<pre><code>+--------+--------+--------------------------+-----------+
+|                    Internal Testers                    |
++--------+--------+--------------------------+-----------+
+| First  | Last   | Email                    | # Devices |
++--------+--------+--------------------------+-----------+
+| Felix  | Krause | felix@krausefx.com       | 2         |
++--------+--------+--------------------------+-----------+
+
++-----------+---------+----------------------------+-----------+
+|                       External Testers                       |
++-----------+---------+----------------------------+-----------+
+| First     | Last    | Email                      | # Devices |
++-----------+---------+----------------------------+-----------+
+| Max       | Manfred | email@email.com            | 0         |
+| Detlef    | Müller  | detlef@krausefx.com        | 1         |
++-----------+---------+----------------------------+-----------+
+</code></pre><h2 id="添加新的测试人员"><a href="#添加新的测试人员" class="headerlink" title="添加新的测试人员"></a>添加新的测试人员</h2><p>使用 <code>pilot add</code> 命令来为你的 iTunes Connect 账户和应用添加新的测试人员。这个会创建新的测试人员(如果必要的话)或者添加一个已经存在的测试人员到App进行测试。</p>
+<pre><code>pilot add email@invite.com
+</code></pre><p>除此之外，你可以指定 App 的 identifier(如果必要)：</p>
+<pre><code>pilot add email@email.com -a com.krausefx.app
+</code></pre><h2 id="查找一个测试人员"><a href="#查找一个测试人员" class="headerlink" title="查找一个测试人员"></a>查找一个测试人员</h2><p>查找一个指定的测试人员：</p>
+<pre><code>pilot find felix@krausefx.com
+</code></pre><p>输出结果如下：</p>
+<pre><code>+---------------------+---------------------+
+|            felix@krausefx.com             |
++---------------------+---------------------+
+| First name          | Felix               |
+| Last name           | Krause              |
+| Email               | felix@krausefx.com  |
+| Latest Version      | 0.9.14 (23          |
+| Latest Install Date | 03/28/15 19:00      |
+| 2 Devices           | • iPhone 6, iOS 8.3 |
+|                     | • iPhone 5, iOS 7.0 |
++---------------------+---------------------+
+</code></pre><h2 id="移除一个测试人员"><a href="#移除一个测试人员" class="headerlink" title="移除一个测试人员"></a>移除一个测试人员</h2><p>这个命令只会移除外部的测试人员：</p>
+<pre><code>pilot remove felix@krausefx.com
+</code></pre><h2 id="导出测试人员"><a href="#导出测试人员" class="headerlink" title="导出测试人员"></a>导出测试人员</h2><p>将所有的外部测试人员导出到 CSV 文件。这个非常有用，如果你需要将测试人员的信息导入到另一个系统或者新的账户。</p>
+<pre><code>pilot export
+</code></pre><h2 id="导入测试人员"><a href="#导入测试人员" class="headerlink" title="导入测试人员"></a>导入测试人员</h2><p>从一个 CSV 文件中添加外部测试人员。<a href="https://itunesconnect.apple.com/itc/docs/tester_import.csv" target="_blank" rel="external">这里有一个可用的 CSV 文件</a>。</p>
+<pre><code>pilot import
+</code></pre><p>你也可以使用下面的命令来指定目录：</p>
+<pre><code>pilot export -c ~/Desktop/testers.csv
+pilot import -c ~/Desktop/testers.csv
+</code></pre><h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><h2 id="fastlane-工具链"><a href="#fastlane-工具链" class="headerlink" title="fastlane 工具链"></a><a href="https://fastlane.tools" target="_blank" rel="external"><code>fastlane</code></a> 工具链</h2><ul>
+<li><a href="https://fastlane.tools" target="_blank" rel="external"> <code>fastlane</code> </a>：自动化构建和发布你 iOS 和 Android 应用程序的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/deliver" target="_blank" rel="external"> <code>deliver</code> </a>：将你的应用、截图、元数据上传到App Store</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/snapshot" target="_blank" rel="external"> <code>snapshot</code> </a>：将你iOS应用在每一种设备上进行本地化自动截图</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/frameit" target="_blank" rel="external"> <code>frameit</code> </a>：快速将你的截图放入到适合的设备框中</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/pem" target="_blank" rel="external"> <code>pem</code> </a>自动生成和更新你的推送通知证书</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external"> <code>sigh</code> </a>：管理你的 provisioning profiles</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/produce" target="_blank" rel="external"> <code>produce</code> </a>：使用命令行工具在 iTunes Connect 和 Dev Portal 上创建新的iOS应用</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/cert" target="_blank" rel="external"> <code>cert</code> </a>：自动创建和维护iOS的 code signing certificates</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> <code>spaceship</code> </a>：一个 Ruby library，自动连接 Apple Dev Center 和 iTunes Connect</li>
+<li><a href="https://github.com/fastlane/boarding" target="_blank" rel="external"> <code>boarding</code> </a>：邀请你 TestFlight 的beta测试人员的最简单方式</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/gym" target="_blank" rel="external"> <code>gym</code> </a>：构建你iOS应用程序</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/scan" target="_blank" rel="external"> <code>scan</code> </a>：为你iOS和Mac应用运行测试的最简单方法</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external"> <code>match</code> </a>：使用Git在你的团队中同步你的 certificates 和 profiles </li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/supply" target="_blank" rel="external"> <code>supply</code> </a>：将你的Android应用和数据上传到 Google Play</li>
+<li><a href="https://github.com/fastlane/fastlane/tree/master/screengrab" target="_blank" rel="external"> <code>screengrab</code> </a>：Android版<code>snapshot</code>，一样的功能</li>
+</ul>
+<h2 id="调试信息"><a href="#调试信息" class="headerlink" title="调试信息"></a>调试信息</h2><p>如果你遇到了什么问题，你可以使用 <code>verbose</code> 模式来获取更多细节的输出：</p>
+<pre><code>pilot --verbose
+</code></pre><h2 id="防火墙问题"><a href="#防火墙问题" class="headerlink" title="防火墙问题"></a>防火墙问题</h2><p><code>pilot</code> 使用 iTunes Transporter 上传元数据和二进制。以防万一被防火墙挡住，你可以指定不同的传输协议，使用如下命令：</p>
+<pre><code>DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS=&quot;-t DAV&quot; pilot ...
+</code></pre><p>如果你使用 <code>pilot</code> 通过 <a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md#pilot" target="_blank" rel="external">fastlane action</a> ，添加如下代码到你的 <code>Fastfile</code> ：</p>
+<pre><code>ENV[&quot;DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS&quot;] = &quot;-t DAV&quot;
+pilot...
+</code></pre><h2 id="凭证问题"><a href="#凭证问题" class="headerlink" title="凭证问题"></a>凭证问题</h2><p>如果你的密码包含特殊字符，<code>pilot</code> 可能会抛出一个模糊的错误，“你的 Apple ID 或者 密码输入不正确”。最简单的修复方法就是修改你的密码，不包含特殊字符。</p>
+<h2 id="如何保存我的密码？"><a href="#如何保存我的密码？" class="headerlink" title="如何保存我的密码？"></a>如何保存我的密码？</h2><p><code>pilot</code> 使用来自 <code>fastlane</code> 的 <a href="https://github.com/fastlane/fastlane/tree/master/credentials_manager" target="_blank" rel="external">CredentialsManager</a> 管理密码。</p>
+<h1 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h1><p>请提交 issue 到 GitHub，并提供你关于设置的信息。</p>
 
       
     </div>
@@ -541,7 +687,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pilot"><span class="nav-number">1.</span> <span class="nav-text">Pilot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#上传构建的应用"><span class="nav-number">3.1.</span> <span class="nav-text">上传构建的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出构建的应用"><span class="nav-number">3.2.</span> <span class="nav-text">列出构建的应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#管理测试用户"><span class="nav-number">4.</span> <span class="nav-text">管理测试用户</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#列出所有的测试人员"><span class="nav-number">4.1.</span> <span class="nav-text">列出所有的测试人员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加新的测试人员"><span class="nav-number">4.2.</span> <span class="nav-text">添加新的测试人员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找一个测试人员"><span class="nav-number">4.3.</span> <span class="nav-text">查找一个测试人员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除一个测试人员"><span class="nav-number">4.4.</span> <span class="nav-text">移除一个测试人员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导出测试人员"><span class="nav-number">4.5.</span> <span class="nav-text">导出测试人员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入测试人员"><span class="nav-number">4.6.</span> <span class="nav-text">导入测试人员</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示"><span class="nav-number">5.</span> <span class="nav-text">提示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fastlane-工具链"><span class="nav-number">5.1.</span> <span class="nav-text">fastlane 工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试信息"><span class="nav-number">5.2.</span> <span class="nav-text">调试信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防火墙问题"><span class="nav-number">5.3.</span> <span class="nav-text">防火墙问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#凭证问题"><span class="nav-number">5.4.</span> <span class="nav-text">凭证问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何保存我的密码？"><span class="nav-number">5.5.</span> <span class="nav-text">如何保存我的密码？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助"><span class="nav-number">6.</span> <span class="nav-text">帮助</span></a></li></ol></div>
             
           </div>
         </section>
