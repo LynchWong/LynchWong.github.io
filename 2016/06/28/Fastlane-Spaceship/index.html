@@ -84,17 +84,31 @@
 
 
 
-<meta name="description" content="说明：翻译的 Spaceship 的指南， 原文地址 。">
+<meta name="description" content="说明：翻译的 Spaceship 的指南， 原文地址 。
+
+
+spaceshipspaceship 暴露了 Apple Developer Center 和 iTunes Connect API。这些快速和强大的API已经是 fastlane 的一部分，能够实现更多 fastlane 的高级功能。脚本化 Developer Center 的工作流从未如此简单。
+spaceship 是什么东西？到">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fastlane - Spaceship">
 <meta property="og:url" content="http://lynchwong.com/2016/06/28/Fastlane-Spaceship/index.html">
 <meta property="og:site_name" content="Nobodyknows+ 2.0">
-<meta property="og:description" content="说明：翻译的 Spaceship 的指南， 原文地址 。">
+<meta property="og:description" content="说明：翻译的 Spaceship 的指南， 原文地址 。
+
+
+spaceshipspaceship 暴露了 Apple Developer Center 和 iTunes Connect API。这些快速和强大的API已经是 fastlane 的一部分，能够实现更多 fastlane 的高级功能。脚本化 Developer Center 的工作流从未如此简单。
+spaceship 是什么东西？到">
 <meta property="og:image" content="http://lynchwong.com/img/FastlaneSpaceship/spaceship.png">
-<meta property="og:updated_time" content="2016-06-28T01:12:23.000Z">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSpaceship/SpaceshipRecording.gif">
+<meta property="og:image" content="http://lynchwong.com/img/FastlaneSpaceship/Playground.png">
+<meta property="og:updated_time" content="2016-07-03T05:52:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - Spaceship">
-<meta name="twitter:description" content="说明：翻译的 Spaceship 的指南， 原文地址 。">
+<meta name="twitter:description" content="说明：翻译的 Spaceship 的指南， 原文地址 。
+
+
+spaceshipspaceship 暴露了 Apple Developer Center 和 iTunes Connect API。这些快速和强大的API已经是 fastlane 的一部分，能够实现更多 fastlane 的高级功能。脚本化 Developer Center 的工作流从未如此简单。
+spaceship 是什么东西？到">
 <meta name="twitter:image" content="http://lynchwong.com/img/FastlaneSpaceship/spaceship.png">
 
 
@@ -328,6 +342,96 @@
 <p>说明：翻译的 <code>Spaceship</code> 的指南，<a href="https://github.com/fastlane/fastlane/tree/master/spaceship" target="_blank" rel="external"> 原文地址 </a>。</p>
 </blockquote>
 <p><img src="/img/FastlaneSpaceship/spaceship.png" alt="alt text"></p>
+<h1 id="spaceship"><a href="#spaceship" class="headerlink" title="spaceship"></a>spaceship</h1><p><code>spaceship</code> 暴露了 Apple Developer Center 和 iTunes Connect API。这些快速和强大的API已经是 fastlane 的一部分，能够实现更多 fastlane 的高级功能。脚本化 Developer Center 的工作流从未如此简单。</p>
+<h1 id="spaceship-是什么东西？"><a href="#spaceship-是什么东西？" class="headerlink" title="spaceship 是什么东西？"></a>spaceship 是什么东西？</h1><p>到现在为止， <a href="https://fastlane.tools" target="_blank" rel="external">fastlane tools</a> 都是使用的网页抓取的方式与 Apple’s Web Services 进行交互。使用 spaceship 只需要一个简单的 HTTP Client 就能直接访问底层的 API。</p>
+<p>使用 spaceship， <a href="https://github.com/fastlane/fastlane/tree/master/sigh" target="_blank" rel="external">sigh</a> 的执行时间从1分钟减少到5秒内。</p>
+<p>spaceship 使用3中不同的API端点的组合，被 Apple Developer Portal 和 Xcode 使用。由于没有为我们提供所有需要的API，所以 spaceship 为你组合了所有的API。 <a href="More details about the APIs">关于API的更多细节</a>。</p>
+<p>更多关于为什么 spaceship 有用的说明，查看 <a href="https://spaceship.airforce" target="_blank" rel="external">spaceship.airforce</a>。</p>
+<blockquote>
+<p>不管你有多少 App 或者 Certificates，spaceship 都能处理。</p>
+</blockquote>
+<p>够了，这里是代码：</p>
+<pre><code>Spaceship.login
+
+# Create a new app
+app = Spaceship.app.create!(bundle_id: &quot;com.krausefx.app&quot;, name: &quot;Spaceship App&quot;)
+
+# Use an existing certificate
+cert = Spaceship.certificate.production.all.first
+
+# Create a new provisioning profile
+profile = Spaceship.provisioning_profile.app_store.create!(bundle_id: app.bundle_id,
+                                                     certificate: cert)
+
+# Print the name and download the new profile
+puts &quot;Created Profile &quot; + profile.name
+profile.download
+</code></pre><h2 id="速度"><a href="#速度" class="headerlink" title="速度"></a>速度</h2><p>跟网页抓取比起来，使用 <code>spaceship</code> 工具有多快？</p>
+<p><img src="/img/FastlaneSpaceship/SpaceshipRecording.gif" alt="alt text"></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>sudo gem install spaceship
+</code></pre><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="Playground"><a href="#Playground" class="headerlink" title="Playground"></a>Playground</h2><p>尝试 <code>spaceship</code> ，只需要运行 <code>spaceship</code> 。然后就会自动启动 <code>spaceship playground</code>。</p>
+<p><img src="/img/FastlaneSpaceship/Playground.png" alt="alt text"></p>
+<p>这要求你使用 <code>sudo gem install pry</code> 安装 <code>pry</code> 。<code>pry</code> 不会默认安装，因为大部分的 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane</a> 用户不需要 <code>spaceship playground</code> 。你可以在 <code>Gemfile</code> 文件里添加 <code>pry</code> 依赖。</p>
+<h2 id="Apple-Developer-Portal-API"><a href="#Apple-Developer-Portal-API" class="headerlink" title="Apple Developer Portal API"></a>Apple Developer Portal API</h2><p><a href="https://github.com/fastlane/fastlane/blob/master/spaceship/docs/DeveloperPortal.md" target="_blank" rel="external">DeveloperPortal.md</a> 中有示例代码</p>
+<h2 id="iTunes-Connect-API"><a href="#iTunes-Connect-API" class="headerlink" title="iTunes Connect API"></a>iTunes Connect API</h2><p><a href="https://github.com/fastlane/fastlane/blob/master/spaceship/docs/iTunesConnect.md" target="_blank" rel="external">iTunesConnect.md</a> 中有示例代码</p>
+<h2 id="2-Step-Verification"><a href="#2-Step-Verification" class="headerlink" title="2 Step Verification"></a>2 Step Verification</h2><p>如果你的苹果账户开启了两步验证，将会自动询问你使用手机进行验证。结果会话将会存储在 <code>~/.spaceship/[email]/cookie</code> 。这个会话在一个月内是有效的，当然没有办法真的等到一个月后来测试。</p>
+<p>由于你的 CI 系统可能不允许你输入值(比如验证码)，你可以使用 <code>spaceauth</code> ：</p>
+<pre><code>spaceauth -u apple@krausefx.com
+</code></pre><p>这个将会给你授权，并提供一个字符串，可以传给你的 CI 系统：</p>
+<pre><code>export FASTLANE_SESSION=&apos;---\n- !ruby/object:HTTP::Cookie\n  name: DES5c148586dfd451e55afbaaa5f62418f91\n  value: HSARMTKNSRVTWFla1+yO4gVPowH17VaaaxPFnUdMUegQZxqy1Ie1c2v6bM1vSOzIbuOmrl/FNenlScsd/NbF7/Lw4cpnL15jsyg0TOJwP32tC/NguPiyOaaaU+jrj4tf4uKdIywVaaaFSRVT\n  domain: idmsa.apple.com\n  for_domain: true\n  path: &quot;/&quot;\n  secure: true\n  httponly: true\n  expires: 2016-04-27 23:55:56.000000000 Z\n  max_age: \n  created_at: 2016-03-28 16:55:57.032086000 -07:00\n  accessed_at: 2016-03-28 19:11:17.828141000 -07:00\n&apos;
+</code></pre><p>从 <code>---\n</code> 开始复制所有的东西到你的 CI 服务器，然后当做环境变量提供，变量名是 <code>FASTLANE_SESSION</code> 。</p>
+<h2 id="Spaceship-in-use"><a href="#Spaceship-in-use" class="headerlink" title="Spaceship in use"></a>Spaceship in use</h2><p>很多 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane tools</a> 已经使用了 <code>spaceship</code>，比如 <code>sigh</code>， <code>cert</code>， <code>produce</code>， <code>pilot</code> 和 <code>boarding</code> 。</p>
+<h1 id="技术细节"><a href="#技术细节" class="headerlink" title="技术细节"></a>技术细节</h1><h2 id="HTTP-Client"><a href="#HTTP-Client" class="headerlink" title="HTTP Client"></a>HTTP Client</h2><p>到现在为止，所有的 <a href="https://fastlane.tools" target="_blank" rel="external">fastlane tools</a> 都是使用的网页抓取的方式与 Apple’s Web Services 进行交互。spaceship 使用一个简单的 HTTP Client ，更少的开销，更快的速度。</p>
+<p>跟网页抓取比起来，<code>spaceship</code> 的优势：</p>
+<ul>
+<li>快90%</li>
+<li>不需要再加载图像、HTML、JS 以及 CSS文件</li>
+<li>通过稳定的服务器响应，更广的测试覆盖率</li>
+<li>能够应对 Apple Developer Portal 的设计变更</li>
+<li>当请求超时，会自动重试</li>
+</ul>
+<h2 id="API-Endpoints"><a href="#API-Endpoints" class="headerlink" title="API Endpoints"></a>API Endpoints</h2><p>这里不会深入讲解各种API，只是给一些参考：</p>
+<ul>
+<li><code>https://idmsa.apple.com</code>：用来授权，获取有效的会话</li>
+<li><code>https://developerservices2.apple.com</code>：<ul>
+<li>获取可用的 Provisioning Profiles 的详细列表</li>
+<li>这个API会返回每个 Profiles 的设备，Certificates 和 App</li>
+<li>注册新的设备</li>
+</ul>
+</li>
+<li><code>https://developer.apple.com</code>：<ul>
+<li>列出所有设备，Certificates，Apps 和 App Groups</li>
+<li>创建新的Certificates，Provisioning Profiles 和 Apps</li>
+<li>禁用/开启 应用的服务，然后赋值给 App Groups</li>
+<li>删除Certificates 和 Apps</li>
+<li>修复 Provisioning Profiles</li>
+<li>下载 Provisioning Profiles</li>
+<li>团队选择</li>
+</ul>
+</li>
+<li><code>https://itunesconnect.apple.com</code>：<ul>
+<li>管理应用</li>
+<li>管理测试用户</li>
+<li>提交更新进行审核</li>
+<li>管理应用的元数据</li>
+</ul>
+</li>
+<li><code>https://du-itc.itunesconnect.apple.com</code>：<ul>
+<li>上传 图标、截图、trailers…</li>
+</ul>
+</li>
+</ul>
+<p><code>spaceship</code> 使用所有这些API提供了所有功能的无缝体验。</p>
+<h2 id="Magic-involved"><a href="#Magic-involved" class="headerlink" title="Magic involved"></a>Magic involved</h2><p><code>spaceship</code> 做了许多魔法的事情来让所有的工作都很整洁：</p>
+<ul>
+<li><strong>合理的默认值：</strong>你只需要提供那些强制性的信息(比如新的 Provisioning Profiles，默认包含所有设备)</li>
+<li><strong>本地验证：</strong>将所有的改变推送到 Apple Dev Portal 的时候，<code>spaceship</code> 会确保只有有效的数据发送给 Apple (比如自动修复了的 Provisioning Profiles)</li>
+<li><strong>各种请求响应类型：</strong>当处理不同的API的时候，<code>spaceship</code> 必需处理 <code>JSON</code>，<code>XML</code>，<code>txt</code>，<code>plist</code>，有时甚至包括 HTML 的请求和响应</li>
+<li><strong>自动分页：</strong>即使你有上千个App、Profiles 或者 Certificates，<code>spaceship</code> 都会为你处理。是经过测试的。</li>
+<li><strong>Session, Cookie and CSRF token：</strong><code>spaceship</code> 处理了安全的各个方面。</li>
+<li><strong>Profile Magic：</strong>创建上传 Code Signing Requests，所有的都由<code>spaceship</code> 处理</li>
+<li><strong>Multiple Spaceship：</strong>你可以使用不同的苹果账户来登录多个 <code>spaceship</code>，用来同步注册的设备</li>
+</ul>
 
       
     </div>
@@ -541,7 +645,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spaceship"><span class="nav-number">1.</span> <span class="nav-text">spaceship</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spaceship-是什么东西？"><span class="nav-number">2.</span> <span class="nav-text">spaceship 是什么东西？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#速度"><span class="nav-number">2.1.</span> <span class="nav-text">速度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Playground"><span class="nav-number">4.1.</span> <span class="nav-text">Playground</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apple-Developer-Portal-API"><span class="nav-number">4.2.</span> <span class="nav-text">Apple Developer Portal API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iTunes-Connect-API"><span class="nav-number">4.3.</span> <span class="nav-text">iTunes Connect API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Step-Verification"><span class="nav-number">4.4.</span> <span class="nav-text">2 Step Verification</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spaceship-in-use"><span class="nav-number">4.5.</span> <span class="nav-text">Spaceship in use</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技术细节"><span class="nav-number">5.</span> <span class="nav-text">技术细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-Client"><span class="nav-number">5.1.</span> <span class="nav-text">HTTP Client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-Endpoints"><span class="nav-number">5.2.</span> <span class="nav-text">API Endpoints</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Magic-involved"><span class="nav-number">5.3.</span> <span class="nav-text">Magic involved</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
