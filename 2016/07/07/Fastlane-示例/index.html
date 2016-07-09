@@ -89,7 +89,7 @@
 首先说明下我的配置满足的需求：
 
 管理团队的证书，包括开发、发布、AdHoc
-打包">
+能够">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fastlane - 示例">
 <meta property="og:url" content="http://lynchwong.com/2016/07/07/Fastlane-示例/index.html">
@@ -99,8 +99,8 @@
 首先说明下我的配置满足的需求：
 
 管理团队的证书，包括开发、发布、AdHoc
-打包">
-<meta property="og:updated_time" content="2016-07-07T15:26:59.000Z">
+能够">
+<meta property="og:updated_time" content="2016-07-09T08:42:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fastlane - 示例">
 <meta name="twitter:description" content="说明：之前把关于 Fastlane 的工具集的文档简单翻译了下，翻译的比较糙。由于最近太忙了，没时间回去校对。之后有时间了也不会回去校对，so be it。
@@ -108,7 +108,7 @@
 首先说明下我的配置满足的需求：
 
 管理团队的证书，包括开发、发布、AdHoc
-打包">
+能够">
 
 
 
@@ -342,10 +342,163 @@
 <p>首先说明下我的配置满足的需求：</p>
 <ul>
 <li>管理团队的证书，包括开发、发布、AdHoc</li>
-<li>打包 AdHoc 的包、发布用的包</li>
 <li>能够上传App到 ITC(iTunes Connect) 进行审核</li>
-<li>能够使用 InHouse 证书打包，然后上传服务器<br>TO BE CONTINUE……</li>
+<li>能够使用 InHouse 证书打包，然后上传服务器</li>
 </ul>
+<p>Fastlane 是个工具集，里面所有的工具都可以单独使用。</p>
+<h1 id="Matchfile文件："><a href="#Matchfile文件：" class="headerlink" title="Matchfile文件："></a><strong>Matchfile</strong>文件：</h1><pre><code>git_url &quot;https://LynchWong@bitbucket.org/LynchWong/eplayermatch.git&quot;
+
+type &quot;development&quot; # The default type, can be: appstore, adhoc or development
+
+app_identifier &quot;com.lynch.ePlayer&quot; 
+username &quot;lynch.wong@me.com&quot; # Your Apple Developer Portal username
+
+# For all available options run `match --help`
+# Remove the # in the beginning of the line to enable the other options
+</code></pre><p>首先我直接进入到项目文件夹直接运行 <code>fastlane init</code> 进行初始化，具体做了些什么工作参见 <a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Guide.md" target="_blank" rel="external">这里</a> 或者 <a href="http://lynchwong.com/2016/06/11/Fastlane-Guide/">这里</a>。</p>
+<p>完成之后运行 <code>match init</code> 来配置 <code>Match</code>。这一步你需要一个私有的 Repository 。之后我运行了 <code>match development</code>、<code>match adhoc</code>、<code>match appstore</code> 创建证书和配置文件。完成之后在 <code>fastlane</code> 文件夹里面生成了 <code>Matchfile</code> 文件，如上面所示，这里我做了一些小修改。</p>
+<p>关于 <code>Match</code> 的说明，参考 <a href="https://github.com/fastlane/fastlane/tree/master/match" target="_blank" rel="external">这里</a> 或者 <a href="http://lynchwong.com/2016/06/28/Fastlane-Match/">这里</a>。貌似 <code>Match</code> 这里不对企业帐号的证书进行管理，我这里没有尝试。我用企业证书打包时是使用的 <code>cert</code> 和 <code>sigh</code>。</p>
+<h1 id="Appfile文件"><a href="#Appfile文件" class="headerlink" title="Appfile文件"></a><strong>Appfile</strong>文件</h1><pre><code>app_identifier &quot;com.lynch.ePlayer&quot; # The bundle identifier of your app
+apple_id &quot;lynch.wong@me.com&quot; # Your Apple email address
+team_id &quot;&quot;  # Developer Portal Team ID
+
+for_platform :ios do
+    team_id &apos;&apos;
+    for_lane :ent do
+        app_identifier &apos;com.lynch.ePlayerEnt&apos;
+        apple_id &apos;企业帐号&apos;
+    end
+end
+
+# you can even provide different app identifiers, Apple IDs and team names per lane:
+# More information: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md
+</code></pre><p>关于 <code>Appfile</code> 文件可以参考 <a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md" target="_blank" rel="external">这里</a> 。</p>
+<p>这里我对lane <code>ent</code> 使用不同的 app_identifier 和 apple_id 。我这里的lane <code>ent</code> 就是使用 InHouse 证书进行打包。</p>
+<h1 id="Fastfile文件"><a href="#Fastfile文件" class="headerlink" title="Fastfile文件"></a><strong>Fastfile</strong>文件</h1><pre><code># coding: utf-8
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version &quot;1.97.2&quot;
+
+default_platform :ios
+
+platform :ios do
+    before_all do
+        # ENV[&quot;SLACK_URL&quot;] = &quot;https://hooks.slack.com/services/...&quot;
+        # cocoapods
+
+    end
+
+    desc &quot;安装 FixCode 插件，禁用 Xcode 中的 Fix Issue 按钮。&quot;
+    lane :xcode do
+        install_xcode_plugin(
+            url: &quot;https://github.com/fastlane/FixCode/releases/download/0.2.0/FixCode.xcplugin.zip&quot;
+        )
+    end
+
+    desc &quot;使用 InHouse 证书打包。&quot;
+    lane :ent do
+        produce(
+            skip_itc: true
+        )
+        cert
+        sigh(
+            force: false
+        )
+        gym(
+            workspace: &quot;ePlayer.xcworkspace&quot;,
+            configuration: &quot;Release&quot;,
+            scheme: &quot;ePlayer&quot;,
+            silent: true,
+            clean: false,
+            output_directory: &quot;IPA&quot;,
+            output_name: &quot;ePlayerEnt.ipa&quot;,
+            use_legacy_build_api: true,
+        )
+    end
+
+    desc &quot;证书管理，不能管理企业帐号的证书。&quot;
+    lane :iosmatch do
+        match(app_identifier: &quot;com.lynch.ePlayer&quot;, type: &quot;development&quot;, readonly: true)
+        match(app_identifier: &quot;com.lynch.ePlayer&quot;, type: &quot;adhoc&quot;, readonly: true)
+        match(app_identifier: &quot;com.lynch.ePlayer&quot;, type: &quot;appstore&quot;, readonly: true)
+    end
+
+    desc &quot;Runs all the tests&quot;
+    lane :test do
+        scan
+    end
+
+    desc &quot;Submit a new Beta Build to Apple TestFlight&quot;
+    desc &quot;This will also make sure the profile is up to date&quot;
+    lane :beta do
+        # match(app_identifier: &quot;com.lynch.ePlayer&quot;, type: &quot;appstore&quot;, readonly: true) # more information: https://codesigning.guide
+        gym(
+            workspace: &quot;ePlayer.xcworkspace&quot;,
+            configuration: &quot;Release&quot;,
+            scheme: &quot;ePlayer&quot;,
+            silent: true,
+            clean: false,
+            output_directory: &quot;IPA&quot;,
+            output_name: &quot;ePlayerTestFlight.ipa&quot;,
+            use_legacy_build_api: true,
+        ) # Build your app - more options available
+        pilot
+
+        # sh &quot;your_script.sh&quot;
+        # You can also use other beta testing services here (run `fastlane actions`)
+    end
+
+    desc &quot;Deploy a new version to the App Store&quot;
+    lane :appstore do
+        # match(type: &quot;appstore&quot;)
+        # snapshot
+        gym(scheme: &quot;ePlayer&quot;) # Build your app - more options available
+        deliver(force: true)
+        # frameit
+    end
+
+    # You can define as many lanes as you want
+
+    after_all do |lane|
+        # This block is called, only if the executed lane was successful
+
+        # slack(
+        #   message: &quot;Successfully deployed new App Update.&quot;
+        # )
+    end
+
+    error do |lane, exception|
+        # slack(
+        #   message: exception.message,
+        #   success: false
+        # )
+    end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer
+</code></pre><h2 id="lane-ent"><a href="#lane-ent" class="headerlink" title="lane :ent"></a>lane :ent</h2><p>使用 InHouse 证书来打包。首先使用 produce，设置 skip_itc: true 不会在 ITC 上进行创建App，因为是企业帐号。然后使用 <code>cert</code> 和 <code>sigh</code> 进行签名创建证书(不使用 <code>Match</code> 参考前面)。然后就是一些打包的设置。</p>
+<h2 id="lane-xcode"><a href="#lane-xcode" class="headerlink" title="lane :xcode"></a>lane :xcode</h2><p>安装 Xcode 的创建，主要是禁止使用 Xcode 来管理证书。至于为什么，参考 <a href="https://github.com/fastlane/fastlane/tree/master/fastlane/docs/Codesigning" target="_blank" rel="external">这里</a>，不再赘述。</p>
+<h2 id="lane-iosmatch"><a href="#lane-iosmatch" class="headerlink" title="lane :iosmatch"></a>lane :iosmatch</h2><p>主要用来获取安装相关证书，这里设置了 readonly: true，只会获取已经存在的签名和证书，而不会去生成一个新的。</p>
+<p>另外几个 lane 基本就是生成<strong>Fastfile</strong>文件默认配置的。没什么好说的。我尝试运行了 <code>beta</code> lane，主要就是多了 pilot，将打包好的上传到 TestFlight 进行测试。然而我发现 pilot 的几个命令也都是针对外部测试的，但是外部测试也是需要提交审核的，这个时间要多久我不知道。而内部测试也只有25个名额，每个名额10台设备。所以我觉得这个 pilot 没什么用啊，除此之外，另外一个工具 Boarding 进行配置的时候 Heroku 一直报错。所以我觉得还不如使用企业帐号打包，然后运行脚本(脚本这里就不提供了)，将IPA放到服务器提供下载安装。小团队还不如打包 AdHoc，不过使用 pilot 进行内部测试也很好。</p>
+<p><code>appstore</code> lane 没有尝试，留到后面发版的时候使用。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/README.md" target="_blank" rel="external">这里还有很多文档可以参考</a>，这些文档没有翻译。每个工具都可以使用 <code>--help</code> 命令来查看帮助，很方便，看看就懂了。另外一点要提的就是你项目的 <code>.gitignore</code>，可以参考 <a href="https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md" target="_blank" rel="external">这里</a>。比如我打包的IPA是在项目文件夹里面的，所以我的 <code>.gitignore</code> 还会忽略 <code>IPA</code> 这个文件夹。</p>
+<p>翻译太花时间了，以后应该不会翻译了，以上。</p>
 
       
     </div>
@@ -406,6 +559,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/09/ABC360/" rel="prev" title="ABC360[手动置顶]">
+                ABC360[手动置顶] <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -553,7 +710,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Matchfile文件："><span class="nav-number">1.</span> <span class="nav-text">Matchfile文件：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Appfile文件"><span class="nav-number">2.</span> <span class="nav-text">Appfile文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fastfile文件"><span class="nav-number">3.</span> <span class="nav-text">Fastfile文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lane-ent"><span class="nav-number">3.1.</span> <span class="nav-text">lane :ent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lane-xcode"><span class="nav-number">3.2.</span> <span class="nav-text">lane :xcode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lane-iosmatch"><span class="nav-number">3.3.</span> <span class="nav-text">lane :iosmatch</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>
