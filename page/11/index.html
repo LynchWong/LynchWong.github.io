@@ -253,6 +253,140 @@
             
               
                 
+                <a class="post-title-link" href="/2015/06/26/Go函数/" itemprop="url">
+                  Go函数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-26T13:56:25+08:00" content="2015-06-26">
+              2015-06-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index">
+                    <span itemprop="name">Go</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/26/Go函数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/26/Go函数/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p>函数构成代码执行的逻辑结构。在Go语言中，函数的基本组成为：关键字func、函数名、参数列表、返回值、函数体和返回语句。</p>
+<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>前面我们已经大概介绍过函数，这里我们用一个最简单的加法函数来进行详细说明：</p>
+<pre><code>package mymath
+import &quot;errors&quot;
+
+func Add(a int, b int) (ret int, err error) {
+    if a &lt; 0 || b &lt; 0 {// 假设这个函数只支持两个非负数值的加法
+        err = errors.New(&quot;Should be non-negative numbers!&quot;)
+        return
+    }
+    return a + b, nil
+}
+</code></pre>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/26/Go函数/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/06/21/Go流程控制/" itemprop="url">
                   Go流程控制
                 </a>
@@ -1378,132 +1512,6 @@ SpriteKit主要还有物理引擎、粒子效果、瓷砖地图、UIKit整合、
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/27/Core-Animation-Programming-Guide/" itemprop="url">
-                  Core Animation Programming Guide
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-04-27T14:43:47+08:00" content="2015-04-27">
-              2015-04-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程指南/" itemprop="url" rel="index">
-                    <span itemprop="name">编程指南</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/04/27/Core-Animation-Programming-Guide/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/27/Core-Animation-Programming-Guide/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          官方文档Core Animation编程指南
-简介关于Core AnimationCore Animation是iOS与OS X平台上负责图形渲染与动画的基础设施。Core Animation可以动画你应用程序的视图和其他的可视元素。Core Animation为你完成了实现动画所需的大部分绘帧工作
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/27/Core-Animation-Programming-Guide/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1549,7 +1557,7 @@ SpriteKit主要还有物理引擎、粒子效果、瓷砖地图、UIKit整合、
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">149</span>
+              <span class="site-state-item-count">150</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
